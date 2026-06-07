@@ -23,11 +23,6 @@ export default function HistoriaView() {
           <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
             KinalMapp
           </h1>
-          <button className="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform flex items-center justify-center cursor-pointer">
-            <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-              military_tech
-            </span>
-          </button>
         </div>
       </header>
 
@@ -40,7 +35,7 @@ export default function HistoriaView() {
               Nuestra Historia
             </h2>
             <p className="text-on-surface-variant font-body-md px-4">
-              Recorre los hitos que han forjado el legado técnico y humano de Kinal a través de los años.
+              Recorre la historia que ha forjado el legado técnico y humano de fundación Kinal a través de estos 65 años.
             </p>
           </section>
 
@@ -153,14 +148,6 @@ export default function HistoriaView() {
               })}
             </div>
           </div>
-
-          {/* Future Vision Section */}
-          <section className="mt-8 mb-6 p-stack-md bg-dark-navy text-white rounded-xl shadow-xl animate-in fade-in duration-500 delay-300">
-            <h4 className="font-headline-md mb-2 text-base">Mirando al Futuro</h4>
-            <p className="text-on-primary-container font-body-md text-xs opacity-90 leading-relaxed">
-              Continuamos innovando para preparar a la siguiente generación de ingenieros y técnicos líderes en la región.
-            </p>
-          </section>
         </div>
       </div>
     </div>
