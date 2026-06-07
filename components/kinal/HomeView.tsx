@@ -36,7 +36,7 @@ export default function HomeView({
       <header className="flex-shrink-0 bg-surface/70 dark:bg-dark-navy/85 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
         <div className="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
           <h1 className="font-headline-lg text-headline-lg text-primary dark:text-inverse-primary tracking-tight">
-            KinalMap
+            KinalMapp
           </h1>
           <div className="flex items-center gap-1 bg-secondary-container px-3 py-1 rounded-full text-on-secondary-container professional-shadow">
             <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>

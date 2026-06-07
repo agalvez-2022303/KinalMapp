@@ -28,7 +28,7 @@ export default function QRPruebaPage() {
           </Link>
           <div className="text-center flex-1">
             <p className="text-[10px] tracking-[0.2em] uppercase text-[#fee269] font-bold">
-              KinalMap · Expo 2026
+              KinalMapp · Expo 2026
             </p>
             <h1 className="font-bold text-lg">QR de Prueba</h1>
           </div>
@@ -40,7 +40,7 @@ export default function QRPruebaPage() {
         <section className="rounded-2xl p-4 border border-[#2C3E73]/15 bg-white/80 shadow-sm">
           <p className="text-sm text-[#2C3E73] leading-relaxed">
             Imprime esta pagina o muestrala en otra pantalla. Escanea cada codigo desde la pestana{' '}
-            <strong>Scan</strong> de KinalMap para desbloquear estampas del album.
+            <strong>Scan</strong> de KinalMapp para desbloquear estampas del album.
           </p>
         </section>
 

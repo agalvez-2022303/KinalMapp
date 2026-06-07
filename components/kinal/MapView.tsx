@@ -38,7 +38,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
       <header className="flex-shrink-0 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm z-10">
         <div className="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
           <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
-            KinalMap
+            KinalMapp
           </h1>
         </div>
 

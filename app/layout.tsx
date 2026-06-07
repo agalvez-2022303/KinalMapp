@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'KinalMap — Campus Kinal',
+  title: 'KinalMapp — Campus Kinal',
   description:
     'Guía interactiva del campus Kinal: mapa 2D, checkpoints, álbum de estampas e historia institucional en su Expo Anual.',
 }

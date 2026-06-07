@@ -21,7 +21,7 @@ export default function HistoriaView() {
       <header className="flex-shrink-0 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm z-10">
         <div className="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
           <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
-            KinalMap
+            KinalMapp
           </h1>
           <button className="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform flex items-center justify-center cursor-pointer">
             <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'FILL' 1" }}>
