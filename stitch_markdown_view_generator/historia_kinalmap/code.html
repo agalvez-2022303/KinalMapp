@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Historia - KinalMap</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "white": "#FFFFFF",
+                "inverse-primary": "#b4c5ff",
+                "outline-variant": "#c5c6d1",
+                "surface-bright": "#f8f9fd",
+                "tertiary-container": "#623600",
+                "primary-fixed-dim": "#b4c5ff",
+                "surface": "#f8f9fd",
+                "surface-container": "#edeef2",
+                "inverse-on-surface": "#eff1f5",
+                "on-secondary-fixed": "#221b00",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-background": "#191c1f",
+                "secondary-fixed-dim": "#e0c650",
+                "primary": "#13275c",
+                "on-surface-variant": "#45464f",
+                "success-green": "#22C55E",
+                "secondary": "#6f5d00",
+                "on-primary-fixed-variant": "#32447a",
+                "error-container": "#ffdad6",
+                "secondary-container": "#fee269",
+                "primary-fixed": "#dbe1ff",
+                "tertiary-fixed": "#ffdcc0",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-high": "#e7e8ec",
+                "on-error": "#ffffff",
+                "scanner-bg": "#0D1420",
+                "primary-container": "#2c3e73",
+                "on-primary": "#ffffff",
+                "on-secondary-fixed-variant": "#534600",
+                "outline": "#757680",
+                "on-error-container": "#93000a",
+                "background": "#f8f9fd",
+                "on-primary-fixed": "#00174c",
+                "surface-container-low": "#f2f3f7",
+                "tertiary-fixed-dim": "#ffb875",
+                "surface-dim": "#d9dade",
+                "on-secondary": "#ffffff",
+                "on-tertiary-container": "#f99520",
+                "surface-variant": "#e1e2e6",
+                "surface-tint": "#4b5c93",
+                "inverse-surface": "#2e3134",
+                "tertiary": "#432300",
+                "on-tertiary": "#ffffff",
+                "surface-container-highest": "#e1e2e6",
+                "dark-navy": "#1A2340",
+                "on-secondary-container": "#756300",
+                "on-tertiary-fixed": "#2d1600",
+                "error": "#ba1a1a",
+                "secondary-fixed": "#fee269",
+                "on-surface": "#191c1f",
+                "on-primary-container": "#99abe7"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "stack-lg": "1.5rem",
+                "section-padding": "2rem",
+                "stack-md": "1rem",
+                "stack-sm": "0.5rem",
+                "container-margin": "1rem",
+                "gutter": "1rem"
+            },
+            "fontFamily": {
+                "headline-md": ["Inter"],
+                "body-md": ["Inter"],
+                "label-sm": ["Inter"],
+                "label-bold": ["Inter"],
+                "headline-lg": ["Inter"],
+                "headline-xl-mobile": ["Inter"],
+                "body-lg": ["Inter"],
+                "headline-xl": ["Inter"]
+            },
+            "fontSize": {
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                "label-bold": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "headline-xl-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "800"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f8f9fd; -webkit-tap-highlight-color: transparent; }
+        .timeline-line {
+            background: linear-gradient(to bottom, #fee269 0%, #13275c 50%, #f99520 100%);
+        }
+        .glass-card {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .gold-shimmer {
+            background: linear-gradient(90deg, #fee269 0%, #fff 50%, #fee269 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
+<div class="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center overflow-hidden">
+<img alt="User profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXFc406TBneefh9p2kNNDFkISs0n5PQaWWEhlYslMJ6MIjnrDQnuKbnXthH_sLhDnJy5nLrKyWM_G-a1qIoEs6KpnaReOSdRpOKrf9YBcfyJhnq9JjJgV227H5lmt68b4xNzMlRjQh2epyyaYd1TCEKat1xjwbJCWE0K9pmZ1Qnh6pL5mASv-zfseGv7m4mvbkqVaS6V0h2mzNcQH_2ovVSiLuq3kWL0jfVUcBnhtO3B6VXHAz86FWmpD7pMnvpC6wWNNnkaCp8KEm"/>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">KinalMap</h1>
+</div>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-24 px-container-margin max-w-md mx-auto min-h-screen">
+<!-- Hero Section -->
+<section class="mb-stack-lg text-center py-stack-md">
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-primary mb-2">Nuestra Historia</h2>
+<p class="text-on-surface-variant font-body-md px-4">Recorre los hitos que han forjado el legado técnico y humano de Kinal a través de los años.</p>
+</section>
+<!-- Timeline Container -->
+<div class="relative pl-8 pr-2 py-4">
+<!-- Central Line -->
+<div class="absolute left-4 top-0 bottom-0 w-1 timeline-line rounded-full"></div>
+<!-- Item 1961: Fundación -->
+<div class="relative mb-12 scroll-reveal">
+<!-- Timeline Dot -->
+<div class="absolute -left-10 top-2 w-5 h-5 rounded-full border-4 border-white bg-secondary-fixed shadow-md z-10"></div>
+<div class="glass-card p-stack-md rounded-xl border border-white shadow-[0px_4px_12px_rgba(44,62,115,0.08)]">
+<div class="flex items-center justify-between mb-2">
+<span class="font-headline-md text-secondary-fixed-dim bg-primary/10 px-3 py-1 rounded-full">1961</span>
+<span class="material-symbols-outlined text-secondary" data-icon="corporate_fare">corporate_fare</span>
+</div>
+<h3 class="font-headline-md text-primary mb-1">Fundación</h3>
+<p class="text-on-surface-variant font-body-md">Kinal nace como una respuesta a la necesidad de formación técnica de alta calidad para jóvenes, bajo los valores de excelencia y servicio.</p>
+<div class="mt-4 rounded-lg overflow-hidden h-32 relative">
+<img class="w-full h-full object-cover" data-alt="A vintage-toned black and white photograph depicting the architectural facade of a traditional school building in 1960s Guatemala. The lighting is soft and nostalgic, emphasizing the historic textures of the masonry and the classic design. The mood is respectful and foundational, capturing the beginning of a prestigious educational institution with a corporate yet community-focused aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXRy46ofuwkZjCwYLzcaweKAq30jxQb0R8qgHIzd6ih1hFE4cU5aSDQSm5nbWbu_bBXk-zmUcKHriwdotAt5dU6wxQb_y75l2tHodWo6wJdRi-fZdGMw57mmOSzuYlhglaiKO0IOBX0mOUxjv-F34aCgM85wjBuXUTf8eGrTgK1QWG0UmhEzuzjIJzBZKE9NZ0FuDzsKPU0R-7t6oI5j7wnqp_dZDvWPCpZeRSo7KYd2ChBrphqGZCbsQbI2y1xzgH-MRNdd5i_4_4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+</div>
+</div>
+</div>
+<!-- Item 1985: Nuevas Carreras -->
+<div class="relative mb-12 scroll-reveal">
+<!-- Timeline Dot -->
+<div class="absolute -left-10 top-2 w-5 h-5 rounded-full border-4 border-white bg-primary shadow-md z-10"></div>
+<div class="glass-card p-stack-md rounded-xl border border-white shadow-[0px_4px_12px_rgba(44,62,115,0.08)]">
+<div class="flex items-center justify-between mb-2">
+<span class="font-headline-md text-primary-fixed-dim bg-primary/10 px-3 py-1 rounded-full">1985</span>
+<span class="material-symbols-outlined text-primary" data-icon="award_star">award_star</span>
+</div>
+<h3 class="font-headline-md text-primary mb-1">Nuevas Carreras</h3>
+<p class="text-on-surface-variant font-body-md">Expansión académica significativa con la introducción de talleres especializados de alta tecnología para la época, consolidando el liderazgo técnico.</p>
+<div class="mt-4 grid grid-cols-2 gap-2">
+<div class="h-24 rounded-lg bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A focused close-up of students working with electrical engineering equipment in a modern laboratory setting. The image features crisp, high-contrast lighting highlighting metallic surfaces and technical components. The color palette is dominated by professional navies and industrial grays, conveying a mood of precision and technical rigor characteristic of an advanced engineering school." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlVbe9jBc1ONj1b8R8Y_zkqBW4a-i_mtqGG768MLa1Aw83tzlavVuwAEveqQBIkzLn75LjOtYGesYx12gW52H5z7h6j4CND9yKPkjGyUDCRgV0W4FAIXrAzk48KQqvXyuLPtR9EMgGEzApygvnslHQblSVi8xCp2L-UNJhf12euV425Z_M6LjqAn5BhbJ7YrDlKFieHnhbTVrlbVn9ZyNWN8N938vJ0-S5n2E034pTpoAIbuzxrgfdzv8jh1PXlI6omJry3zFEmkH4"/>
+</div>
+<div class="h-24 rounded-lg bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An interior shot of a tech-ready classroom from the mid-80s era, featuring early computer workstations and organized technical drafts on the walls. The lighting is bright and overhead, creating a clean, productive workspace. The atmosphere is one of technological advancement and academic discipline, using a palette of blues and whites to signify progress." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpI_22VZfODGkfRmP2Fb0E8KhKyfNbnBB5xwDWDvC0nTyc8P9wNz_PX6rfzQvdhIMA9ku9KmNE2nBhUMLWaItU46_WwLkY80sLlSzisrb-0HlJ7myYfkd4poj4gX3xr_RI1YGJLv8YqgHfYVGGle_gS-5shcb98QrN02RrR9kVegFOOm1j4_HYe2EDAKn0sGdNghUreTySiZpYrbQKvEPvMhkFTdwCTSrqnoMbquPH-QeTcQ_BNuQuDwWO-C9CxtCYDAP5fdKXkTkV"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2026: 65 Aniversario -->
+<div class="relative mb-12 scroll-reveal">
+<!-- Timeline Dot -->
+<div class="absolute -left-10 top-2 w-5 h-5 rounded-full border-4 border-white bg-on-tertiary-container shadow-md z-10"></div>
+<div class="glass-card p-stack-md rounded-xl border-2 border-on-tertiary-container/20 shadow-[0px_8px_24px_rgba(44,62,115,0.15)] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-on-tertiary-container/5 rounded-full -mr-12 -mt-12"></div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-headline-md text-on-tertiary-container bg-tertiary-container/10 px-3 py-1 rounded-full">2026</span>
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<h3 class="font-headline-md text-primary mb-1">65 Aniversario</h3>
+<p class="text-on-surface-variant font-body-md mb-3">Celebración de más de seis décadas transformando vidas a través del trabajo bien hecho y la innovación constante.</p>
+<!-- Progress toward anniversary -->
+<div class="space-y-1">
+<div class="flex justify-between text-label-sm font-label-bold text-primary">
+<span>CAMINO AL LOGRO</span>
+<span>95%</span>
+</div>
+<div class="w-full h-2 bg-outline-variant/30 rounded-full overflow-hidden">
+<div class="h-full w-[95%] bg-on-tertiary-container relative">
+<div class="absolute right-0 top-0 bottom-0 w-2 bg-white/40 blur-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Future Vision -->
+<section class="mt-8 mb-20 p-stack-md bg-dark-navy text-white rounded-2xl shadow-xl">
+<h4 class="font-headline-md mb-2">Mirando al Futuro</h4>
+<p class="text-on-primary-container font-body-md opacity-90">Continuamos innovando para preparar a la siguiente generación de ingenieros y técnicos líderes en la región.</p>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-white/80 backdrop-blur-lg border-t border-outline-variant/20 shadow-[0px_-4px_12px_rgba(44,62,115,0.08)]">
+<div class="flex justify-around items-end pb-safe px-2 h-16 w-full max-w-md mx-auto">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-sm text-label-sm">Map</span>
+</a>
+<!-- Central Scan Button -->
+<button class="bg-secondary text-white rounded-full -mt-8 w-16 h-16 shadow-[0px_8px_24px_rgba(44,62,115,0.15)] border-4 border-white active:scale-90 duration-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl" data-icon="qr_code_scanner">qr_code_scanner</span>
+</button>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-label-sm text-label-sm">Album</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary font-bold hover:bg-surface-container-low transition-colors px-4 py-2 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="timeline">timeline</span>
+<span class="font-label-sm text-label-sm">Timeline</span>
+</a>
+</div>
+</nav>
+<script>
+        // Simple Intersection Observer for scroll storytelling feel
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Interaction for the scan button
+        const scanBtn = document.querySelector('button.bg-secondary');
+        scanBtn.addEventListener('click', () => {
+            scanBtn.classList.add('scale-95');
+            setTimeout(() => scanBtn.classList.remove('scale-95'), 100);
+        });
+    </script>
+</body></html>

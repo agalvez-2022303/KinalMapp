@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>KinalMap - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "white": "#FFFFFF",
+                        "inverse-primary": "#b4c5ff",
+                        "outline-variant": "#c5c6d1",
+                        "surface-bright": "#f8f9fd",
+                        "tertiary-container": "#623600",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface": "#f8f9fd",
+                        "surface-container": "#edeef2",
+                        "inverse-on-surface": "#eff1f5",
+                        "on-secondary-fixed": "#221b00",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-background": "#191c1f",
+                        "secondary-fixed-dim": "#e0c650",
+                        "primary": "#13275c",
+                        "on-surface-variant": "#45464f",
+                        "success-green": "#22C55E",
+                        "secondary": "#6f5d00",
+                        "on-primary-fixed-variant": "#32447a",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#fee269",
+                        "primary-fixed": "#dbe1ff",
+                        "tertiary-fixed": "#ffdcc0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e7e8ec",
+                        "on-error": "#ffffff",
+                        "scanner-bg": "#0D1420",
+                        "primary-container": "#2c3e73",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#534600",
+                        "outline": "#757680",
+                        "on-error-container": "#93000a",
+                        "background": "#f8f9fd",
+                        "on-primary-fixed": "#00174c",
+                        "surface-container-low": "#f2f3f7",
+                        "tertiary-fixed-dim": "#ffb875",
+                        "surface-dim": "#d9dade",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#f99520",
+                        "surface-variant": "#e1e2e6",
+                        "surface-tint": "#4b5c93",
+                        "inverse-surface": "#2e3134",
+                        "tertiary": "#432300",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e1e2e6",
+                        "dark-navy": "#1A2340",
+                        "on-secondary-container": "#756300",
+                        "on-tertiary-fixed": "#2d1600",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#fee269",
+                        "on-surface": "#191c1f",
+                        "on-primary-container": "#99abe7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "1.5rem",
+                        "section-padding": "2rem",
+                        "stack-md": "1rem",
+                        "stack-sm": "0.5rem",
+                        "container-margin": "1rem",
+                        "gutter": "1rem"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-xl-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "800" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .professional-shadow { box-shadow: 0px 4px 12px rgba(44, 62, 115, 0.08); }
+        .floating-shadow { box-shadow: 0px 8px 24px rgba(44, 62, 115, 0.15); }
+        .gold-shimmer {
+            background: linear-gradient(90deg, #fee269 0%, #f99520 50%, #fee269 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 dark:bg-dark-navy/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
+<div class="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-inverse-primary tracking-tight">KinalMap</h1>
+<div class="flex items-center gap-stack-sm">
+<div class="flex items-center gap-1 bg-secondary-container px-3 py-1 rounded-full text-on-secondary-container professional-shadow">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="font-label-bold text-label-bold">15%</span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container/20">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A professional close-up portrait of a young adult student with a friendly expression, set against a blurred modern architectural background. The lighting is bright and natural, reflecting a high-end light-mode UI aesthetic. The overall mood is academic and welcoming, consistent with a corporate modern design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO51AAw7D7h_A4egIO-cSpj7WwBzT6Lhd7vRN_E_OLmJndgmAH0DLnGeW4r50fPobNHzbR348q04_5-7qRXHMM_XlknIINrEK_Gs_3WampIMirkw4WjIREAZcnr3uxyuVnk0GjYiRR46DoEgtrsjNSWIZLJEZBRkURWplLCvxsIo-xBW4cWC9k9EWOZtXokYfxtfOVmJOgiTKIlXCxbgH9RE-2SskyCRyPe3myhyGHzGr59Bniy5dj-ZJtABxV68vFLgezNU8Dsgbr"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-20 pb-24 px-container-margin w-full max-w-md mx-auto space-y-stack-lg">
+<!-- Progress Banner Card -->
+<section class="bg-primary text-white p-stack-md rounded-xl floating-shadow relative overflow-hidden">
+<!-- Decorative circle -->
+<div class="absolute -right-8 -top-8 w-24 h-24 bg-primary-container rounded-full opacity-30"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-end mb-stack-sm">
+<div>
+<p class="font-label-bold text-label-bold text-on-primary-container opacity-80">COLLECTION STATUS</p>
+<h2 class="font-headline-md text-headline-md">3/23 stickers</h2>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed">auto_awesome</span>
+</div>
+<div class="w-full h-2.5 bg-primary-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed gold-shimmer rounded-full relative" style="width: 15%;">
+<div class="absolute right-0 top-0 h-full w-2 bg-white/40 blur-sm"></div>
+</div>
+</div>
+<p class="mt-stack-sm font-label-sm text-label-sm text-on-primary-container">Keep exploring to unlock the Grand Prize!</p>
+</div>
+</section>
+<!-- Quick Actions 2x2 Bento Grid -->
+<section class="grid grid-cols-2 gap-stack-md">
+<!-- Map -->
+<button class="flex flex-col items-center justify-center p-stack-md bg-white rounded-xl professional-shadow active:scale-95 transition-transform group">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-stack-sm text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[32px]">map</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-surface">MAP</span>
+</button>
+<!-- Scan (Primary Action Highlight) -->
+<button class="flex flex-col items-center justify-center p-stack-md bg-white rounded-xl professional-shadow active:scale-95 transition-transform group">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center mb-stack-sm text-on-secondary-container">
+<span class="material-symbols-outlined text-[32px]">qr_code_scanner</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-surface">SCAN</span>
+</button>
+<!-- Album -->
+<button class="flex flex-col items-center justify-center p-stack-md bg-white rounded-xl professional-shadow active:scale-95 transition-transform group">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-stack-sm text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[32px]">auto_awesome_motion</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-surface">ALBUM</span>
+</button>
+<!-- History -->
+<button class="flex flex-col items-center justify-center p-stack-md bg-white rounded-xl professional-shadow active:scale-95 transition-transform group">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center mb-stack-sm text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[32px]">timeline</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-surface">HISTORY</span>
+</button>
+</section>
+<!-- Today's Events -->
+<section>
+<div class="flex justify-between items-center mb-stack-sm">
+<h3 class="font-headline-md text-headline-md text-primary">Today's Events</h3>
+<span class="font-label-bold text-label-bold text-secondary cursor-pointer">VIEW ALL</span>
+</div>
+<div class="flex gap-stack-md overflow-x-auto hide-scrollbar pb-2">
+<!-- Event 1 -->
+<div class="min-w-[200px] bg-white p-stack-sm rounded-xl professional-shadow border-l-4 border-primary">
+<p class="font-label-bold text-label-bold text-secondary">09:00 AM</p>
+<h4 class="font-body-lg font-bold text-on-surface truncate">Expo Redes</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Lab 304 • Technical</p>
+</div>
+<!-- Event 2 -->
+<div class="min-w-[200px] bg-white p-stack-sm rounded-xl professional-shadow border-l-4 border-secondary">
+<p class="font-label-bold text-label-bold text-secondary">11:00 AM</p>
+<h4 class="font-body-lg font-bold text-on-surface truncate">Conferencia IA</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Auditorium • Keynote</p>
+</div>
+</div>
+</section>
+<!-- Next Reward Card -->
+<section class="bg-surface-container-low rounded-xl p-stack-md border border-outline-variant/30 flex items-center gap-stack-md">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center border-2 border-dashed border-outline relative">
+<span class="material-symbols-outlined text-outline text-[24px]">lock</span>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">25%</div>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-primary">Next Reward</h4>
+<p class="font-body-md text-on-surface-variant">Reach 25% to unlock a mystery technical kit!</p>
+<div class="mt-2 h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 60%;"></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-white/80 dark:bg-dark-navy/90 backdrop-blur-lg border-t border-outline-variant/20 shadow-[0px_-4px_12px_rgba(44,62,115,0.08)]">
+<div class="flex justify-around items-end pb-safe px-2 h-16 w-full max-w-md mx-auto">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Map -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-primary-container/30 transition-colors" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-sm text-label-sm">Map</span>
+</a>
+<!-- Scan (The Centerpiece) -->
+<button class="bg-secondary text-white rounded-full -mt-8 w-16 h-16 shadow-[0px_8px_24px_rgba(44,62,115,0.15)] border-4 border-white active:scale-90 duration-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px]">qr_code_scanner</span>
+</button>
+<!-- Album -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-primary-container/30 transition-colors" href="#">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+<span class="font-label-sm text-label-sm">Album</span>
+</a>
+<!-- Timeline -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-primary-container/30 transition-colors" href="#">
+<span class="material-symbols-outlined">timeline</span>
+<span class="font-label-sm text-label-sm">Timeline</span>
+</a>
+</div>
+</nav>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('click', (e) => {
+                // Haptic-like effect logic here if desired
+            });
+        });
+
+        // Simple scroll reveal for cards
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-4');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-500', 'opacity-0', 'translate-y-4');
+            observer.observe(section);
+        });
+    </script>
+</body></html>
