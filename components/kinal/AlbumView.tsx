@@ -12,9 +12,9 @@ interface AlbumViewProps {
 }
 
 const DIVISION_LABELS: Record<string, string> = {
-  JR: 'División JR — Básicos',
-  SR: 'División SR — Diversificado',
-  Histórica: 'Colección Histórica',
+  JR: 'Básicos',
+  SR: 'Diversificado',
+  Histórica: 'Históricas',
 }
 
 const divisionOrder = ['JR', 'SR', 'Histórica'] as const
@@ -109,7 +109,7 @@ export default function AlbumView({
     const poi = mapPOIs.find((p) => p.checkpointId === sticker.checkpointId)
     return poi
       ? `Escanea el código QR en ${poi.label} para desbloquear.`
-      : 'Visita el checkpoint correspondiente en la exhibición.'
+      : 'Visita el checkpoint correspondiente en la exposición.'
   }
 
   return (
@@ -135,7 +135,7 @@ export default function AlbumView({
           </div>
         </div>
         <p className="text-[10px] text-white/60 mb-2 font-medium">
-          Coleccion de estampas · Estilo Panini
+          Coleccion de estampas
         </p>
 
         {/* Progress Bar */}
