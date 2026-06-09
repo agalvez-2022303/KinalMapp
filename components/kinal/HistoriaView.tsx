@@ -36,7 +36,10 @@ export default function HistoriaView() {
             <div className="space-y-8">
               {timelineEntries.map((entry, i) => {
                 const is1961 = entry.year === "1961"
+                const is1970 = entry.year === "1970"
                 const is1985 = entry.year === "1985"
+                const is1999_1998 = entry.year === "1999 - 1998"
+                const is2011_2013 = entry.year === "2011 - 2013"
                 const is2026 = entry.year === "2026"
 
                 return (
@@ -59,10 +62,10 @@ export default function HistoriaView() {
                       <h3 className="font-headline-md text-primary text-base mb-1">{entry.title}</h3>
                       <p className="text-on-surface-variant font-body-md text-xs leading-relaxed">{entry.description}</p>
 
-                      {/* Imagen para 1961 */}
-                      {is1961 && (
+                      {/* Imagen para 1970 */}
+                      {is1970 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1961 Comienzos" className="w-full h-full object-cover" src="/prueba.jpg" />
+                          <img alt="1970 Primer programa tecnico" className="w-full h-full object-cover" src="/prueba.jpg" />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
@@ -70,7 +73,24 @@ export default function HistoriaView() {
                       {/* Imagen para 1985 */}
                       {is1985 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1985 Expansión" className="w-full h-full object-cover" src="/expancion.jpeg" />
+                          <img alt="1985 Expansión" className="w-full h-full object-cover" src="/1980.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        </div>
+                      )}
+
+                      {/* Imagen para 1999 - 1998 */}
+                      {is1999_1998 && (
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
+                          <img alt="1999 - 1998 Crecimiento" className="w-full h-full object-cover" src="/expancion.jpeg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        </div>
+                      )}
+
+                      {/* Imagen para 2011 - 2013 */}
+                      {is2011_2013 && (
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
+                          <img alt="2011 - 2013 Auge" className="w-full h-full object-cover" src="/2013.jpg" />
+                          <img alt="2011 - 2013 Auge" className="w-full h-full object-cover" src="/2013(2).jpg" />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
