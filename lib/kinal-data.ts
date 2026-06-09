@@ -197,7 +197,7 @@ export const timelineEntries: TimelineEntry[] = [
   {
     year: "1992 - 1998",
     title: 'Crecimiento Institucional',
-    description: 'ras la consolidación en la sede de la zona 7, Kinal fortalece su prestigio como centro de formación técnica de élite y comienza a forjar lazos estrechos con el sector privado guatemalteco.',
+    description: 'Tras la consolidación en la sede de la zona 7, Kinal fortalece su prestigio como centro de formación técnica de élite y comienza a forjar lazos estrechos con el sector privado guatemalteco.',
     type: 'institution',
     color: '#D4BA46',
   },
