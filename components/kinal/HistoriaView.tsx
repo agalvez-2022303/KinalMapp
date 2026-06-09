@@ -8,16 +8,9 @@ const typeIcon: Record<string, string> = {
   milestone: 'award_star',
 }
 
-const typeLabel: Record<string, string> = {
-  institution: 'Institución',
-  career: 'Carrera',
-  milestone: 'Hito',
-}
-
 export default function HistoriaView() {
   return (
     <div className="flex flex-col w-full h-full bg-background overflow-hidden font-sans">
-      {/* TopAppBar */}
       <header className="flex-shrink-0 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm z-10">
         <div className="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
           <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
@@ -26,10 +19,8 @@ export default function HistoriaView() {
         </div>
       </header>
 
-      {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto hide-scrollbar pb-24">
         <div className="w-full max-w-md mx-auto px-container-margin">
-          {/* Hero Section */}
           <section className="mb-6 text-center py-stack-md animate-in fade-in duration-500">
             <h2 className="font-headline-xl-mobile text-headline-xl-mobile text-primary mb-2">
               Nuestra Historia
@@ -39,96 +30,52 @@ export default function HistoriaView() {
             </p>
           </section>
 
-          {/* Timeline Container */}
           <div className="relative pl-8 pr-2 py-4 animate-in fade-in slide-in-from-bottom duration-500 delay-100">
-            {/* Central Line */}
             <div className="absolute left-4 top-0 bottom-0 w-1 timeline-line rounded-full"></div>
 
-            {/* List of Entries */}
             <div className="space-y-8">
               {timelineEntries.map((entry, i) => {
-                const is1961 = entry.year === 1961
-                const is1985 = entry.year === 1985
-                const is2026 = entry.year === 2026
+                const is1961 = entry.year === "1961"
+                const is1985 = entry.year === "1985"
+                const is2026 = entry.year === "2026"
 
                 return (
                   <div key={i} className="relative scroll-reveal">
-                    {/* Timeline Dot */}
                     <div
                       className={`absolute -left-[26px] top-2 w-5 h-5 rounded-full border-4 border-white shadow-md z-10 ${
-                        is2026
-                          ? 'bg-on-tertiary-container'
-                          : is1961
-                          ? 'bg-secondary-fixed'
-                          : 'bg-primary'
+                        is2026 ? 'bg-on-tertiary-container' : is1961 ? 'bg-secondary-fixed' : 'bg-primary'
                       }`}
                     ></div>
 
-                    {/* Glass Card */}
-                    <div
-                      className={`glass-card p-stack-md rounded-xl border border-white shadow-[0px_4px_12px_rgba(44,62,115,0.08)] ${
-                        is2026 ? 'border-2 border-on-tertiary-container/20' : ''
-                      }`}
-                    >
+                    <div className="glass-card p-stack-md rounded-xl border border-white shadow-[0px_4px_12px_rgba(44,62,115,0.08)]">
                       <div className="flex items-center justify-between mb-2">
-                        <span
-                          className={`font-headline-md px-3 py-1 rounded-full text-xs font-bold ${
-                            is2026
-                              ? 'text-on-tertiary-container bg-tertiary-container/10'
-                              : is1961
-                              ? 'text-secondary-fixed-dim bg-primary/10'
-                              : 'text-primary-fixed-dim bg-primary/10'
-                          }`}
-                        >
+                        <span className="font-headline-md px-3 py-1 rounded-full text-xs font-bold text-primary-fixed-dim bg-primary/10">
                           {entry.year}
                         </span>
                         <span className="material-symbols-outlined text-primary/70 text-[20px]">
                           {typeIcon[entry.type] || 'star'}
                         </span>
                       </div>
-                      <h3 className="font-headline-md text-primary text-base mb-1">
-                        {entry.title}
-                      </h3>
-                      <p className="text-on-surface-variant font-body-md text-xs leading-relaxed">
-                        {entry.description}
-                      </p>
+                      <h3 className="font-headline-md text-primary text-base mb-1">{entry.title}</h3>
+                      <p className="text-on-surface-variant font-body-md text-xs leading-relaxed">{entry.description}</p>
 
-                      {/* Custom rich content for 1961 */}
-                      {"is1961" && (
+                      {/* Imagen para 1961 */}
+                      {is1961 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img
-                            alt="1960s Traditional School Facade"
-                            className="w-full h-full object-cover"
-                            src="/prueba.jpg"
-                            suppressHydrationWarning
-                          />
+                          <img alt="1960s Traditional School Facade" className="w-full h-full object-cover" src="/prueba.jpg" />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
 
-                      {/* Custom rich content for 1985 */}
-                      {"is1985" && (
-                        <div className="mt-4 grid grid-cols-2 gap-2">
-                          <div className="h-24 rounded-lg bg-surface-container overflow-hidden">
-                            <img
-                              alt="Electrical Engineering Students"
-                              className="w-full h-full object-cover"
-                              src="/expancion.jpeg"
-                              suppressHydrationWarning
-                            />
-                          </div>
-                          <div className="h-24 rounded-lg bg-surface-container overflow-hidden">
-                            <img
-                              alt="1980s Computer Laboratory Workstations"
-                              className="w-full h-full object-cover"
-                              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpI_22VZfODGkfRmP2Fb0E8KhKyfNbnBB5xwDWDvC0nTyc8P9wNz_PX6rfzQvdhIMA9ku9KmNE2nBhUMLWaItU46_WwLkY80sLlSzisrb-0HlJ7myYfkd4poj4gX3xr_RI1YGJLv8YqgHfYVGGle_gS-5shcb98QrN02RrR9kVegFOOm1j4_HYe2EDAKn0sGdNghUreTySiZpYrbQKvEPvMhkFTdwCTSrqnoMbquPH-QeTcQ_BNuQuDwWO-C9CxtCYDAP5fdKXkTkV"
-                              suppressHydrationWarning
-                            />
-                          </div>
+                      {/* Imagen para 1985 */}
+                      {is1985 && (
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
+                          <img alt="Electrical Engineering Students" className="w-full h-full object-cover" src="/expancion.jpeg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
 
-                      {/* Custom rich content for 2026 */}
+                      {/* Lógica 2026 */}
                       {is2026 && (
                         <div className="mt-4 space-y-1">
                           <div className="flex justify-between text-[11px] font-label-bold text-primary">
@@ -136,9 +83,7 @@ export default function HistoriaView() {
                             <span>95%</span>
                           </div>
                           <div className="w-full h-2 bg-outline-variant/30 rounded-full overflow-hidden">
-                            <div className="h-full w-[95%] bg-on-tertiary-container relative">
-                              <div className="absolute right-0 top-0 bottom-0 w-2 bg-white/40 blur-sm"></div>
-                            </div>
+                            <div className="h-full w-[95%] bg-on-tertiary-container"></div>
                           </div>
                         </div>
                       )}
