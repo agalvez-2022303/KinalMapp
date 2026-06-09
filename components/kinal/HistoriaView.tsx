@@ -107,13 +107,13 @@ export default function HistoriaView() {
                       )}
 
                       {/* Custom rich content for 1985 */}
-                      {is1985 && (
+                      {"is1985" && (
                         <div className="mt-4 grid grid-cols-2 gap-2">
                           <div className="h-24 rounded-lg bg-surface-container overflow-hidden">
                             <img
                               alt="Electrical Engineering Students"
                               className="w-full h-full object-cover"
-                              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlVbe9jBc1ONj1b8R8Y_zkqBW4a-i_mtqGG768MLa1Aw83tzlavVuwAEveqQBIkzLn75LjOtYGesYx12gW52H5z7h6j4CND9yKPkjGyUDCRgV0W4FAIXrAzk48KQqvXyuLPtR9EMgGEzApygvnslHQblSVi8xCp2L-UNJhf12euV425Z_M6LjqAn5BhbJ7YrDlKFieHnhbTVrlbVn9ZyNWN8N938vJ0-S5n2E034pTpoAIbuzxrgfdzv8jh1PXlI6omJry3zFEmkH4"
+                              src="/expancion.jpeg"
                               suppressHydrationWarning
                             />
                           </div>
