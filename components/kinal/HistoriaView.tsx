@@ -62,7 +62,7 @@ export default function HistoriaView() {
                       {/* Imagen para 1961 */}
                       {is1961 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1960s Traditional School Facade" className="w-full h-full object-cover" src="/prueba.jpg" />
+                          <img alt="1961 Comienzos" className="w-full h-full object-cover" src="/prueba.jpg" />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
@@ -70,21 +70,16 @@ export default function HistoriaView() {
                       {/* Imagen para 1985 */}
                       {is1985 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="Electrical Engineering Students" className="w-full h-full object-cover" src="/expancion.jpeg" />
+                          <img alt="1985 Expansión" className="w-full h-full object-cover" src="/expancion.jpeg" />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
 
                       {/* Lógica 2026 */}
                       {is2026 && (
-                        <div className="mt-4 space-y-1">
-                          <div className="flex justify-between text-[11px] font-label-bold text-primary">
-                            <span>CAMINO AL LOGRO</span>
-                            <span>95%</span>
-                          </div>
-                          <div className="w-full h-2 bg-outline-variant/30 rounded-full overflow-hidden">
-                            <div className="h-full w-[95%] bg-on-tertiary-container"></div>
-                          </div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
+                          <img alt="Actualidad" className="w-full h-full object-cover" src="/actualidad.avif" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
                     </div>
