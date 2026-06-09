@@ -94,12 +94,12 @@ export default function HistoriaView() {
                       </p>
 
                       {/* Custom rich content for 1961 */}
-                      {is1961 && (
+                      {"is1961" && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
                           <img
                             alt="1960s Traditional School Facade"
                             className="w-full h-full object-cover"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXRy46ofuwkZjCwYLzcaweKAq30jxQb0R8qgHIzd6ih1hFE4cU5aSDQSm5nbWbu_bBXk-zmUcKHriwdotAt5dU6wxQb_y75l2tHodWo6wJdRi-fZdGMw57mmOSzuYlhglaiKO0IOBX0mOUxjv-F34aCgM85wjBuXUTf8eGrTgK1QWG0UmhEzuzjIJzBZKE9NZ0FuDzsKPU0R-7t6oI5j7wnqp_dZDvWPCpZeRSo7KYd2ChBrphqGZCbsQbI2y1xzgH-MRNdd5i_4_4"
+                            image src="public/prueba.jpg"
                             suppressHydrationWarning
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
