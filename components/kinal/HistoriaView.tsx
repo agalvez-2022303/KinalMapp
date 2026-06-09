@@ -99,7 +99,7 @@ export default function HistoriaView() {
                           <img
                             alt="1960s Traditional School Facade"
                             className="w-full h-full object-cover"
-                            image src="components/public/prueba.jpg"
+                            src="/prueba.jpg"
                             suppressHydrationWarning
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
