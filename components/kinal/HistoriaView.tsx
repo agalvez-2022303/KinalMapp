@@ -38,7 +38,7 @@ export default function HistoriaView() {
                 const is1961 = entry.year === "1961"
                 const is1970 = entry.year === "1970"
                 const is1985 = entry.year === "1985"
-                const is1999_1998 = entry.year === "1999 - 1998"
+                const is1992_1998 = entry.year === "1992 - 1998"
                 const is2011_2013 = entry.year === "2011 - 2013"
                 const is2026 = entry.year === "2026"
 
@@ -78,10 +78,10 @@ export default function HistoriaView() {
                         </div>
                       )}
 
-                      {/* Imagen para 1999 - 1998 */}
-                      {is1999_1998 && (
+                      {/* Imagen para 1992 - 1998 */}
+                      {is1992_1998 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1999 - 1998 Crecimiento" className="w-full h-full object-cover" src="/expancion.jpeg" />
+                          <img alt="1992 - 1998 Crecimiento" className="w-full h-full object-cover" src="/expancion.jpeg" />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
