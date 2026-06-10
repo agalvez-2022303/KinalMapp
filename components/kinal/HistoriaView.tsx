@@ -98,7 +98,7 @@ export default function HistoriaView() {
                       {/* Lógica 2026 */}
                       {is2026 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="Actualidad" className="w-full h-full object-cover" src="/actualidad.avif" />
+                          <img alt="2026 Actualidad" className="w-full h-full object-cover" src="/actualidad.avif" />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}

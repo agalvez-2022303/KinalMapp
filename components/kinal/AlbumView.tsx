@@ -286,7 +286,7 @@ export default function AlbumView({
                       <div className="flex items-center space-x-1.5">
                         <div className="w-1.5 h-1.5 rounded-full bg-[#6f5d00] progress-glow"></div>
                         <span className="text-[8px] font-bold uppercase text-on-surface-variant/60 tracking-widest">
-                          Kinal Academy 2026
+                          Kinal 2026
                         </span>
                       </div>
                       <span className="text-[8px] font-bold text-primary font-mono opacity-80">
