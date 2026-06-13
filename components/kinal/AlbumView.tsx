@@ -160,7 +160,7 @@ export default function AlbumView({
                   : 'bg-white/10 text-white/70 hover:bg-white/15'
               }`}
             >
-              {div === 'JR' ? 'Div. JR' : div === 'SR' ? 'Div. SR' : 'Histórica'}
+              {div === 'JR' ? 'Básicos' : div === 'SR' ? 'Diversificado' : 'Histórica'}
             </button>
           ))}
         </div>
