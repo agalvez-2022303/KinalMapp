@@ -31,8 +31,10 @@ const PAGE_BACKGROUND_ICONS: Record<string, string> = {
   'basicos-2': 'palette',
   'basicos-3': 'science',
   'computacion': 'terminal',
-  'mercadotecnia': 'monitoring',
-  'bachillerato': 'biotech',
+  'Mecánica': 'monitoring',
+  'Electrónica': 'biotech',
+  'Electricidad': 'biotech',
+  'Dibujo Técnico': 'museum',
   'historica': 'museum',
 }
 
@@ -351,7 +353,7 @@ export default function AlbumView({
           </button>
         </div>
 
-        {/* Bottom Collector Summary Card */}
+        {/* Bottom Collector Summary Card 
         <section className="glass-card rounded-xl p-stack-md border border-outline-variant/20 shadow-sm flex items-center space-x-3 select-none">
           <div className="bg-primary-container p-2.5 rounded-lg flex items-center justify-center flex-shrink-0">
             <span className="material-symbols-outlined text-on-primary-container text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
@@ -363,6 +365,7 @@ export default function AlbumView({
             <p className="text-[10px] text-on-surface-variant">
               Escanea checkpoints para completar tu album y ganar medallas.
             </p>
+            
             <Link
               href="/qr-prueba"
               className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold text-secondary hover:underline"
@@ -370,8 +373,9 @@ export default function AlbumView({
               <span className="material-symbols-outlined text-[14px]">qr_code_2</span>
               Ver QR de prueba
             </Link>
+            
           </div>
-        </section>
+        </section>*/}
       </div>
     </div>
   )
