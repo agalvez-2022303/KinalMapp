@@ -27,15 +27,15 @@ const DIVISION_COLORS: Record<Division, { primary: string; accent: string; bg: s
 }
 
 const PAGE_BACKGROUND_ICONS: Record<string, string> = {
-  'basicos-1': 'architecture',
-  'basicos-2': 'palette',
-  'basicos-3': 'science',
-  'computacion': 'terminal',
-  'Mecánica': 'monitoring',
-  'Electrónica': 'biotech',
-  'Electricidad': 'biotech',
-  'Dibujo Técnico': 'museum',
-  'historica': 'museum',
+  'basicos-1': 'school',
+  'basicos-2': 'auto_stories',
+  'basicos-3': 'psychology',
+  'computacion': 'code',
+  'Mecánica': 'settings',
+  'Electrónica': 'memory',
+  'Electricidad': 'bolt',
+  'Dibujo Técnico': 'draw',
+  'historica': 'history_edu',
 }
 
 export default function AlbumView({
