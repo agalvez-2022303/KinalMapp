@@ -68,8 +68,11 @@ export const albumSections: AlbumSection[] = [
     stickers: [
       { id: 's1', name: 'Matemáticas', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '📐' },
       { id: 's2', name: 'Lenguaje', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '📖' },
-      { id: 's3', name: 'Computación', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-B', unlocked: false, emoji: '💻' },
+      { id: 's3', name: 'Computación', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '💻' },
       { id: 's4', name: 'Inglés', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '🌐' },
+      { id: 's5', name: 'Artes', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '🎨'},
+      { id: 's6', name: 'Inglés', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '🌐'},
+      { id: 's7', name: 'Inglés', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '🌐'}
     ],
   },
   {
@@ -78,10 +81,10 @@ export const albumSections: AlbumSection[] = [
     division: 'JR',
     color: '#2C3E73',
     stickers: [
-      { id: 's5', name: 'Plásticas', section: 'Segundo Básico', sectionId: 'basicos-2', checkpointId: 'CP-A', unlocked: false, emoji: '🎨' },
-      { id: 's6', name: 'Idioma Maya', section: 'Segundo Básico', sectionId: 'basicos-2', checkpointId: 'CP-A', unlocked: false, emoji: '🌿' },
-      { id: 's7', name: 'Religión', section: 'Segundo Básico', sectionId: 'basicos-2', checkpointId: 'CP-C', unlocked: false, emoji: '✨' },
-      { id: 's8', name: 'Actitudes', section: 'Segundo Básico', sectionId: 'basicos-2', checkpointId: 'CP-C', unlocked: false, emoji: '🌟' },
+      { id: 's8', name: 'Plásticas', section: 'Segundo Básico', sectionId: 'basicos-2', checkpointId: 'CP-A', unlocked: false, emoji: '🎨' },
+      { id: 's9', name: 'Idioma Maya', section: 'Segundo Básico', sectionId: 'basicos-2', checkpointId: 'CP-A', unlocked: false, emoji: '🌿' },
+      { id: 's10', name: 'Religión', section: 'Segundo Básico', sectionId: 'basicos-2', checkpointId: 'CP-C', unlocked: false, emoji: '✨' },
+      { id: 's11', name: 'Actitudes', section: 'Segundo Básico', sectionId: 'basicos-2', checkpointId: 'CP-C', unlocked: false, emoji: '🌟' },
     ],
   },
   {
@@ -90,10 +93,10 @@ export const albumSections: AlbumSection[] = [
     division: 'JR',
     color: '#2C3E73',
     stickers: [
-      { id: 's9', name: 'Física', section: 'Tercero Básico', sectionId: 'basicos-3', checkpointId: 'CP-B', unlocked: false, emoji: '⚛️' },
-      { id: 's10', name: 'Química', section: 'Tercero Básico', sectionId: 'basicos-3', checkpointId: 'CP-B', unlocked: false, emoji: '🧪' },
-      { id: 's11', name: 'Sociales', section: 'Tercero Básico', sectionId: 'basicos-3', checkpointId: 'CP-D', unlocked: false, emoji: '🏛️' },
-      { id: 's12', name: 'Matemáticas III', section: 'Tercero Básico', sectionId: 'basicos-3', checkpointId: 'CP-D', unlocked: false, emoji: '🔢' },
+      { id: 's12', name: 'Física', section: 'Tercero Básico', sectionId: 'basicos-3', checkpointId: 'CP-B', unlocked: false, emoji: '⚛️' },
+      { id: 's13', name: 'Química', section: 'Tercero Básico', sectionId: 'basicos-3', checkpointId: 'CP-B', unlocked: false, emoji: '🧪' },
+      { id: 's14', name: 'Sociales', section: 'Tercero Básico', sectionId: 'basicos-3', checkpointId: 'CP-D', unlocked: false, emoji: '🏛️' },
+      { id: 's15', name: 'Matemáticas III', section: 'Tercero Básico', sectionId: 'basicos-3', checkpointId: 'CP-D', unlocked: false, emoji: '🔢' },
     ],
   },
   {
@@ -102,9 +105,9 @@ export const albumSections: AlbumSection[] = [
     division: 'SR',
     color: '#D4BA46',
     stickers: [
-      { id: 's13', name: 'Programación', section: 'Perito en Informática', sectionId: 'computacion', checkpointId: 'CP-B', unlocked: false, emoji: '👨‍💻' },
-      { id: 's14', name: 'Redes', section: 'Perito en Informática', sectionId: 'computacion', checkpointId: 'CP-B', unlocked: false, emoji: '🌐' },
-      { id: 's15', name: 'Base de Datos', section: 'Perito en Informática', sectionId: 'computacion', checkpointId: 'CP-B', unlocked: false, emoji: '🗄️' },
+      { id: 's16', name: '4to. Informatica', section: 'Perito en Informática', sectionId: 'computacion', checkpointId: 'CP-B', unlocked: false, emoji: '👨‍💻' },
+      { id: 's17', name: '5to. Informatica', section: 'Perito en Informática', sectionId: 'computacion', checkpointId: 'CP-B', unlocked: false, emoji: '🌐' },
+      { id: 's18', name: '6to. Informatica', section: 'Perito en Informática', sectionId: 'computacion', checkpointId: 'CP-B', unlocked: false, emoji: '🗄️' },
     ],
   },
   {
@@ -113,9 +116,9 @@ export const albumSections: AlbumSection[] = [
     division: 'SR',
     color: '#F7931E',
     stickers: [
-      { id: 's16', name: 'Mantenimiento', section: 'Perito en Mecánica Automotriz', sectionId: 'Mecánica', checkpointId: 'CP-C', unlocked: false, emoji: '📊' },
-      { id: 's17', name: 'Pintura', section: 'Perito en Mecánica Automotriz', sectionId: 'Mecánica', checkpointId: 'CP-C', unlocked: false, emoji: '📢' },
-      { id: 's18', name: 'Motores y Transmisiones', section: 'Perito en Mecánica Automotriz', sectionId: 'Mecánica', checkpointId: 'CP-C', unlocked: false, emoji: '💰' },
+      { id: 's19', name: '4to. Mecanica', section: 'Perito en Mecánica Automotriz', sectionId: 'Mecánica', checkpointId: 'CP-C', unlocked: false, emoji: '📊' },
+      { id: 's20', name: '5to. Mecanica', section: 'Perito en Mecánica Automotriz', sectionId: 'Mecánica', checkpointId: 'CP-C', unlocked: false, emoji: '📢' },
+      { id: 's21', name: '6to. Mecanica', section: 'Perito en Mecánica Automotriz', sectionId: 'Mecánica', checkpointId: 'CP-C', unlocked: false, emoji: '💰' },
     ],
   },
   {
@@ -124,8 +127,31 @@ export const albumSections: AlbumSection[] = [
     division: 'SR',
     color: '#2C3E73',
     stickers: [
-      { id: 's19', name: 'Psicología', section: 'Perito en Electrónica', sectionId: 'Electrónica', checkpointId: 'CP-D', unlocked: false, emoji: '🧠' },
-      { id: 's20', name: 'Circuitos Electrónicos', section: 'Perito en Electrónica', sectionId: 'Electrónica', checkpointId: 'CP-D', unlocked: false, emoji: '🔌' },
+      { id: 's22', name: '4to. Electrónica', section: 'Perito en Electrónica', sectionId: 'Electrónica', checkpointId: 'CP-D', unlocked: false, emoji: '🧠' },
+      { id: 's23', name: '5to. Electrónica', section: 'Perito en Electrónica', sectionId: 'Electrónica', checkpointId: 'CP-D', unlocked: false, emoji: '🔌' },
+      { id: 's24', name: '6to. Electrónica', section: 'Perito en Electrónica', sectionId: 'Electrónica', checkpointId: 'CP-D', unlocked: false, emoji: '' },
+    ],
+  },
+  {
+    id: 'Electricidad',
+    name: 'Perito en Electricidad',
+    division: 'SR',
+    color: '#2C3E73',
+    stickers: [
+      { id: 's25', name: '4to. Electricidad', section: 'Perito en Electricidad', sectionId: 'Electricidad', checkpointId: 'CP-D', unlocked: false, emoji: '🧠' },
+      { id: 's26', name: '5to. Electricidad', section: 'Perito en Electricidad', sectionId: 'Electricidad', checkpointId: 'CP-D', unlocked: false, emoji: '🔌' },
+      { id: 's27', name: '6to. Electricidad', section: 'Perito en Electricidad', sectionId: 'Electricidad', checkpointId: 'CP-D', unlocked: false, emoji: '' },
+    ],
+  },
+  {
+    id: 'Dibujo Técnico',
+    name: 'Perito en Dibujo Técnico',
+    division: 'SR',
+    color: '#2C3E73',
+    stickers: [
+      { id: 's28', name: '4to. Dibujo Técnico', section: 'Perito en Dibujo Técnico', sectionId: 'Dibujo Técnico', checkpointId: 'CP-D', unlocked: false, emoji: '🧠' },
+      { id: 's29', name: '5to. Dibujo Técnico', section: 'Perito en Dibujo Técnico', sectionId: 'Dibujo Técnico', checkpointId: 'CP-D', unlocked: false, emoji: '✏️' },
+      { id: 's30', name: '6to. Dibujo Técnico', section: 'Perito en Dibujo Técnico', sectionId: 'Dibujo Técnico', checkpointId: 'CP-D', unlocked: false, emoji: '📏' },
     ],
   },
   {
@@ -134,9 +160,9 @@ export const albumSections: AlbumSection[] = [
     division: 'Histórica',
     color: '#D4BA46',
     stickers: [
-      { id: 's21', name: 'Fundación 1961', section: 'Colección Histórica', sectionId: 'historica', checkpointId: 'CP-A', unlocked: false, emoji: '🏫' },
-      { id: 's22', name: '25 Años de Trayectoria', section: 'Colección Histórica', sectionId: 'historica', checkpointId: 'CP-B', unlocked: false, emoji: '🏆' },
-      { id: 's23', name: '65 Años Kinal', section: 'Colección Histórica', sectionId: 'historica', checkpointId: 'CP-C', unlocked: false, emoji: '🌟' },
+      { id: 's31', name: 'Fundación 1961', section: 'Colección Histórica', sectionId: 'historica', checkpointId: 'CP-A', unlocked: false, emoji: '🏫' },
+      { id: 's32', name: '25 Años de Trayectoria', section: 'Colección Histórica', sectionId: 'historica', checkpointId: 'CP-B', unlocked: false, emoji: '🏆' },
+      { id: 's33', name: '65 Años Kinal', section: 'Colección Histórica', sectionId: 'historica', checkpointId: 'CP-C', unlocked: false, emoji: '🌟' },
     ],
   },
 ]
