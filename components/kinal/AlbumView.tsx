@@ -233,7 +233,11 @@ export default function AlbumView({
                     <div className="flex-1 overflow-y-auto hide-scrollbar">
                       <div className="grid grid-cols-2 gap-3">
                         {currentPage.stickers.map((sticker, idx) => {
-                          const stickerNum = pageIndex * 4 + idx + 1
+                          const previousStickersCount = pages
+                            .slice(0, pageIndex)
+                            .reduce((acc, p) => acc + p.stickers.length, 0);
+                          
+                          const stickerNum = previousStickersCount + idx + 1;
                           return (
                             <div
                               key={sticker.id}
