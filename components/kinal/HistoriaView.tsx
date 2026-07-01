@@ -37,9 +37,12 @@ export default function HistoriaView() {
               {timelineEntries.map((entry, i) => {
                 const is1961 = entry.year === "1961"
                 const is1970 = entry.year === "1970"
+                const is1984 = entry.year === "1984"
                 const is1985 = entry.year === "1985"
                 const is1992_1998 = entry.year === "1992 - 1998"
+                const is1999_2002 = entry.year === "1999 - 2002"
                 const is2011_2013 = entry.year === "2011 - 2013"
+                const is2019 = entry.year === "2019"
                 const is2026 = entry.year === "2026"
 
                 return (
@@ -70,6 +73,14 @@ export default function HistoriaView() {
                         </div>
                       )}
 
+                      {/* Imagen para 1984 */}
+                      {is1984 && (
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
+                          <img alt="1984 Cierre de etapa" className="w-full h-full object-cover" src="/2.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        </div>
+                      )}
+
                       {/* Imagen para 1985 */}
                       {is1985 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
@@ -86,11 +97,18 @@ export default function HistoriaView() {
                         </div>
                       )}
 
-                      {/* Imagen para 2011 - 2013 */}
-                      {is2011_2013 && (
+                      {/* Imagen para 1999 - 2002 */}
+                      {is1999_2002 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="2011 - 2013 Auge" className="w-full h-full object-cover" src="/2013.jpg" />
-                          <img alt="2011 - 2013 Auge" className="w-full h-full object-cover" src="/2013(2).jpg" />
+                          <img alt="1999 - 2002 Transformación" className="w-full h-full object-cover" src="/2013.jpg"/>
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        </div>
+                      )}
+
+                      {/* Lógica 2019 */}
+                      {is2019 && (
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
+                          <img alt="2019 Evolución" className="w-full h-full object-cover" src="/M.jpg" />
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
@@ -102,6 +120,7 @@ export default function HistoriaView() {
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
+
                     </div>
                   </div>
                 )
