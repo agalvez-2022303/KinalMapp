@@ -12,7 +12,8 @@ const typeIcon: Record<string, string> = {
 export default function HistoriaView() {
   const [modalImg, setModalImg] = useState<string | null>(null);
   return (
-    <div className="flex flex-col w-full h-full bg-background overflow-hidden font-sans">
+    <>
+      <div className="flex flex-col w-full h-full bg-background overflow-hidden font-sans">
       <header className="flex-shrink-0 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm z-10">
         <div className="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
           <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">
@@ -147,13 +148,12 @@ export default function HistoriaView() {
           </div>
         </div>
       </div>
-    </div>
-    {
-    modalImg && (
-      <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setModalImg(null)}>
-        <img src={modalImg} alt="Full view" className="max-w-full max-h-full object-contain rounded-lg" onClick={(e) => e.stopPropagation()} />
       </div>
-    )
-  }
+      {modalImg && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setModalImg(null)}>
+          <img src={modalImg} alt="Full view" className="max-w-full max-h-full object-contain rounded-lg" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
+    </>
   )
 }
