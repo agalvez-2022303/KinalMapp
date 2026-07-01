@@ -41,6 +41,7 @@ export default function HistoriaView() {
                 const is1985 = entry.year === "1985"
                 const is1992_1998 = entry.year === "1992 - 1998"
                 const is1999_2002 = entry.year === "1999 - 2002"
+                const is2007_2010 = entry.year === "2007 - 2010"
                 const is2011_2013 = entry.year === "2011 - 2013"
                 const is2019 = entry.year === "2019"
                 const is2026 = entry.year === "2026"
@@ -101,6 +102,22 @@ export default function HistoriaView() {
                       {is1999_2002 && (
                         <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
                           <img alt="1999 - 2002 Transformación" className="w-full h-full object-cover" src="/2013.jpg"/>
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        </div>
+                      )}
+
+                      {/* Lógica 2007 - 2010 */}
+                      {is2007_2010 && (
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
+                          <img alt="2007 - 2010 Desarrollo" className="w-full h-full object-cover" src="/2007.jpg"/>
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        </div>
+                      )}
+
+                      {/* Lógica 2011 - 2013 */}
+                      {is2011_2013 && (
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
+                          <img alt="2011 - 2013 Desarrollo" className="w-full h-full object-cover" src="/E.jpg"/>
                           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
                         </div>
                       )}
