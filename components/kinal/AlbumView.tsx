@@ -291,14 +291,14 @@ export default function AlbumView({
                                   </div>
                                 </div>
                               ) : (
-                                <div className="w-full h-full flex flex-col items-center justify-center relative bg-gray-50 dark:bg-white/5 rounded-lg border border-outline-variant/10">
+                                <div className="w-full h-full flex flex-col items-center justify-center relative bg-gray-200 dark:bg-gray-700/30 rounded-lg border border-gray-300 dark:border-gray-600/30">
                                   {/* Ghost silhouette emoji */}
-                                  <span className="text-3xl select-none opacity-[0.07] saturate-0 scale-90 pointer-events-none">
+                                  <span className="text-3xl select-none opacity-[0.15] saturate-0 scale-90 pointer-events-none">
                                     {sticker.emoji}
                                   </span>
                                   {/* Lock icon centered */}
-                                  <div className="w-9 h-9 rounded-full bg-[#2C3E73]/8 flex items-center justify-center absolute z-10">
-                                    <span className="material-symbols-outlined text-[18px] text-[#2C3E73]/25 dark:text-white/20">
+                                  <div className="w-9 h-9 rounded-full bg-[#2C3E73]/15 flex items-center justify-center absolute z-10">
+                                    <span className="material-symbols-outlined text-[18px] text-[#2C3E73]/40 dark:text-white/30">
                                       lock
                                     </span>
                                   </div>
