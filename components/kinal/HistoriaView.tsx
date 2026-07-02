@@ -20,12 +20,6 @@ export default function HistoriaView() {
             <h1 className="font-extrabold text-xl tracking-tight text-primary dark:text-inverse-primary">
               Kinal<span className="text-[#D4BA46]">Mapp</span>
             </h1>
-            <div className="flex items-center gap-1.5 bg-gradient-to-r from-[#fee269] to-[#D4BA46] px-3.5 py-1 rounded-full text-[#1a1400] shadow-[0_4px_12px_rgba(212,186,70,0.2)] font-bold text-xs select-none">
-              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                history_edu
-              </span>
-              <span>Timeline</span>
-            </div>
           </div>
         </header>
 
