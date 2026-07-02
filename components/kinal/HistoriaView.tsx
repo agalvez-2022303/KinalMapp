@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react';
 import { timelineEntries } from '@/lib/kinal-data'
@@ -20,27 +20,44 @@ export default function HistoriaView() {
             <h1 className="font-extrabold text-xl tracking-tight text-primary dark:text-inverse-primary">
               Kinal<span className="text-[#D4BA46]">Mapp</span>
             </h1>
+            <div className="flex items-center gap-1.5 bg-gradient-to-r from-[#fee269] to-[#D4BA46] px-3.5 py-1 rounded-full text-[#1a1400] shadow-[0_4px_12px_rgba(212,186,70,0.2)] font-bold text-xs select-none">
+              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                history_edu
+              </span>
+              <span>Timeline</span>
+            </div>
           </div>
         </header>
 
         <div className="flex-1 overflow-y-auto hide-scrollbar pb-24">
           <div className="w-full max-w-md mx-auto px-container-margin">
-            {/* Title Section */}
-            <section className="mb-4 text-center py-5 animate-in fade-in duration-500">
-              <h2 className="font-extrabold text-2xl text-primary dark:text-white tracking-tight mb-1.5">
-                Nuestra Historia
-              </h2>
-              <p className="text-gray-400 font-medium text-xs px-6 leading-relaxed">
-                Recorre la historia que ha forjado el legado técnico y humano de fundación Kinal a través de estos 65 años.
-              </p>
+            {/* Title Section with premium gradient card */}
+            <section className="mb-5 py-5 animate-in fade-in duration-500">
+              <div className="bg-gradient-to-br from-[#1b2a4e] to-[#0f1830] text-white p-5 rounded-2xl shadow-glow-navy relative overflow-hidden border border-white/5">
+                {/* Decorative blur spotlights */}
+                <div className="absolute -right-6 -top-6 w-24 h-24 bg-[#fee269]/10 rounded-full blur-xl pointer-events-none"></div>
+                <div className="absolute -left-6 -bottom-6 w-24 h-24 bg-[#F7931E]/10 rounded-full blur-xl pointer-events-none"></div>
+                
+                <div className="relative z-10">
+                  <p className="text-[9px] font-extrabold tracking-widest text-[#fee269] uppercase opacity-90 mb-2">
+                    NUESTRA HISTORIA
+                  </p>
+                  <h2 className="font-extrabold text-2xl tracking-tight mb-2">
+                    65 Años de Legado
+                  </h2>
+                  <p className="text-xs text-gray-200 leading-relaxed">
+                    Recorre la historia que ha forjado el legado técnico y humano de Fundación Kinal a través del tiempo.
+                  </p>
+                </div>
+              </div>
             </section>
 
             {/* Timeline Gutter Container */}
-            <div className="relative pl-8 pr-2 py-4 animate-in fade-in slide-in-from-bottom duration-500 delay-100">
+            <div className="relative pl-10 pr-2 py-4 animate-in fade-in slide-in-from-bottom duration-500 delay-100">
               {/* Glowing vertical line */}
-              <div className="absolute left-4 top-0 bottom-0 w-1 timeline-gradient-line rounded-full"></div>
+              <div className="absolute left-4 top-0 bottom-0 w-[3px] timeline-gradient-line rounded-full"></div>
 
-              <div className="space-y-6">
+              <div className="space-y-7">
                 {timelineEntries.map((entry, i) => {
                   const is1961 = entry.year === "1961"
                   const is1970 = entry.year === "1970"
@@ -53,103 +70,137 @@ export default function HistoriaView() {
                   const is2019 = entry.year === "2019"
                   const is2026 = entry.year === "2026"
 
+                  const nodeColor = is2026 ? '#F7931E' : is1961 ? '#D4BA46' : '#2C3E73'
+                  const categoryLabel = entry.type === 'institution' ? 'Institución' : entry.type === 'career' ? 'Carrera Técnica' : 'Hito Histórico'
+                  const categoryBg = entry.type === 'institution'
+                    ? 'bg-[#2C3E73]/10 text-[#2C3E73] dark:bg-[#fee269]/10 dark:text-[#fee269]'
+                    : entry.type === 'career'
+                    ? 'bg-[#F7931E]/10 text-[#c96c00] dark:bg-[#F7931E]/15 dark:text-[#F7931E]'
+                    : 'bg-[#D4BA46]/15 text-[#756300] dark:bg-[#D4BA46]/10 dark:text-[#D4BA46]'
+
                   return (
                     <div key={i} className="relative scroll-reveal">
-                      {/* Timeline Node Icon Circle (centered on the line) */}
+                      {/* Timeline node circle — perfectly centered on the 3px line at left-4 */}
                       <div
-                        className={`absolute left-1 top-4 w-7 h-7 rounded-full border-2 border-white dark:border-[#0d1420] shadow-md z-10 flex items-center justify-center text-white ${
-                          is2026 ? 'bg-[#F7931E]' : is1961 ? 'bg-[#D4BA46]' : 'bg-[#2C3E73]'
-                        }`}
+                        className="absolute -left-[18px] top-5 w-8 h-8 rounded-full border-[2.5px] border-white dark:border-[#0d1420] shadow-lg z-10 flex items-center justify-center"
+                        style={{ backgroundColor: nodeColor }}
                       >
-                        <span className="material-symbols-outlined text-[12px] leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        <span className="material-symbols-outlined text-[14px] leading-none text-white" style={{ fontVariationSettings: "'FILL' 1" }}>
                           {typeIcon[entry.type] || 'star'}
                         </span>
                       </div>
 
-                      {/* Glassmorphic timeline entry card */}
-                      <div className="bg-white dark:bg-[#1a2340] hover-scale-bounce p-4 rounded-2xl shadow-premium border border-outline-variant/10 select-none">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider bg-[#2C3E73]/10 text-[#2C3E73] dark:bg-[#fee269]/10 dark:text-[#fee269]">
-                            {entry.year}
-                          </span>
-                          <span className="text-[10px] text-gray-400 dark:text-gray-300 font-bold uppercase tracking-widest flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[14px]">
-                              {typeIcon[entry.type] || 'star'}
+                      {/* Year badge floating above card */}
+                      <div className="mb-1.5 ml-1">
+                        <span
+                          className="inline-block px-3 py-0.5 rounded-full text-[11px] font-extrabold tracking-wider border"
+                          style={{
+                            backgroundColor: `${nodeColor}18`,
+                            color: nodeColor,
+                            borderColor: `${nodeColor}30`,
+                          }}
+                        >
+                          {entry.year}
+                        </span>
+                      </div>
+
+                      {/* Card */}
+                      <div className="bg-white dark:bg-[#1a2340] hover-scale-bounce rounded-2xl shadow-premium border border-outline-variant/10 select-none overflow-hidden">
+                        {/* Card top accent strip */}
+                        <div className="h-[3px] w-full" style={{ backgroundColor: nodeColor }} />
+
+                        <div className="p-4">
+                          {/* Category pill + icon */}
+                          <div className="flex items-center justify-between mb-3">
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-extrabold tracking-widest uppercase ${categoryBg}`}>
+                              <span className="material-symbols-outlined text-[11px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                                {typeIcon[entry.type] || 'star'}
+                              </span>
+                              {categoryLabel}
                             </span>
-                            {entry.type === 'institution' ? 'Kinal' : entry.type === 'career' ? 'Carrera' : 'Hito'}
-                          </span>
+                          </div>
+
+                          <h3 className="font-extrabold text-[13px] text-[#2C3E73] dark:text-white mb-2 leading-snug">
+                            {entry.title}
+                          </h3>
+                          <p className="text-gray-500 dark:text-gray-300 text-[11px] leading-relaxed">
+                            {entry.description}
+                          </p>
+
+                          {/* Interactive Image attachments */}
+                          {is1970 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/prueba.jpg')}>
+                              <img alt="1970 Primer programa tecnico" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/prueba.jpg" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
+                          {is1984 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/2.jpg')}>
+                              <img alt="1984 Cierre de etapa" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2.jpg" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
+                          {is1985 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/1980.jpg')}>
+                              <img alt="1985 Expansión" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/1980.jpg" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
+                          {is1992_1998 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/expancion.jpeg')}>
+                              <img alt="1992 - 1998 Crecimiento" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/expancion.jpeg" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
+                          {is1999_2002 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/2013.jpg')}>
+                              <img alt="1999 - 2002 Transformación" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2013.jpg" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
+                          {is2007_2010 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/2007.jpg')}>
+                              <img alt="2007 - 2010 Desarrollo" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2007.jpg" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
+                          {is2011_2013 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/E.jpg')}>
+                              <img alt="2011 - 2013 Desarrollo" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/E.jpg" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
+                          {is2019 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/M.jpg')}>
+                              <img alt="2019 Evolución" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/M.jpg" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
+                          {is2026 && (
+                            <div className="mt-3.5 rounded-xl overflow-hidden h-36 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm" onClick={() => setModalImg('/actualidad.avif')}>
+                              <img alt="2026 Actualidad" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/actualidad.avif" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none flex items-end p-2">
+                                <span className="text-[9px] text-white/80 font-bold">Ver imagen completa</span>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        
-                        <h3 className="font-bold text-sm text-[#2C3E73] dark:text-white mb-1.5 leading-snug">
-                          {entry.title}
-                        </h3>
-                        <p className="text-gray-500 dark:text-gray-300 text-xs leading-relaxed">
-                          {entry.description}
-                        </p>
-
-                        {/* Interactive Image attachments */}
-                        {is1970 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/prueba.jpg')}>
-                            <img alt="1970 Primer programa tecnico" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/prueba.jpg" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
-
-                        {is1984 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/2.jpg')}>
-                            <img alt="1984 Cierre de etapa" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2.jpg" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
-
-                        {is1985 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/1980.jpg')}>
-                            <img alt="1985 Expansión" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/1980.jpg" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
-
-                        {is1992_1998 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/expancion.jpeg')}>
-                            <img alt="1992 - 1998 Crecimiento" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/expancion.jpeg" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
-
-                        {is1999_2002 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/2013.jpg')}>
-                            <img alt="1999 - 2002 Transformación" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2013.jpg" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
-
-                        {is2007_2010 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/2007.jpg')}>
-                            <img alt="2007 - 2010 Desarrollo" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2007.jpg" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
-
-                        {is2011_2013 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/E.jpg')}>
-                            <img alt="2011 - 2013 Desarrollo" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/E.jpg" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
-
-                        {is2019 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/M.jpg')}>
-                            <img alt="2019 Evolución" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/M.jpg" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
-
-                        {is2026 && (
-                          <div className="mt-3.5 rounded-xl overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/10 hover:border-[#D4BA46]/50 transition-all duration-300 shadow-sm active:scale-98" onClick={() => setModalImg('/actualidad.avif')}>
-                            <img alt="2026 Actualidad" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/actualidad.avif" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   )

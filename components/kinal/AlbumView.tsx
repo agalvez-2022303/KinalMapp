@@ -118,70 +118,94 @@ export default function AlbumView({
 
   return (
     <div className="flex flex-col w-full h-full bg-background overflow-hidden font-sans">
-      {/* Header estilo album Panini */}
-      <header className="flex-shrink-0 bg-primary px-container-margin pt-5 pb-0 z-10">
-        <div className="flex items-center justify-between mb-1">
-          <div>
-            <p className="text-[9px] font-bold tracking-[0.25em] text-[#fee269] uppercase">
-              Album Oficial
-            </p>
-            <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-white tracking-tight">
-              Kinal 2026
-            </h1>
-          </div>
-          <div className="panini-album-badge flex items-center gap-1.5 bg-secondary-container px-3 py-1.5 rounded-full text-on-secondary-container professional-shadow">
-            <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+      {/* Header - Glassmorphism style matching HomeView */}
+      <header className="flex-shrink-0 bg-white/70 dark:bg-dark-navy/85 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_2px_12px_rgba(44,62,115,0.03)] z-10">
+        <div className="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
+          <h1 className="font-extrabold text-xl tracking-tight text-primary dark:text-inverse-primary">
+            Kinal<span className="text-[#D4BA46]">Mapp</span>
+          </h1>
+          <div className="flex items-center gap-1.5 bg-gradient-to-r from-[#fee269] to-[#D4BA46] px-3.5 py-1 rounded-full text-[#1a1400] shadow-[0_4px_12px_rgba(212,186,70,0.2)] font-bold text-xs select-none">
+            <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>
               emoji_events
             </span>
-            <span className="font-label-bold text-label-bold">
-              {unlockedStickers}/{totalStickers}
-            </span>
+            <span>{unlockedStickers}/{totalStickers}</span>
           </div>
         </div>
-        <p className="text-[10px] text-white/60 mb-2 font-medium">
-          Coleccion de estampas
-        </p>
 
-        {/* Progress Bar */}
-        <div className="w-full h-1.5 bg-white/20 rounded-full my-3 overflow-hidden">
-          <div
-            className="h-full bg-secondary-fixed transition-all duration-700 progress-glow"
-            style={{ width: `${progressPercent}%` }}
-          ></div>
+        {/* Progress Banner Card - Deep premium gradient */}
+        <div className="px-container-margin pb-4 w-full max-w-md mx-auto">
+          <div className="bg-gradient-to-br from-[#1b2a4e] to-[#0f1830] text-white p-4 rounded-2xl shadow-glow-navy relative overflow-hidden border border-white/5">
+            {/* Decorative blur spotlights */}
+            <div className="absolute -right-6 -top-6 w-24 h-24 bg-[#fee269]/10 rounded-full blur-xl pointer-events-none"></div>
+            <div className="absolute -left-6 -bottom-6 w-24 h-24 bg-[#F7931E]/10 rounded-full blur-xl pointer-events-none"></div>
+            
+            <div className="relative z-10 space-y-3">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-[9px] font-extrabold tracking-widest text-[#fee269] uppercase opacity-90">
+                    ESTADO DE ÁLBUM
+                  </p>
+                  <h2 className="text-xl font-extrabold tracking-tight mt-0.5">
+                    {progressPercent}% <span className="text-xs font-semibold text-gray-300">completado</span>
+                  </h2>
+                </div>
+                <span className="material-symbols-outlined text-[#fee269] text-[24px] animate-pulse">
+                  auto_awesome
+                </span>
+              </div>
+              
+              <div className="space-y-1.5">
+                <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden p-[2px]">
+                  <div
+                    className="h-full rounded-full gold-shimmer relative transition-all duration-700 shadow-[0_0_8px_#fee269]"
+                    style={{ width: `${progressPercent}%` }}
+                  >
+                    <div className="absolute right-0 top-0 bottom-0 w-2 bg-white/30 blur-sm"></div>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center text-[10px] text-gray-300 font-medium">
+                  <span>Progreso de colección</span>
+                  <span>{unlockedStickers} de {totalStickers} estampas</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Division Tabs */}
-        <div className="flex gap-1 overflow-x-auto hide-scrollbar">
-          {divisionOrder.map((div) => (
-            <button
-              key={div}
-              onClick={() => switchDiv(div)}
-              className={`px-4 py-2 text-xs font-bold whitespace-nowrap flex-shrink-0 transition-all rounded-t-xl cursor-pointer ${
-                activeDiv === div
-                  ? 'bg-white text-primary font-extrabold shadow-[0_-4px_12px_rgba(44,62,115,0.08)]'
-                  : 'bg-white/10 text-white/70 hover:bg-white/15'
-              }`}
-            >
-              {div === 'JR' ? 'Básicos' : div === 'SR' ? 'Diversificado' : 'Histórica'}
-            </button>
-          ))}
-        </div>
+        {/* Division Tabs - Glassmorphism style */}
+        <nav className="flex overflow-x-auto no-scrollbar gap-2 px-container-margin pb-4 w-full max-w-md mx-auto select-none">
+          {divisionOrder.map((div) => {
+            const tabIcon = div === 'JR' ? 'school' : div === 'SR' ? 'engineering' : 'history_edu'
+            return (
+              <button
+                key={div}
+                onClick={() => switchDiv(div)}
+                className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
+                  activeDiv === div
+                    ? 'bg-primary text-white shadow-md shadow-[#2C3E73]/20 scale-105'
+                    : 'bg-white dark:bg-[#1a2340] text-gray-500 border border-outline-variant/10 hover:bg-gray-50 dark:hover:bg-white/5'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>{tabIcon}</span>
+                {div === 'JR' ? 'Básicos' : div === 'SR' ? 'Diversificado' : 'Histórica'}
+              </button>
+            )
+          })}
+        </nav>
       </header>
 
       {/* Division Label Strip */}
-      <div
-        className={`px-container-margin py-2.5 text-xs font-bold flex-shrink-0 flex items-center justify-between border-b border-outline-variant/10 ${colors.bg}`}
-      >
-        <span>{DIVISION_LABELS[activeDiv]}</span>
+      <div className="px-container-margin py-3 text-xs font-bold flex-shrink-0 flex items-center justify-between border-b border-outline-variant/10 bg-white/50 dark:bg-[#1a2340]/50">
+        <span className="text-[#2C3E73] dark:text-white font-extrabold">{DIVISION_LABELS[activeDiv]}</span>
         {totalPages > 0 && (
-          <span className="text-[10px] opacity-75">
+          <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
             Pág. {pageIndex + 1} de {totalPages}
           </span>
         )}
       </div>
 
       {/* Book Scroll Area */}
-      <div className="flex-1 overflow-y-auto hide-scrollbar px-container-margin py-4 space-y-4 pb-24 panini-album-bg">
+      <div className="flex-1 overflow-y-auto hide-scrollbar px-container-margin py-5 space-y-4 pb-24">
         {/* Book Container with perspective */}
         <div
           ref={containerRef}
@@ -200,8 +224,7 @@ export default function AlbumView({
               }}
             >
               {/* Card Page Content */}
-              <div className="book-page-front panini-page w-full h-full rounded-xl overflow-hidden flex flex-col border border-[#d4c4a8]/60 relative">
-                <div className="panini-perforation-top" />
+              <div className="book-page-front w-full h-full rounded-2xl overflow-hidden flex flex-col border border-outline-variant/10 shadow-premium bg-white dark:bg-[#1a2340] relative">
                 {/* Decorative background icon */}
                 <div className="absolute top-0 right-0 w-32 h-32 opacity-5 pointer-events-none flex items-center justify-center">
                   <span className="material-symbols-outlined text-[100px]">
@@ -215,17 +238,17 @@ export default function AlbumView({
 
                   <div className="flex-1 flex flex-col p-4 relative z-10 h-full">
                     {/* Header of the page */}
-                    <div className="flex justify-between items-center border-b border-outline-variant/10 pb-2 mb-3">
+                    <div className="flex justify-between items-center border-b border-outline-variant/10 pb-3 mb-4">
                       <div>
-                        <h2 className="font-headline-md text-sm text-primary font-bold">
+                        <h2 className="font-extrabold text-sm text-[#2C3E73] dark:text-white font-bold">
                           {currentPage.name}
                         </h2>
-                        <p className="text-[10px] text-on-surface-variant font-medium">
+                        <p className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
                           Estampas: {currentPage.stickers.filter((s) => s.unlocked).length} de {currentPage.stickers.length}
                         </p>
                       </div>
-                      <div className="w-6 h-6 rounded-md bg-primary-container/20 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-primary text-sm font-bold">
+                      <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#fee269] to-[#D4BA46] flex items-center justify-center shadow-sm">
+                        <span className="material-symbols-outlined text-[#1a1400] text-sm font-bold">
                           {PAGE_BACKGROUND_ICONS[currentPage.id] || 'menu_book'}
                         </span>
                       </div>
@@ -250,14 +273,15 @@ export default function AlbumView({
                                 #{String(stickerNum).padStart(2, '0')}
                               </span>
                               {sticker.unlocked ? (
-                                <div className="panini-sticker-unlocked panini-foil-shine w-full h-full flex flex-col items-center justify-center space-y-1 p-1">
+                                <div className="w-full h-full flex flex-col items-center justify-center space-y-1.5 p-2 bg-gradient-to-br from-[#fee269]/20 to-[#D4BA46]/10 rounded-lg border border-[#D4BA46]/30 relative overflow-hidden">
+                                  <div className="absolute inset-0 bg-gradient-to-br from-[#fee269]/5 to-transparent pointer-events-none"></div>
                                   <span className="text-3xl drop-shadow-md select-none relative z-[2] animate-bounce duration-1000">
                                     {sticker.emoji}
                                   </span>
-                                  <span className="font-label-bold text-[8px] text-[#2c3e73] dark:text-primary tracking-wider text-center px-1 font-extrabold truncate max-w-full uppercase relative z-[2]">
+                                  <span className="font-extrabold text-[8px] text-[#2c3e73] dark:text-white tracking-wider text-center px-1 truncate max-w-full uppercase relative z-[2]">
                                     {sticker.name}
                                   </span>
-                                  <div className="absolute top-1.5 right-1.5 z-[3] panini-foil-badge flex items-center justify-center bg-white/95 dark:bg-[#0d1420]/90 rounded-full p-[1px] shadow-sm">
+                                  <div className="absolute top-1.5 right-1.5 z-[3] flex items-center justify-center bg-white/95 dark:bg-[#0d1420]/90 rounded-full p-[1px] shadow-sm">
                                     <span
                                       className="material-symbols-outlined text-[#D4BA46] text-[13px]"
                                       style={{ fontVariationSettings: "'FILL' 1" }}
@@ -267,19 +291,18 @@ export default function AlbumView({
                                   </div>
                                 </div>
                               ) : (
-                                <div className="panini-sticker-locked w-full h-full flex flex-col items-center justify-center space-y-1 relative">
-                                  {/* Stylized silhouette outline of emoji */}
-                                  <span className="text-3xl select-none opacity-[0.08] dark:opacity-[0.12] blur-[0.5px] saturate-0 scale-95 select-none pointer-events-none font-bold">
+                                <div className="w-full h-full flex flex-col items-center justify-center relative bg-gray-50 dark:bg-white/5 rounded-lg border border-outline-variant/10">
+                                  {/* Ghost silhouette emoji */}
+                                  <span className="text-3xl select-none opacity-[0.07] saturate-0 scale-90 pointer-events-none">
                                     {sticker.emoji}
                                   </span>
-                                  <div className="w-8 h-8 rounded-full bg-white/40 dark:bg-white/5 flex items-center justify-center border border-white/60 dark:border-white/10 absolute z-10 shadow-sm">
-                                    <span className="material-symbols-outlined text-base text-[#2C3E73]/40 dark:text-white/30">
+                                  {/* Lock icon centered */}
+                                  <div className="w-9 h-9 rounded-full bg-[#2C3E73]/8 flex items-center justify-center absolute z-10">
+                                    <span className="material-symbols-outlined text-[18px] text-[#2C3E73]/25 dark:text-white/20">
                                       lock
                                     </span>
                                   </div>
-                                  <span className="font-label-bold text-[7px] text-[#2C3E73]/40 dark:text-white/30 tracking-widest font-extrabold uppercase mt-1">
-                                    Falta
-                                  </span>
+                                  {/* Hover reveal hint */}
                                   <div className="absolute inset-0 bg-[#0c1220]/95 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity rounded-lg flex items-center justify-center p-2 text-center duration-200 select-none z-[4] pointer-events-none">
                                     <p className="text-[7.5px] text-white/90 leading-tight font-bold">
                                       {getScanHint(sticker)}
@@ -294,20 +317,19 @@ export default function AlbumView({
                     </div>
 
                     {/* Footer of the book page */}
-                    <div className="mt-2 flex justify-between items-center border-t border-outline-variant/10 pt-2 flex-shrink-0">
+                    <div className="mt-3 flex justify-between items-center border-t border-outline-variant/10 pt-3 flex-shrink-0">
                       <div className="flex items-center space-x-1.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#6f5d00] progress-glow"></div>
-                        <span className="text-[8px] font-bold uppercase text-on-surface-variant/60 tracking-widest">
-                          Kinal 2026
+                        <div className="w-2 h-2 rounded-full bg-[#D4BA46]"></div>
+                        <span className="text-[8px] font-extrabold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                          Kinal · 2026
                         </span>
                       </div>
-                      <span className="text-[8px] font-bold text-primary font-mono opacity-80">
-                        PÁGINA {pageIndex + 1 < 10 ? `0${pageIndex + 1}` : pageIndex + 1}
+                      <span className="text-[8px] font-extrabold font-mono tracking-widest text-gray-400 dark:text-gray-500">
+                        PÁG·{pageIndex + 1 < 10 ? `0${pageIndex + 1}` : pageIndex + 1}
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="panini-perforation-bottom" />
               </div>
             </div>
           ) : (
@@ -323,7 +345,7 @@ export default function AlbumView({
           <button
             onClick={() => goPage('prev')}
             disabled={pageIndex === 0 || flipping}
-            className="flex items-center gap-1 px-4 py-2.5 rounded-xl font-bold text-xs bg-primary text-white hover:bg-primary/95 disabled:opacity-30 disabled:pointer-events-none transition-all active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-bold text-xs bg-gradient-to-r from-[#2C3E73] to-[#13275c] text-white hover:brightness-110 disabled:opacity-30 disabled:pointer-events-none transition-all active:scale-95 cursor-pointer shadow-md"
           >
             <span className="material-symbols-outlined text-sm font-bold">arrow_back</span>
             Anterior
@@ -356,7 +378,7 @@ export default function AlbumView({
           <button
             onClick={() => goPage('next')}
             disabled={pageIndex === totalPages - 1 || flipping}
-            className="flex items-center gap-1 px-4 py-2.5 rounded-xl font-bold text-xs bg-primary text-white hover:bg-primary/95 disabled:opacity-30 disabled:pointer-events-none transition-all active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-bold text-xs bg-gradient-to-r from-[#2C3E73] to-[#13275c] text-white hover:brightness-110 disabled:opacity-30 disabled:pointer-events-none transition-all active:scale-95 cursor-pointer shadow-md"
           >
             Siguiente
             <span className="material-symbols-outlined text-sm font-bold">arrow_forward</span>
