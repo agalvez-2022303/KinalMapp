@@ -269,9 +269,6 @@ export default function AlbumView({
                               className="panini-slot panini-sticker-stagger relative group aspect-[4/5] rounded-lg overflow-hidden"
                               style={{ animationDelay: `${idx * 70}ms` }}
                             >
-                              <span className="panini-slot-number">
-                                #{String(stickerNum).padStart(2, '0')}
-                              </span>
                               {sticker.unlocked ? (
                                 <div 
                                   className="w-full h-full flex flex-col items-center justify-center space-y-1.5 p-2 rounded-lg border relative overflow-hidden"
@@ -282,25 +279,19 @@ export default function AlbumView({
                                 >
                                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none"></div>
                                   
-                                  {/* Medallón con hojas decorativas */}
+                                  {/* Medallón con arco decorativo */}
                                   <div className="relative z-[2] w-16 h-16 flex items-center justify-center">
                                     <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-lg">
                                       {/* Círculo base del medallón */}
-                                      <circle cx="32" cy="32" r="28" fill="white" stroke={currentPage.mascotColor || '#D4BA46'} strokeWidth="3"/>
+                                      <circle cx="32" cy="32" r="28" fill="white" stroke="#773d1c" strokeWidth="3"/>
                                       
-                                      {/* Hojas decorativas alrededor del medallón */}
-                                      <path d="M32 4 Q36 8 32 12 Q28 8 32 4" fill="#4a7c59" opacity="0.8"/>
-                                      <path d="M32 60 Q36 56 32 52 Q28 56 32 60" fill="#4a7c59" opacity="0.8"/>
-                                      <path d="M4 32 Q8 36 12 32 Q8 28 4 32" fill="#4a7c59" opacity="0.8"/>
-                                      <path d="M60 32 Q56 36 52 32 Q56 28 60 32" fill="#4a7c59" opacity="0.8"/>
-                                      <path d="M12 12 Q16 16 20 12 Q16 8 12 12" fill="#4a7c59" opacity="0.7"/>
-                                      <path d="M52 12 Q48 16 44 12 Q48 8 52 12" fill="#4a7c59" opacity="0.7"/>
-                                      <path d="M12 52 Q16 48 20 52 Q16 56 12 52" fill="#4a7c59" opacity="0.7"/>
-                                      <path d="M52 52 Q48 48 44 52 Q48 56 52 52" fill="#4a7c59" opacity="0.7"/>
+                                      {/* Arco decorativo alrededor del medallón */}
+                                      <path d="M8 32 Q8 8 32 8 Q56 8 56 32" fill="none" stroke="#773d1c" strokeWidth="2" strokeLinecap="round"/>
+                                      <path d="M8 32 Q8 56 32 56 Q56 56 56 32" fill="none" stroke="#773d1c" strokeWidth="2" strokeLinecap="round"/>
                                       
                                       {/* Número centrado */}
                                       <text x="32" y="32" textAnchor="middle" dominantBaseline="middle" 
-                                            fontSize="18" fontWeight="bold" fill={currentPage.mascotColor || '#2C3E73'}>
+                                            fontSize="18" fontWeight="bold" fill="#773d1c">
                                         {stickerNum}
                                       </text>
                                     </svg>
