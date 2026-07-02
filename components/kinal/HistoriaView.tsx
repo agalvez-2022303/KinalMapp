@@ -70,73 +70,73 @@ export default function HistoriaView() {
 
                       {/* Imagen para 1970 */}
                       {is1970 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1970 Primer programa tecnico" className="w-full h-full object-cover" src="/prueba.jpg" onClick={() => setModalImg('/prueba.jpg')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/prueba.jpg')}>
+                          <img alt="1970 Primer programa tecnico" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/prueba.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
                       {/* Imagen para 1984 */}
                       {is1984 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1984 Cierre de etapa" className="w-full h-full object-cover" src="/2.jpg" onClick={() => setModalImg('/2.jpg')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/2.jpg')}>
+                          <img alt="1984 Cierre de etapa" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
                       {/* Imagen para 1985 */}
                       {is1985 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1985 Expansión" className="w-full h-full object-cover" src="/1980.jpg" onClick={() => setModalImg('/1980.jpg')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/1980.jpg')}>
+                          <img alt="1985 Expansión" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/1980.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
                       {/* Imagen para 1992 - 1998 */}
                       {is1992_1998 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1992 - 1998 Crecimiento" className="w-full h-full object-cover" src="/expancion.jpeg" onClick={() => setModalImg('/expancion.jpeg')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/expancion.jpeg')}>
+                          <img alt="1992 - 1998 Crecimiento" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/expancion.jpeg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
                       {/* Imagen para 1999 - 2002 */}
                       {is1999_2002 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="1999 - 2002 Transformación" className="w-full h-full object-cover" src="/2013.jpg" onClick={() => setModalImg('/2013.jpg')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/2013.jpg')}>
+                          <img alt="1999 - 2002 Transformación" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2013.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
                       {/* Lógica 2007 - 2010 */}
                       {is2007_2010 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="2007 - 2010 Desarrollo" className="w-full h-full object-cover" src="/2007.jpg" onClick={() => setModalImg('/2007.jpg')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/2007.jpg')}>
+                          <img alt="2007 - 2010 Desarrollo" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/2007.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
                       {/* Lógica 2011 - 2013 */}
                       {is2011_2013 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="2011 - 2013 Desarrollo" className="w-full h-full object-cover" src="/E.jpg" onClick={() => setModalImg('/E.jpg')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/E.jpg')}>
+                          <img alt="2011 - 2013 Desarrollo" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/E.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
                       {/* Lógica 2019 */}
                       {is2019 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="2019 Evolución" className="w-full h-full object-cover" src="/M.jpg" onClick={() => setModalImg('/M.jpg')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/M.jpg')}>
+                          <img alt="2019 Evolución" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/M.jpg" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
                       {/* Lógica 2026 */}
                       {is2026 && (
-                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative">
-                          <img alt="2026 Actualidad" className="w-full h-full object-cover" src="/actualidad.avif" onClick={() => setModalImg('/actualidad.avif')} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+                        <div className="mt-4 rounded-lg overflow-hidden h-32 relative cursor-pointer group border border-outline-variant/30 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md" onClick={() => setModalImg('/actualidad.avif')}>
+                          <img alt="2026 Actualidad" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/actualidad.avif" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent pointer-events-none group-hover:from-primary/40 transition-all duration-300"></div>
                         </div>
                       )}
 
@@ -150,8 +150,24 @@ export default function HistoriaView() {
       </div>
       </div>
       {modalImg && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setModalImg(null)}>
-          <img src={modalImg} alt="Full view" className="max-w-full max-h-full object-contain rounded-lg" onClick={(e) => e.stopPropagation()} />
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-in fade-in duration-300"
+          onClick={() => setModalImg(null)}
+        >
+          <div className="relative max-w-full max-h-full flex items-center justify-center animate-in zoom-in-95 duration-300">
+            <button 
+              className="absolute -top-12 right-0 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition-all duration-200 z-10 flex items-center justify-center"
+              onClick={() => setModalImg(null)}
+            >
+              <span className="material-symbols-outlined block text-[24px]">close</span>
+            </button>
+            <img 
+              src={modalImg} 
+              alt="Full view" 
+              className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-white/10" 
+              onClick={(e) => e.stopPropagation()} 
+            />
+          </div>
         </div>
       )}
     </>
