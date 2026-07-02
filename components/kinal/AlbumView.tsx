@@ -49,7 +49,9 @@ export default function AlbumView({
   const [flipping, setFlipping] = useState(false)
   const [flipDir, setFlipDir] = useState<'next' | 'prev'>('next')
   const [tiltStyle, setTiltStyle] = useState<string>('')
+  const [dismissCelebration, setDismissCelebration] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+
 
   const grouped = divisionOrder.reduce<Record<Division, AlbumSection[]>>(
     (acc, div) => {
@@ -156,7 +158,7 @@ export default function AlbumView({
               onClick={() => switchDiv(div)}
               className={`px-4 py-2 text-xs font-bold whitespace-nowrap flex-shrink-0 transition-all rounded-t-xl cursor-pointer ${
                 activeDiv === div
-                  ? 'bg-background text-primary font-extrabold'
+                  ? 'bg-white text-primary font-extrabold shadow-[0_-4px_12px_rgba(44,62,115,0.08)]'
                   : 'bg-white/10 text-white/70 hover:bg-white/15'
               }`}
             >
@@ -248,16 +250,16 @@ export default function AlbumView({
                                 #{String(stickerNum).padStart(2, '0')}
                               </span>
                               {sticker.unlocked ? (
-                                <div className="panini-sticker-unlocked w-full h-full flex flex-col items-center justify-center space-y-1 p-1">
-                                  <span className="text-3xl drop-shadow-md select-none relative z-[2]">
+                                <div className="panini-sticker-unlocked panini-foil-shine w-full h-full flex flex-col items-center justify-center space-y-1 p-1">
+                                  <span className="text-3xl drop-shadow-md select-none relative z-[2] animate-bounce duration-1000">
                                     {sticker.emoji}
                                   </span>
-                                  <span className="font-label-bold text-[8px] text-primary tracking-wider text-center px-1 font-extrabold truncate max-w-full uppercase relative z-[2]">
+                                  <span className="font-label-bold text-[8px] text-[#2c3e73] dark:text-primary tracking-wider text-center px-1 font-extrabold truncate max-w-full uppercase relative z-[2]">
                                     {sticker.name}
                                   </span>
-                                  <div className="absolute top-1.5 right-1.5 z-[3] panini-foil-badge">
+                                  <div className="absolute top-1.5 right-1.5 z-[3] panini-foil-badge flex items-center justify-center bg-white/95 dark:bg-[#0d1420]/90 rounded-full p-[1px] shadow-sm">
                                     <span
-                                      className="material-symbols-outlined text-[#D4BA46] text-[16px]"
+                                      className="material-symbols-outlined text-[#D4BA46] text-[13px]"
                                       style={{ fontVariationSettings: "'FILL' 1" }}
                                     >
                                       stars
@@ -266,16 +268,20 @@ export default function AlbumView({
                                 </div>
                               ) : (
                                 <div className="panini-sticker-locked w-full h-full flex flex-col items-center justify-center space-y-1 relative">
-                                  <div className="w-9 h-9 rounded-full bg-white/40 flex items-center justify-center border border-white/60">
-                                    <span className="material-symbols-outlined text-xl text-[#2C3E73]/35">
+                                  {/* Stylized silhouette outline of emoji */}
+                                  <span className="text-3xl select-none opacity-[0.08] dark:opacity-[0.12] blur-[0.5px] saturate-0 scale-95 select-none pointer-events-none font-bold">
+                                    {sticker.emoji}
+                                  </span>
+                                  <div className="w-8 h-8 rounded-full bg-white/40 dark:bg-white/5 flex items-center justify-center border border-white/60 dark:border-white/10 absolute z-10 shadow-sm">
+                                    <span className="material-symbols-outlined text-base text-[#2C3E73]/40 dark:text-white/30">
                                       lock
                                     </span>
                                   </div>
-                                  <span className="font-label-bold text-[7px] text-[#2C3E73]/40 tracking-widest font-bold uppercase">
+                                  <span className="font-label-bold text-[7px] text-[#2C3E73]/40 dark:text-white/30 tracking-widest font-extrabold uppercase mt-1">
                                     Falta
                                   </span>
-                                  <div className="absolute inset-0 bg-[#1A2340]/92 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity rounded-lg flex items-center justify-center p-2 text-center duration-200 select-none z-[4]">
-                                    <p className="text-[8px] text-white leading-tight font-medium">
+                                  <div className="absolute inset-0 bg-[#0c1220]/95 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity rounded-lg flex items-center justify-center p-2 text-center duration-200 select-none z-[4] pointer-events-none">
+                                    <p className="text-[7.5px] text-white/90 leading-tight font-bold">
                                       {getScanHint(sticker)}
                                     </p>
                                   </div>
@@ -381,6 +387,66 @@ export default function AlbumView({
           </div>
         </section>*/}
       </div>
+
+      {/* 100% Album Completed Celebration Overlay */}
+      {progressPercent === 100 && !dismissCelebration && (
+        <div className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-[999] p-6 animate-in fade-in duration-300 pointer-events-auto">
+          <div className="bg-gradient-to-br from-[#1b2a4e] to-[#0f1830] border border-[#fee269]/40 p-6 rounded-3xl max-w-sm w-full text-center relative overflow-hidden shadow-[0_0_50px_rgba(212,186,70,0.3)] animate-in zoom-in-95 duration-300 flex flex-col items-center select-none">
+            {/* Confetti Animation Elements */}
+            <div className="absolute top-0 inset-x-0 h-full w-full pointer-events-none opacity-40">
+              <div className="absolute top-4 left-6 w-3 h-3 bg-red-500 rounded-full animate-bounce"></div>
+              <div className="absolute top-12 right-12 w-2 h-4 bg-yellow-400 rotate-12 animate-pulse"></div>
+              <div className="absolute top-24 left-16 w-3.5 h-1.5 bg-blue-400 rotate-45 animate-pulse"></div>
+              <div className="absolute bottom-16 right-8 w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
+              <div className="absolute bottom-28 left-8 w-2.5 h-2.5 bg-pink-400 rotate-12 animate-pulse"></div>
+            </div>
+
+            {/* Glow behind trophy */}
+            <div className="w-24 h-24 rounded-full bg-[#fee269]/10 absolute -top-4 blur-xl"></div>
+            
+            <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#fee269] to-[#D4BA46] flex items-center justify-center shadow-glow-gold relative z-10 mb-4 animate-bounce">
+              <span className="material-symbols-outlined text-4xl text-[#1a1400] font-extrabold" style={{ fontVariationSettings: "'FILL' 1" }}>
+                trophy
+              </span>
+            </div>
+
+            <h2 className="text-[#fee269] font-extrabold text-xl tracking-tight leading-tight uppercase mb-1">
+              ¡Álbum Completado!
+            </h2>
+            <p className="text-[10px] font-extrabold tracking-widest text-gray-300 uppercase mb-4">
+              Coleccionista Experto Kinal
+            </p>
+            
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 w-full mb-6">
+              <p className="text-xs text-gray-200 leading-relaxed">
+                ¡Felicidades! Has escaneado todos los checkpoints del campus y recolectado las <strong>{totalStickers} estampas oficiales</strong> de la Expo Kinal 2026.
+              </p>
+              <div className="flex items-center justify-center gap-2 mt-4 text-[10px] font-bold text-[#fee269] bg-[#fee269]/10 py-1.5 px-3 rounded-full border border-[#fee269]/20 w-fit mx-auto">
+                <span className="material-symbols-outlined text-[14px]">workspace_premium</span>
+                Medalla Desbloqueada
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2.5 w-full">
+              <button
+                onClick={() => setDismissCelebration(true)}
+                className="w-full py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-[#fee269] to-[#D4BA46] text-[#1a1400] shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+              >
+                Ver mi Álbum
+              </button>
+              <button
+                onClick={() => {
+                  alert("¡Logro compartido con éxito en tus redes de Kinal!");
+                }}
+                className="w-full py-3 rounded-xl font-bold text-xs border border-white/20 text-white hover:bg-white/5 active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <span className="material-symbols-outlined text-[14px]">share</span>
+                Compartir Logro
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

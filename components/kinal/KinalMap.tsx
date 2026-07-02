@@ -69,7 +69,7 @@ function MapControls() {
 
 // Helper to create HTML DivIcon markers styled with Material You design system
 const getMarkerIcon = (poi: MapPOI, unlockedCheckpoints: string[], isSelected: boolean) => {
-  let bgColor = '#13275c' // Building (Primary)
+  let bgColor = '#2C3E73' // Building (Primary Navy)
   let iconName = 'corporate_fare'
   let fillSetting = "'FILL' 0"
   let pulseHtml = ''
@@ -81,19 +81,20 @@ const getMarkerIcon = (poi: MapPOI, unlockedCheckpoints: string[], isSelected: b
     fillSetting = isUnlocked ? "'FILL' 1" : "'FILL' 0"
     
     if (isUnlocked) {
-      pulseHtml = '<div class="absolute w-12 h-12 rounded-full bg-[#22C55E]/20 marker-pulse pointer-events-none z-0"></div>'
+      pulseHtml = '<div class="absolute w-11 h-11 rounded-full bg-[#22C55E]/20 marker-pulse pointer-events-none z-0"></div>'
     } else {
-      pulseHtml = '<div class="absolute w-10 h-10 rounded-full bg-[#fee269]/20 animate-ping pointer-events-none z-0"></div>'
+      pulseHtml = '<div class="absolute w-10 h-10 rounded-full bg-[#fee269]/25 animate-ping pointer-events-none z-0"></div>'
     }
   } else if (poi.type === 'event') {
-    bgColor = '#f99520' // Tertiary container / orange
+    bgColor = '#F7931E' // orange accent
     iconName = 'star'
     fillSetting = "'FILL' 1"
+    pulseHtml = '<div class="absolute w-10 h-10 rounded-full bg-[#F7931E]/20 animate-pulse pointer-events-none z-0"></div>'
   }
 
   const borderStyle = isSelected 
-    ? 'border: 4px solid #ffffff; transform: scale(1.15); box-shadow: 0 8px 24px rgba(44,62,115,0.25);' 
-    : 'border: 2.5px solid #ffffff; box-shadow: 0 4px 12px rgba(44,62,115,0.12);'
+    ? 'border: 3.5px solid #ffffff; transform: scale(1.2); box-shadow: 0 0 16px #D4BA46; z-index: 100;' 
+    : 'border: 2px solid #ffffff; box-shadow: 0 4px 10px rgba(44,62,115,0.15);'
 
   const iconColor = (poi.type === 'checkpoint' && !unlockedCheckpoints.includes(poi.checkpointId || ''))
     ? '#756300' // dark gold text on light gold bg
@@ -103,11 +104,11 @@ const getMarkerIcon = (poi: MapPOI, unlockedCheckpoints: string[], isSelected: b
     html: `
       <div class="relative flex items-center justify-center w-10 h-10">
         ${pulseHtml}
-        <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all z-10" style="
+        <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 z-10" style="
           background-color: ${bgColor}; 
           ${borderStyle}
         ">
-          <span class="material-symbols-outlined text-[16px] leading-none" style="
+          <span class="material-symbols-outlined text-[15px] leading-none" style="
             color: ${iconColor}; 
             font-variation-settings: ${fillSetting};
           ">${iconName}</span>

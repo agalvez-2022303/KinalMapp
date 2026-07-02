@@ -242,29 +242,38 @@ export default function ScannerView({
 
   return (
     <div className="flex flex-col w-full h-full bg-[#0D1420] overflow-hidden font-sans text-white">
-      <header className="flex-shrink-0 bg-surface/70 dark:bg-dark-navy/85 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm z-20">
+      {/* Header */}
+      <header className="flex-shrink-0 bg-white/[0.04] backdrop-blur-xl border-b border-white/10 z-20">
         <div className="flex items-center justify-between px-container-margin h-16 w-full max-w-md mx-auto">
-          <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-inverse-primary tracking-tight">
-            KinalMapp
+          <h1 className="font-extrabold text-xl tracking-tight text-white">
+            Kinal<span className="text-[#D4BA46]">Mapp</span>
           </h1>
-          <div className="flex items-center gap-2 bg-secondary-container px-3 py-1 rounded-full text-on-secondary-container">
-            <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>qr_code_scanner</span>
-            <span className="font-label-bold text-[11px]">{unlockedCheckpoints.length}/{VALID_CHECKPOINTS.length} checkpoints</span>
+          <div className="flex items-center gap-2 bg-[#D4BA46]/15 border border-[#D4BA46]/30 px-3 py-1.5 rounded-full">
+            <span className="material-symbols-outlined text-[16px] text-[#fee269]" style={{ fontVariationSettings: "'FILL' 1" }}>
+              qr_code_scanner
+            </span>
+            <span className="font-bold text-[11px] text-[#fee269]">
+              {unlockedCheckpoints.length}/{VALID_CHECKPOINTS.length} checkpoints
+            </span>
           </div>
         </div>
       </header>
 
-      <main className="flex-1 relative flex flex-col items-center justify-between py-12 px-6 overflow-hidden">
+      <main className="flex-1 relative flex flex-col items-center justify-between py-10 px-6 overflow-hidden">
+        {/* Background blurred camera image when not scanning */}
         {scanState !== 'scanning' && (
           <div className="absolute inset-0 z-0 select-none pointer-events-none">
             <img
               alt="Camera Feed Placeholder"
-              className="w-full h-full object-cover opacity-35 grayscale-[0.3] blur-[2px]"
+              className="w-full h-full object-cover opacity-20 grayscale blur-sm"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoDPP-Zz3-BlzjYfAakyVUNKhzYhIWLljFRyC82smAtFB8pI29UoLrqZw3mqN9EaK15M4t0KP2jRCbMO1oBq9Bkt-tLAhat1jO10ZaoIVBirsufZeQNPW3NYxVUpvcFq5Gzyi0cJ8zhKXtaW-ESNn4YrnSDqZD1-XAkfm25GQ0hSfLN4Yvs4Goy4ym3sr2Xyi5CR3u0BNWLZji5Tns26FnAv2BhDfiRzJfQ2B9-RotoB8Rqp3aGh92YKJtr00V0tTPbSaQ_59f66g2"
             />
+            {/* Radial vignette */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_#0D1420_90%)]" />
           </div>
         )}
 
+        {/* QR reader host div */}
         <div
           id="qr-reader"
           ref={scannerRef}
@@ -279,113 +288,147 @@ export default function ScannerView({
             scanState === 'scanning' ? 'z-[12]' : 'z-10'
           }`}
         >
-          <div className="text-center space-y-2">
-            <p className="font-headline-md text-headline-md text-white drop-shadow-lg font-bold">
-              {scanState === 'scanning' ? 'Apunta al codigo QR' : 'Escanear Checkpoint'}
+          {/* Top label */}
+          <div className="text-center space-y-1.5 pt-2">
+            <p className="font-extrabold text-base text-white drop-shadow-lg tracking-tight">
+              {scanState === 'scanning' ? 'Apunta al código QR' : 'Escanear Checkpoint'}
             </p>
-            <p className="font-body-md text-xs text-outline-variant/80">
+            <p className="text-[11px] text-white/50 tracking-wide">
               {scanState === 'scanning'
                 ? isStarting
-                  ? 'Abriendo camara...'
-                  : 'Busca los checkpoints en la exhibicion'
-                : 'Ubica el QR en la exposicion de Kinal'}
+                  ? 'Abriendo cámara...'
+                  : 'Encuentra los checkpoints en la exposición'
+                : 'Ubica el QR en la exposición de Kinal'}
             </p>
           </div>
 
+          {/* Center: viewfinder OR state card */}
           {scanState === 'scanning' ? (
             <div className="relative w-64 h-64 md:w-72 md:h-72 my-auto flex-shrink-0 pointer-events-none">
-              <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-secondary-container rounded-tl-xl z-10"></div>
-              <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-secondary-container rounded-tr-xl z-10"></div>
-              <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-secondary-container rounded-bl-xl z-10"></div>
-              <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-secondary-container rounded-br-xl z-10"></div>
-              <div className="absolute left-4 right-4 scanner-line z-10"></div>
+              {/* Vignette overlay around viewfinder */}
+              <div className="absolute inset-0 rounded-2xl ring-[9999px] ring-black/55" />
+              {/* Gold glowing corner brackets */}
+              <div className="absolute top-0 left-0 w-8 h-8 border-t-[3px] border-l-[3px] border-[#fee269] rounded-tl-xl z-10"
+                   style={{ boxShadow: '0 0 10px #fee269, inset 0 0 4px rgba(254,226,105,0.15)' }} />
+              <div className="absolute top-0 right-0 w-8 h-8 border-t-[3px] border-r-[3px] border-[#fee269] rounded-tr-xl z-10"
+                   style={{ boxShadow: '0 0 10px #fee269, inset 0 0 4px rgba(254,226,105,0.15)' }} />
+              <div className="absolute bottom-0 left-0 w-8 h-8 border-b-[3px] border-l-[3px] border-[#fee269] rounded-bl-xl z-10"
+                   style={{ boxShadow: '0 0 10px #fee269, inset 0 0 4px rgba(254,226,105,0.15)' }} />
+              <div className="absolute bottom-0 right-0 w-8 h-8 border-b-[3px] border-r-[3px] border-[#fee269] rounded-br-xl z-10"
+                   style={{ boxShadow: '0 0 10px #fee269, inset 0 0 4px rgba(254,226,105,0.15)' }} />
+              {/* Laser scan line */}
+              <div className="absolute left-3 right-3 scanner-line z-10" />
             </div>
           ) : (
-            <div className="my-auto flex flex-col items-center gap-4 bg-[#1A2340]/90 backdrop-blur-xl border border-white/10 p-6 rounded-2xl max-w-xs shadow-2xl pointer-events-auto">
-              {scanState === 'idle' && (
-                <>
-                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
-                    <span className="material-symbols-outlined text-[#fee269] text-3xl">
-                      qr_code_scanner
-                    </span>
-                  </div>
-                  <div className="text-center space-y-1">
-                    <p className="text-white font-bold text-sm">Camara lista</p>
-                    <p className="text-[11px] text-white/60">
-                      Presiona Activar Camara para escanear el codigo QR del checkpoint.
-                    </p>
-                    <Link
-                      href="/qr-prueba"
-                      className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold text-[#fee269] hover:underline pointer-events-auto"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">qr_code_2</span>
-                      QR de prueba
-                    </Link>
-                  </div>
-                </>
-              )}
+            <div className="my-auto flex flex-col items-center gap-5 w-full max-w-xs pointer-events-auto">
+              <div className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 p-7 rounded-3xl shadow-2xl flex flex-col items-center gap-5">
 
-              {scanState === 'success' && (
-                <>
-                  <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
-                    <span className="material-symbols-outlined text-green-500 text-3xl font-bold">
-                      check_circle
-                    </span>
-                  </div>
-                  <div className="text-center space-y-1.5">
-                    <p className="text-white font-extrabold text-sm leading-tight">{scanMessage}</p>
-                    {newStickers.length > 0 && (
-                      <div className="inline-block px-3 py-1 bg-secondary-container/20 border border-secondary-container/30 rounded-lg text-xs font-bold text-[#fee269]">
-                        +{newStickers.length} estampas desbloqueadas!
+                {/* IDLE */}
+                {scanState === 'idle' && (
+                  <>
+                    <div className="relative w-20 h-20 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-[#D4BA46]/15 animate-pulse" />
+                      <div className="w-16 h-16 rounded-full bg-[#D4BA46]/20 border border-[#D4BA46]/40 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[#fee269] text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          qr_code_scanner
+                        </span>
                       </div>
-                    )}
-                  </div>
-                </>
-              )}
+                    </div>
+                    <div className="text-center space-y-2">
+                      <p className="text-white font-extrabold text-sm">Cámara lista</p>
+                      <p className="text-[11px] text-white/50 leading-relaxed">
+                        Presiona <span className="text-[#fee269] font-bold">Activar Cámara</span> para escanear el código QR del checkpoint.
+                      </p>
+                      <Link
+                        href="/qr-prueba"
+                        className="inline-flex items-center gap-1.5 mt-3 text-[10px] font-bold text-[#fee269]/60 hover:text-[#fee269] transition-colors pointer-events-auto"
+                      >
+                        <span className="material-symbols-outlined text-[14px]">qr_code_2</span>
+                        QR de prueba
+                      </Link>
+                    </div>
+                  </>
+                )}
 
-              {scanState === 'error' && (
-                <>
-                  <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center border border-red-500/50">
-                    <span className="material-symbols-outlined text-red-500 text-3xl font-bold">
-                      cancel
-                    </span>
-                  </div>
-                  <div className="text-center space-y-1">
-                    <p className="text-white font-bold text-sm">Error de Lectura</p>
-                    <p className="text-[11px] text-white/70 leading-relaxed">{scanMessage}</p>
-                  </div>
-                </>
-              )}
+                {/* SUCCESS */}
+                {scanState === 'success' && (
+                  <>
+                    <div className="relative w-20 h-20 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-green-500/15 animate-ping" style={{ animationDuration: '1.5s' }} />
+                      <div className="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center"
+                           style={{ boxShadow: '0 0 20px rgba(34,197,94,0.2)' }}>
+                        <span className="material-symbols-outlined text-green-400 text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          check_circle
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-center space-y-2.5">
+                      <p className="text-white font-extrabold text-sm leading-tight">{scanMessage}</p>
+                      {newStickers.length > 0 && (
+                        <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#fee269]/15 border border-[#fee269]/30 rounded-full text-xs font-extrabold text-[#fee269]">
+                          <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                          +{newStickers.length} estampas desbloqueadas!
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
 
-              {scanState === 'already' && (
-                <>
-                  <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/50">
-                    <span className="material-symbols-outlined text-blue-400 text-3xl font-bold">
-                      check_circle
-                    </span>
-                  </div>
-                  <div className="text-center space-y-1">
-                    <p className="text-white font-bold text-sm">Ya Desbloqueado</p>
-                    <p className="text-[11px] text-white/70 leading-relaxed">{scanMessage}</p>
-                  </div>
-                </>
-              )}
+                {/* ERROR */}
+                {scanState === 'error' && (
+                  <>
+                    <div className="relative w-20 h-20 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-red-500/15 animate-pulse" />
+                      <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center"
+                           style={{ boxShadow: '0 0 20px rgba(239,68,68,0.15)' }}>
+                        <span className="material-symbols-outlined text-red-400 text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          cancel
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-center space-y-1.5">
+                      <p className="text-white font-extrabold text-sm">Error de Lectura</p>
+                      <p className="text-[11px] text-white/55 leading-relaxed">{scanMessage}</p>
+                    </div>
+                  </>
+                )}
+
+                {/* ALREADY */}
+                {scanState === 'already' && (
+                  <>
+                    <div className="relative w-20 h-20 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-blue-500/15 animate-pulse" />
+                      <div className="w-16 h-16 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center"
+                           style={{ boxShadow: '0 0 20px rgba(59,130,246,0.15)' }}>
+                        <span className="material-symbols-outlined text-blue-400 text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          verified
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-center space-y-1.5">
+                      <p className="text-white font-extrabold text-sm">Ya Desbloqueado</p>
+                      <p className="text-[11px] text-white/55 leading-relaxed">{scanMessage}</p>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           )}
 
-          <div className="flex flex-col items-center gap-5 w-full flex-shrink-0">
+          {/* Bottom: status pill + flash toggle */}
+          <div className="flex flex-col items-center gap-4 w-full flex-shrink-0">
             {scanState === 'scanning' && (
               <button
                 onClick={() => setFlashOn((prev) => !prev)}
                 className={`w-14 h-14 rounded-full flex items-center justify-center active:scale-90 transition-all shadow-lg cursor-pointer pointer-events-auto ${
                   flashOn
-                    ? 'bg-secondary-container text-on-secondary-container'
+                    ? 'bg-[#fee269] text-[#1a1400]'
                     : 'bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/15'
                 }`}
                 title="Toggle Flash"
               >
                 <span
-                  className="material-symbols-outlined text-[28px]"
+                  className="material-symbols-outlined text-[26px]"
                   style={{ fontVariationSettings: flashOn ? "'FILL' 1" : "'FILL' 0" }}
                 >
                   {flashOn ? 'flashlight_off' : 'flashlight_on'}
@@ -393,17 +436,19 @@ export default function ScannerView({
               </button>
             )}
 
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 px-5 py-2.5 rounded-full flex items-center gap-3">
+            <div className="bg-white/[0.05] backdrop-blur-xl border border-white/10 px-5 py-2 rounded-full flex items-center gap-2.5">
               <span
-                className={`w-2 h-2 rounded-full animate-pulse ${
+                className={`w-2 h-2 rounded-full ${
                   scanState === 'scanning'
-                    ? 'bg-white'
+                    ? 'bg-white animate-pulse'
                     : scanState === 'success'
                     ? 'bg-green-500'
-                    : 'bg-[#fee269] shadow-[0_0_8px_#fee269]'
+                    : scanState === 'error'
+                    ? 'bg-red-500'
+                    : 'bg-[#fee269] shadow-[0_0_8px_#fee269] animate-pulse'
                 }`}
-              ></span>
-              <span className="font-label-bold text-[10px] tracking-widest text-secondary-fixed select-none">
+              />
+              <span className="font-bold text-[10px] tracking-widest text-white/40 select-none uppercase">
                 {getStatusText()}
               </span>
             </div>
@@ -411,22 +456,22 @@ export default function ScannerView({
         </div>
       </main>
 
-      <footer className="px-container-margin py-5 bg-[#0D1420] border-t border-white/5 flex flex-col gap-4 pb-24">
+      <footer className="px-container-margin py-5 bg-[#0D1420]/95 border-t border-white/[0.06] flex flex-col gap-3 pb-24">
         {scanState === 'idle' && (
           <button
             onClick={startScanner}
             disabled={isStarting}
-            className="w-full py-4 rounded-xl font-bold text-sm bg-[#fee269] text-[#6f5d00] hover:bg-[#ffe580] transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-95 duration-150"
+            className="w-full py-4 rounded-2xl font-extrabold text-sm bg-gradient-to-r from-[#D4BA46] to-[#F7931E] text-[#1a0f00] hover:brightness-110 transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-95 duration-150 shadow-lg shadow-[#D4BA46]/20"
           >
-            <span className="material-symbols-outlined text-[20px]">photo_camera</span>
-            {isStarting ? 'Iniciando camara...' : 'Activar Camara'}
+            <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+            {isStarting ? 'Iniciando cámara...' : 'Activar Cámara'}
           </button>
         )}
 
         {scanState === 'scanning' && (
           <button
             onClick={reset}
-            className="w-full py-4 rounded-xl font-bold text-sm bg-white/10 text-white/80 hover:bg-white/15 transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-95 duration-150"
+            className="w-full py-4 rounded-2xl font-bold text-sm bg-white/10 text-white/80 hover:bg-white/15 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 duration-150 border border-white/10"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>
             Cancelar
@@ -436,25 +481,29 @@ export default function ScannerView({
         {(scanState === 'success' || scanState === 'already' || scanState === 'error') && (
           <button
             onClick={reset}
-            className="w-full py-4 rounded-xl font-bold text-sm bg-primary text-white hover:bg-primary/95 transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-95 duration-150"
+            className="w-full py-4 rounded-2xl font-extrabold text-sm bg-gradient-to-r from-[#2C3E73] to-[#13275c] text-white hover:brightness-110 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 duration-150 shadow-lg"
           >
             <span className="material-symbols-outlined text-[20px]">refresh</span>
             Escanear Otro
           </button>
         )}
 
-        <div className="p-4 rounded-xl bg-white/5 border border-white/10 select-none">
-          <p className="text-[11px] text-white/60 mb-2 font-bold flex justify-between">
-            <span>Checkpoints completados</span>
+        {/* Progress card */}
+        <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/[0.08] select-none">
+          <p className="text-[10px] text-white/45 mb-2.5 font-bold flex justify-between uppercase tracking-widest">
+            <span>Checkpoints</span>
             <span className="text-[#fee269]">
-              {unlockedCheckpoints.length} de {VALID_CHECKPOINTS.length}
+              {unlockedCheckpoints.length} / {VALID_CHECKPOINTS.length}
             </span>
           </p>
-          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+          <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-[#D4BA46] to-[#F7931E] rounded-full transition-all duration-700"
-              style={{ width: `${(unlockedCheckpoints.length / VALID_CHECKPOINTS.length) * 100}%` }}
-            ></div>
+              style={{
+                width: `${(unlockedCheckpoints.length / VALID_CHECKPOINTS.length) * 100}%`,
+                boxShadow: '0 0 6px #D4BA46',
+              }}
+            />
           </div>
         </div>
       </footer>
