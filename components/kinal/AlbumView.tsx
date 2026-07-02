@@ -273,15 +273,43 @@ export default function AlbumView({
                                 #{String(stickerNum).padStart(2, '0')}
                               </span>
                               {sticker.unlocked ? (
-                                <div className="w-full h-full flex flex-col items-center justify-center space-y-1.5 p-2 bg-gradient-to-br from-[#fee269]/20 to-[#D4BA46]/10 rounded-lg border border-[#D4BA46]/30 relative overflow-hidden">
-                                  <div className="absolute inset-0 bg-gradient-to-br from-[#fee269]/5 to-transparent pointer-events-none"></div>
-                                  <span className="text-3xl drop-shadow-md select-none relative z-[2] animate-bounce duration-1000">
-                                    {sticker.emoji}
-                                  </span>
-                                  <span className="font-extrabold text-[8px] text-[#2c3e73] dark:text-white tracking-wider text-center px-1 truncate max-w-full uppercase relative z-[2]">
+                                <div 
+                                  className="w-full h-full flex flex-col items-center justify-center space-y-1.5 p-2 rounded-lg border relative overflow-hidden"
+                                  style={{ 
+                                    backgroundColor: currentPage.mascotColor || '#fee269',
+                                    borderColor: currentPage.mascotColor ? `${currentPage.mascotColor}40` : '#D4BA4640'
+                                  }}
+                                >
+                                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none"></div>
+                                  
+                                  {/* Medallón con hojas decorativas */}
+                                  <div className="relative z-[2] w-16 h-16 flex items-center justify-center">
+                                    <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-lg">
+                                      {/* Círculo base del medallón */}
+                                      <circle cx="32" cy="32" r="28" fill="white" stroke={currentPage.mascotColor || '#D4BA46'} strokeWidth="3"/>
+                                      
+                                      {/* Hojas decorativas alrededor del medallón */}
+                                      <path d="M32 4 Q36 8 32 12 Q28 8 32 4" fill="#4a7c59" opacity="0.8"/>
+                                      <path d="M32 60 Q36 56 32 52 Q28 56 32 60" fill="#4a7c59" opacity="0.8"/>
+                                      <path d="M4 32 Q8 36 12 32 Q8 28 4 32" fill="#4a7c59" opacity="0.8"/>
+                                      <path d="M60 32 Q56 36 52 32 Q56 28 60 32" fill="#4a7c59" opacity="0.8"/>
+                                      <path d="M12 12 Q16 16 20 12 Q16 8 12 12" fill="#4a7c59" opacity="0.7"/>
+                                      <path d="M52 12 Q48 16 44 12 Q48 8 52 12" fill="#4a7c59" opacity="0.7"/>
+                                      <path d="M12 52 Q16 48 20 52 Q16 56 12 52" fill="#4a7c59" opacity="0.7"/>
+                                      <path d="M52 52 Q48 48 44 52 Q48 56 52 52" fill="#4a7c59" opacity="0.7"/>
+                                      
+                                      {/* Número centrado */}
+                                      <text x="32" y="32" textAnchor="middle" dominantBaseline="middle" 
+                                            fontSize="18" fontWeight="bold" fill={currentPage.mascotColor || '#2C3E73'}>
+                                        {stickerNum}
+                                      </text>
+                                    </svg>
+                                  </div>
+                                  
+                                  <span className="font-extrabold text-[8px] text-white tracking-wider text-center px-1 truncate max-w-full uppercase relative z-[2] drop-shadow-sm">
                                     {sticker.name}
                                   </span>
-                                  <div className="absolute top-1.5 right-1.5 z-[3] flex items-center justify-center bg-white/95 dark:bg-[#0d1420]/90 rounded-full p-[1px] shadow-sm">
+                                  <div className="absolute top-1.5 right-1.5 z-[3] flex items-center justify-center bg-white/95 rounded-full p-[1px] shadow-sm">
                                     <span
                                       className="material-symbols-outlined text-[#D4BA46] text-[13px]"
                                       style={{ fontVariationSettings: "'FILL' 1" }}

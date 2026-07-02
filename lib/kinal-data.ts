@@ -56,6 +56,7 @@ export interface AlbumSection {
   name: string
   division: 'JR' | 'SR' | 'Histórica'
   color: string
+  mascotColor?: string
   stickers: Sticker[]
 }
 
@@ -65,6 +66,7 @@ export const albumSections: AlbumSection[] = [
     name: 'Primero Básico',
     division: 'JR',
     color: '#2C3E73',
+    mascotColor: '#bc7b4e',
     stickers: [
       { id: 's1', name: 'Matemáticas I', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '📐' },
       { id: 's2', name: 'Idioma Español', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '📖' },
