@@ -57,6 +57,8 @@ export interface AlbumSection {
   division: 'JR' | 'SR' | 'Histórica'
   color: string
   mascotColor?: string
+  mascotImage?: string
+  mascotName?: string
   stickers: Sticker[]
 }
 
@@ -67,6 +69,8 @@ export const albumSections: AlbumSection[] = [
     division: 'JR',
     color: '#2C3E73',
     mascotColor: '#bc7b4e',
+    mascotImage: '/mascotas/Basicos_CHIP.png',
+    mascotName: 'CHIP',
     stickers: [
       { id: 's1', name: 'Matemáticas I', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '📐' },
       { id: 's2', name: 'Idioma Español', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-A', unlocked: false, emoji: '📖' },
@@ -88,7 +92,10 @@ export const albumSections: AlbumSection[] = [
     id: 'computacion',
     name: 'Perito en Informática',
     division: 'SR',
-    color: '#D4BA46',
+    color: '#2C3E73',
+    mascotColor: '#1e40af',
+    mascotImage: '/mascotas/Informatica_KODY.png',
+    mascotName: 'KODY',
     stickers: [
       { id: 's16', name: '4to. Informatica', section: 'Perito en Informática', sectionId: 'computacion', checkpointId: 'CP-B', unlocked: false, emoji: '👨‍💻' },
       { id: 's17', name: '5to. Informatica', section: 'Perito en Informática', sectionId: 'computacion', checkpointId: 'CP-B', unlocked: false, emoji: '💻' },
@@ -100,6 +107,9 @@ export const albumSections: AlbumSection[] = [
     name: 'Perito en Mecánica Automotriz',
     division: 'SR',
     color: '#F7931E',
+    mascotColor: '#c2410c',
+    mascotImage: '/mascotas/Mecanica_KONG.png',
+    mascotName: 'KONG',
     stickers: [
       { id: 's19', name: '4to. Mecanica', section: 'Perito en Mecánica Automotriz', sectionId: 'Mecánica', checkpointId: 'CP-C', unlocked: false, emoji: '🔧' },
       { id: 's20', name: '5to. Mecanica', section: 'Perito en Mecánica Automotriz', sectionId: 'Mecánica', checkpointId: 'CP-C', unlocked: false, emoji: '⚙️' },
@@ -110,7 +120,10 @@ export const albumSections: AlbumSection[] = [
     id: 'Electrónica',
     name: 'Perito en Electrónica',
     division: 'SR',
-    color: '#2C3E73',
+    color: '#7C3AED',
+    mascotColor: '#6d28d9',
+    mascotImage: '/mascotas/Electronica_Nova.png',
+    mascotName: 'Nova',
     stickers: [
       { id: 's22', name: '4to. Electrónica', section: 'Perito en Electrónica', sectionId: 'Electrónica', checkpointId: 'CP-D', unlocked: false, emoji: '🔋' },
       { id: 's23', name: '5to. Electrónica', section: 'Perito en Electrónica', sectionId: 'Electrónica', checkpointId: 'CP-D', unlocked: false, emoji: '🔌' },
@@ -121,7 +134,10 @@ export const albumSections: AlbumSection[] = [
     id: 'Electricidad',
     name: 'Perito en Electricidad',
     division: 'SR',
-    color: '#2C3E73',
+    color: '#EAB308',
+    mascotColor: '#ca8a04',
+    mascotImage: '/mascotas/Electricidad_VOLT.png',
+    mascotName: 'VOLT',
     stickers: [
       { id: 's25', name: '4to. Electricidad', section: 'Perito en Electricidad', sectionId: 'Electricidad', checkpointId: 'CP-D', unlocked: false, emoji: '💡' },
       { id: 's26', name: '5to. Electricidad', section: 'Perito en Electricidad', sectionId: 'Electricidad', checkpointId: 'CP-D', unlocked: false, emoji: '🌀' },
@@ -132,7 +148,10 @@ export const albumSections: AlbumSection[] = [
     id: 'Dibujo Técnico',
     name: 'Perito en Dibujo Técnico',
     division: 'SR',
-    color: '#2C3E73',
+    color: '#64748B',
+    mascotColor: '#475569',
+    mascotImage: '/mascotas/DibujoTecnico_NEO.png',
+    mascotName: 'NEO',
     stickers: [
       { id: 's28', name: '4to. Dibujo Técnico', section: 'Perito en Dibujo Técnico', sectionId: 'Dibujo Técnico', checkpointId: 'CP-D', unlocked: false, emoji: '📐' },
       { id: 's29', name: '5to. Dibujo Técnico', section: 'Perito en Dibujo Técnico', sectionId: 'Dibujo Técnico', checkpointId: 'CP-D', unlocked: false, emoji: '✏️' },
@@ -144,6 +163,9 @@ export const albumSections: AlbumSection[] = [
     name: 'Colección Histórica',
     division: 'Histórica',
     color: '#D4BA46',
+    mascotColor: '#b8860b',
+    mascotImage: '/mascotas/Historia_REXY.png',
+    mascotName: 'REXY',
     stickers: [
       { id: 's31', name: 'Fundación 1961', section: 'Colección Histórica', sectionId: 'historica', checkpointId: 'CP-A', unlocked: false, emoji: '🏫' },
       { id: 's32', name: '25 Años de Trayectoria', section: 'Colección Histórica', sectionId: 'historica', checkpointId: 'CP-B', unlocked: false, emoji: '🏆' },

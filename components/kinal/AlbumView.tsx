@@ -38,6 +38,36 @@ const PAGE_BACKGROUND_ICONS: Record<string, string> = {
   'historica': 'history_edu',
 }
 
+// Función para oscurecer un color hex
+function darkenColor(hex: string, amount: number): string {
+  const num = parseInt(hex.replace('#', ''), 16)
+  const r = Math.max(0, (num >> 16) - amount)
+  const g = Math.max(0, ((num >> 8) & 0x00FF) - amount)
+  const b = Math.max(0, (num & 0x0000FF) - amount)
+  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
+}
+
+// Función para aclarar un color hex
+function lightenColor(hex: string, amount: number): string {
+  const num = parseInt(hex.replace('#', ''), 16)
+  const r = Math.min(255, (num >> 16) + amount)
+  const g = Math.min(255, ((num >> 8) & 0x00FF) + amount)
+  const b = Math.min(255, (num & 0x0000FF) + amount)
+  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
+}
+
+// Genera los 5 colores del medallón a partir del color base
+function getMedallionColors(baseColor: string) {
+  return {
+    outerDark: darkenColor(baseColor, 60),
+    dark: darkenColor(baseColor, 30),
+    medium: baseColor,
+    light: lightenColor(baseColor, 40),
+    center: lightenColor(baseColor, 80),
+    text: darkenColor(baseColor, 50),
+  }
+}
+
 export default function AlbumView({
   sections,
   progressPercent,
@@ -239,13 +269,25 @@ export default function AlbumView({
                   <div className="flex-1 flex flex-col p-4 relative z-10 h-full">
                     {/* Header of the page */}
                     <div className="flex justify-between items-center border-b border-outline-variant/10 pb-3 mb-4">
-                      <div>
-                        <h2 className="font-extrabold text-sm text-[#2C3E73] dark:text-white font-bold">
-                          {currentPage.name}
-                        </h2>
-                        <p className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
-                          Estampas: {currentPage.stickers.filter((s) => s.unlocked).length} de {currentPage.stickers.length}
-                        </p>
+                      <div className="flex items-center gap-2">
+                        {currentPage.mascotImage && (
+                          <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border-2 border-white shadow-md" style={{ borderColor: currentPage.mascotColor || '#D4BA46' }}>
+                            <img 
+                              src={currentPage.mascotImage} 
+                              alt={currentPage.mascotName || 'Mascota'}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                        <div>
+                          <h2 className="font-extrabold text-sm text-[#2C3E73] dark:text-white font-bold">
+                            {currentPage.name}
+                          </h2>
+                          <p className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
+                            {currentPage.mascotName && <span className="font-bold" style={{ color: currentPage.mascotColor }}>{currentPage.mascotName} • </span>}
+                            Estampas: {currentPage.stickers.filter((s) => s.unlocked).length} de {currentPage.stickers.length}
+                          </p>
+                        </div>
                       </div>
                       <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#fee269] to-[#D4BA46] flex items-center justify-center shadow-sm">
                         <span className="material-symbols-outlined text-[#1a1400] text-sm font-bold">
@@ -263,6 +305,9 @@ export default function AlbumView({
                             .reduce((acc, p) => acc + p.stickers.length, 0);
                           
                           const stickerNum = previousStickersCount + idx + 1;
+                          const baseColor = currentPage.mascotColor || '#fee269';
+                          const mc = getMedallionColors(baseColor);
+                          
                           return (
                             <div
                               key={sticker.id}
@@ -273,39 +318,39 @@ export default function AlbumView({
                                 <div 
                                   className="w-full h-full flex flex-col items-center justify-center space-y-1.5 p-2 rounded-lg border relative overflow-hidden sticker-glow-ring"
                                   style={{ 
-                                    backgroundColor: currentPage.mascotColor || '#fee269',
-                                    borderColor: currentPage.mascotColor ? `${currentPage.mascotColor}40` : '#D4BA4640'
+                                    backgroundColor: baseColor,
+                                    borderColor: `${baseColor}40`
                                   }}
                                 >
                                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none"></div>
                                   
 
-                                   {/* Medallón con efecto de relieve - 3 capas de oscuro a claro */}
+                                   {/* Medallón con efecto de relieve - capas de oscuro a claro */}
                                    <div className="relative z-[2] w-16 h-16 flex items-center justify-center medallion-waves">
                                      <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-lg">
                                        {/* Círculo exterior - más oscuro (profundidad) */}
-                                       <circle cx="32" cy="32" r="30" fill="none" stroke="#3a1c0d" strokeWidth="2.5"/>
+                                       <circle cx="32" cy="32" r="30" fill="none" stroke={mc.outerDark} strokeWidth="2.5"/>
                                        
                                        {/* Círculo medio exterior - oscuro */}
-                                       <circle cx="32" cy="32" r="27" fill="none" stroke="#4a2512" strokeWidth="2.5"/>
+                                       <circle cx="32" cy="32" r="27" fill="none" stroke={mc.dark} strokeWidth="2.5"/>
                                        
                                        {/* Círculo medio - tono medio */}
-                                       <circle cx="32" cy="32" r="24" fill="none" stroke="#773d1c" strokeWidth="2.5"/>
+                                       <circle cx="32" cy="32" r="24" fill="none" stroke={mc.medium} strokeWidth="2.5"/>
                                        
                                        {/* Círculo interior - más claro (brillo) */}
-                                       <circle cx="32" cy="32" r="21" fill="none" stroke="#bc7b4e" strokeWidth="2"/>
+                                       <circle cx="32" cy="32" r="21" fill="none" stroke={mc.light} strokeWidth="2"/>
                                        
                                        {/* Centro blanco para el número */}
-                                       <circle cx="32" cy="32" r="18" fill="white" stroke="#bc7b4e" strokeWidth="1.5"/>
+                                       <circle cx="32" cy="32" r="18" fill="white" stroke={mc.light} strokeWidth="1.5"/>
                                        
                                        {/* Número centrado */}
                                        <text x="32" y="32" textAnchor="middle" dominantBaseline="middle" 
-                                             fontSize="16" fontWeight="bold" fill="#4a2512">
+                                             fontSize="16" fontWeight="bold" fill={mc.text}>
                                          {stickerNum}
                                        </text>
                                      </svg>
                                    </div>
-                                  
+                                   
                                   <span className="font-extrabold text-[8px] text-white tracking-wider text-center px-1 truncate max-w-full uppercase relative z-[2] drop-shadow-sm">
                                     {sticker.name}
                                   </span>
