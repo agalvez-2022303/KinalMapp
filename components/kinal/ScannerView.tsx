@@ -268,29 +268,28 @@ export default function ScannerView({
           </div>
         )}
 
-        {/* QR reader host */}
-        <div
-          id="qr-reader"
-          ref={scannerRef}
-          className={`qr-reader-host absolute inset-0 w-full h-full overflow-hidden ${
-            scanState === 'scanning' ? 'z-[8]' : 'z-0 pointer-events-none'
-          }`}
-          aria-hidden={scanState !== 'scanning'}
-        />
-
         <div
           className={`relative w-full h-full flex flex-col items-center justify-center pointer-events-none ${
             scanState === 'scanning' ? 'z-[12]' : 'z-10'
           }`}
         >
-          {/* Scanning: viewfinder */}
+          {/* Scanning: viewfinder with camera inside */}
           {scanState === 'scanning' && (
             <div className="flex flex-col items-center gap-6">
               <p className="font-extrabold text-sm text-white/80 tracking-tight">
                 Apunta al código QR
               </p>
               <div className="relative w-64 h-64 flex-shrink-0 pointer-events-none">
-                <div className="absolute inset-0 rounded-2xl ring-[9999px] ring-black/55" />
+                {/* Camera feed inside the viewfinder */}
+                <div
+                  id="qr-reader"
+                  ref={scannerRef}
+                  className="qr-reader-host absolute inset-0 w-full h-full overflow-hidden rounded-2xl z-0"
+                  aria-hidden={scanState !== 'scanning'}
+                />
+                {/* Vignette overlay */}
+                <div className="absolute inset-0 rounded-2xl ring-[9999px] ring-black/55 z-[1] pointer-events-none" />
+                {/* Gold corner brackets */}
                 <div className="absolute top-0 left-0 w-10 h-10 border-t-[3px] border-l-[3px] border-[#fee269] rounded-tl-xl z-10"
                      style={{ boxShadow: '0 0 12px #fee269' }} />
                 <div className="absolute top-0 right-0 w-10 h-10 border-t-[3px] border-r-[3px] border-[#fee269] rounded-tr-xl z-10"
@@ -299,6 +298,7 @@ export default function ScannerView({
                      style={{ boxShadow: '0 0 12px #fee269' }} />
                 <div className="absolute bottom-0 right-0 w-10 h-10 border-b-[3px] border-r-[3px] border-[#fee269] rounded-br-xl z-10"
                      style={{ boxShadow: '0 0 12px #fee269' }} />
+                {/* Scan line */}
                 <div className="absolute left-3 right-3 scanner-line z-10" />
               </div>
               {cooldownRemaining > 0 && (

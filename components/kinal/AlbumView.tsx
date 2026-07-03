@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { mapPOIs, type AlbumSection, type Sticker } from '@/lib/kinal-data'
 import ZoomModal from './ZoomModal'
@@ -87,6 +87,8 @@ export default function AlbumView({
   const [dismissCelebration, setDismissCelebration] = useState(false)
   const [modalMascot, setModalMascot] = useState<AlbumSection | null>(null)
   const [zoomImage, setZoomImage] = useState<string | null>(null)
+  const [mascotAlert, setMascotAlert] = useState<{ name: string; color: string } | null>(null)
+  const prevMascotProgressRef = useRef<Record<string, number>>({})
   const containerRef = useRef<HTMLDivElement>(null)
 
   const isMascotasView = activeDiv === 'Mascotas'
@@ -156,6 +158,18 @@ export default function AlbumView({
       progress: getSectionProgress(s),
       unlockedCount: s.stickers.filter(st => st.unlocked).length,
     }))
+
+  // Detectar cuando una mascota se completa por primera vez
+  useEffect(() => {
+    mascotData.forEach(m => {
+      const prev = prevMascotProgressRef.current[m.id] ?? 0
+      if (prev < 100 && m.progress === 100) {
+        setMascotAlert({ name: m.mascotName || m.name, color: m.mascotColor || '#D4BA46' })
+        setTimeout(() => setMascotAlert(null), 4000)
+      }
+      prevMascotProgressRef.current[m.id] = m.progress
+    })
+  }, [mascotData])
 
   const divisionOrder: ViewMode[] = ['JR', 'SR', 'Histórica', 'Mascotas']
 
@@ -760,6 +774,33 @@ export default function AlbumView({
 
       {zoomImage && (
         <ZoomModal src={zoomImage} alt="Mascota" onClose={() => setZoomImage(null)} />
+      )}
+
+      {/* Mascot completion toast */}
+      {mascotAlert && (
+        <div className="fixed top-4 left-4 right-4 z-[1000] animate-in slide-in-from-top duration-500 pointer-events-none">
+          <div
+            className="mx-auto max-w-sm p-4 rounded-2xl border backdrop-blur-xl shadow-2xl flex items-center gap-3"
+            style={{
+              backgroundColor: `${mascotAlert.color}20`,
+              borderColor: `${mascotAlert.color}50`,
+              boxShadow: `0 0 30px ${mascotAlert.color}30`,
+            }}
+          >
+            <div
+              className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: `${mascotAlert.color}30` }}
+            >
+              <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1", color: mascotAlert.color }}>
+                celebration
+              </span>
+            </div>
+            <div>
+              <p className="font-extrabold text-sm text-white">Mascota Completada</p>
+              <p className="text-[11px] text-gray-300">Desbloqueaste a <strong style={{ color: mascotAlert.color }}>{mascotAlert.name}</strong> al 100%</p>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
