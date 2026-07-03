@@ -776,29 +776,73 @@ export default function AlbumView({
         <ZoomModal src={zoomImage} alt="Mascota" onClose={() => setZoomImage(null)} />
       )}
 
-      {/* Mascot completion toast */}
+      {/* Mascot 100% Celebration Overlay */}
       {mascotAlert && (
-        <div className="fixed top-4 left-4 right-4 z-[1000] animate-in slide-in-from-top duration-500 pointer-events-none">
+        <div className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-[999] p-6 animate-in fade-in duration-300 pointer-events-auto">
           <div
-            className="mx-auto max-w-sm p-4 rounded-2xl border backdrop-blur-xl shadow-2xl flex items-center gap-3"
+            className="bg-gradient-to-br from-[#1b2a4e] to-[#0f1830] border p-6 rounded-3xl max-w-sm w-full text-center relative overflow-hidden animate-in zoom-in-95 duration-300 flex flex-col items-center select-none"
             style={{
-              backgroundColor: `${mascotAlert.color}20`,
-              borderColor: `${mascotAlert.color}50`,
-              boxShadow: `0 0 30px ${mascotAlert.color}30`,
+              borderColor: `${mascotAlert.color}60`,
+              boxShadow: `0 0 50px ${mascotAlert.color}30`,
             }}
           >
+            {/* Confetti */}
+            <div className="absolute top-0 inset-x-0 h-full w-full pointer-events-none opacity-40">
+              <div className="absolute top-4 left-6 w-3 h-3 bg-red-500 rounded-full animate-bounce"></div>
+              <div className="absolute top-12 right-12 w-2 h-4 bg-yellow-400 rotate-12 animate-pulse"></div>
+              <div className="absolute top-24 left-16 w-3.5 h-1.5 bg-blue-400 rotate-45 animate-pulse"></div>
+              <div className="absolute bottom-16 right-8 w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
+              <div className="absolute bottom-28 left-8 w-2.5 h-2.5 bg-pink-400 rotate-12 animate-pulse"></div>
+            </div>
+
+            <div className="w-24 h-24 rounded-full absolute -top-4 blur-xl" style={{ backgroundColor: `${mascotAlert.color}15` }}></div>
+
+            {/* Icon */}
             <div
-              className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: `${mascotAlert.color}30` }}
+              className="w-20 h-20 rounded-full flex items-center justify-center relative z-10 mb-4 animate-bounce"
+              style={{
+                background: `linear-gradient(135deg, ${mascotAlert.color}, ${mascotAlert.color}cc)`,
+                boxShadow: `0 0 25px ${mascotAlert.color}50`,
+              }}
             >
-              <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1", color: mascotAlert.color }}>
-                celebration
+              <span className="material-symbols-outlined text-4xl text-white font-extrabold" style={{ fontVariationSettings: "'FILL' 1" }}>
+                emoji_events
               </span>
             </div>
-            <div>
-              <p className="font-extrabold text-sm text-white">Mascota Completada</p>
-              <p className="text-[11px] text-gray-300">Desbloqueaste a <strong style={{ color: mascotAlert.color }}>{mascotAlert.name}</strong> al 100%</p>
+
+            <h2 className="font-extrabold text-xl tracking-tight leading-tight uppercase mb-1" style={{ color: mascotAlert.color }}>
+              ¡Mascota Completada!
+            </h2>
+            <p className="text-[10px] font-extrabold tracking-widest text-gray-300 uppercase mb-4">
+              {mascotAlert.name} al 100%
+            </p>
+
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 w-full mb-6">
+              <p className="text-xs text-gray-200 leading-relaxed">
+                ¡Felicidades! Has desbloqueado todas las estampas de <strong style={{ color: mascotAlert.color }}>{mascotAlert.name}</strong> y completado esta sección del álbum.
+              </p>
+              <div
+                className="flex items-center justify-center gap-2 mt-4 text-[10px] font-bold py-1.5 px-3 rounded-full border w-fit mx-auto"
+                style={{
+                  color: mascotAlert.color,
+                  backgroundColor: `${mascotAlert.color}15`,
+                  borderColor: `${mascotAlert.color}30`,
+                }}
+              >
+                <span className="material-symbols-outlined text-[14px]">workspace_premium</span>
+                Mascota Desbloqueada
+              </div>
             </div>
+
+            <button
+              onClick={() => setMascotAlert(null)}
+              className="w-full py-3 rounded-xl font-bold text-xs shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer text-[#1a1400]"
+              style={{
+                background: `linear-gradient(135deg, ${mascotAlert.color}, ${mascotAlert.color}cc)`,
+              }}
+            >
+              Ver mi Álbum
+            </button>
           </div>
         </div>
       )}
