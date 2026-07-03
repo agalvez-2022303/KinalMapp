@@ -258,67 +258,92 @@ export default function AlbumView({
           <div className="grid grid-cols-2 gap-4">
             {mascotData.map((mascot, idx) => {
               const circleColor = mascot.mascotColor || '#D4BA46'
+              const imgSrc = mascot.mascotImage || ''
               return (
                 <div
                   key={mascot.id}
                   className="panini-sticker-stagger flex flex-col items-center bg-white dark:bg-[#1a2340] rounded-2xl p-4 border border-outline-variant/10 shadow-premium relative overflow-hidden"
                   style={{ animationDelay: `${idx * 80}ms` }}
                 >
-                  {/* Circular mascot container */}
-                  <div
-                    className="relative w-28 h-28 rounded-full flex items-center justify-center mb-3 border-4 transition-all duration-500"
-                    style={{
-                      borderColor: mascot.progress === 100 ? circleColor : '#e5e7eb',
-                      boxShadow: mascot.progress === 100
-                        ? `0 0 20px ${circleColor}40, inset 0 0 15px ${circleColor}10`
-                        : 'inset 0 2px 8px rgba(0,0,0,0.06)',
-                      background: `radial-gradient(circle, ${circleColor}08 0%, transparent 70%)`,
-                    }}
-                  >
-                    {/* Progress ring SVG */}
-                    <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 120 120">
-                      <circle cx="60" cy="60" r="56" fill="none" stroke="#f3f4f6" strokeWidth="4" />
-                      <circle
-                        cx="60" cy="60" r="56" fill="none"
-                        stroke={circleColor}
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeDasharray={`${2 * Math.PI * 56}`}
-                        strokeDashoffset={`${2 * Math.PI * 56 * (1 - mascot.progress / 100)}`}
-                        className="transition-all duration-700"
-                      />
-                    </svg>
-
-                    {/* Grayscale base */}
-                    <img
-                      src={mascot.mascotImage!}
-                      alt={mascot.mascotName || ''}
-                      className="w-20 h-20 object-contain relative z-[1]"
-                      style={{ filter: 'grayscale(100%) opacity(0.25)' }}
-                    />
-                    {/* Colored fill */}
-                    <img
-                      src={mascot.mascotImage!}
-                      alt={mascot.mascotName || ''}
-                      className="w-20 h-20 object-contain absolute z-[2] transition-all duration-700"
+                  {/* Mascot shaped container */}
+                  <div className="relative w-28 h-28 flex items-center justify-center mb-3">
+                    {/* Drop shadow border effect */}
+                    <div
+                      className="absolute inset-0 transition-all duration-500"
                       style={{
-                        clipPath: `inset(${100 - mascot.progress}% 0 0 0)`,
+                        filter: `drop-shadow(0 0 ${mascot.progress === 100 ? '8px' : '3px'} ${circleColor}${mascot.progress === 100 ? '80' : '30'})`,
+                        maskImage: `url(${imgSrc})`,
+                        WebkitMaskImage: `url(${imgSrc})`,
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                        backgroundColor: mascot.progress === 100 ? circleColor : '#d1d5db',
                       }}
                     />
 
-                    {/* Percentage in center when > 0 */}
+                    {/* Grayscale base */}
+                    <img
+                      src={imgSrc}
+                      alt={mascot.mascotName || ''}
+                      className="w-full h-full object-contain relative z-[1]"
+                      style={{
+                        filter: 'grayscale(100%) opacity(0.25)',
+                        maskImage: `url(${imgSrc})`,
+                        WebkitMaskImage: `url(${imgSrc})`,
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                      }}
+                    />
+
+                    {/* Colored fill */}
+                    <img
+                      src={imgSrc}
+                      alt={mascot.mascotName || ''}
+                      className="w-full h-full object-contain absolute z-[2] transition-all duration-700"
+                      style={{
+                        clipPath: `inset(${100 - mascot.progress}% 0 0 0)`,
+                        maskImage: `url(${imgSrc})`,
+                        WebkitMaskImage: `url(${imgSrc})`,
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                      }}
+                    />
+
+                    {/* Percentage badge */}
                     {mascot.progress > 0 && mascot.progress < 100 && (
-                      <div className="absolute bottom-1 right-1 z-[3] bg-white dark:bg-[#1a2340] rounded-full px-1.5 py-0.5 shadow-md border border-gray-100 dark:border-white/10">
+                      <div className="absolute bottom-0 right-0 z-[3] bg-white dark:bg-[#1a2340] rounded-full px-1.5 py-0.5 shadow-md border border-gray-100 dark:border-white/10">
                         <span className="text-[9px] font-extrabold" style={{ color: circleColor }}>
                           {mascot.progress}%
                         </span>
                       </div>
                     )}
 
-                    {/* Checkmark when 100% */}
+                    {/* Glow when 100% */}
                     {mascot.progress === 100 && (
-                      <div className="absolute inset-0 z-[3] flex items-center justify-center">
-                        <div className="absolute inset-0 rounded-full animate-pulse pointer-events-none" style={{ boxShadow: `0 0 24px ${circleColor}50` }}></div>
+                      <div className="absolute inset-0 z-[3] pointer-events-none">
+                        <div className="absolute inset-0 animate-pulse" style={{
+                          maskImage: `url(${imgSrc})`,
+                          WebkitMaskImage: `url(${imgSrc})`,
+                          maskSize: 'contain',
+                          WebkitMaskSize: 'contain',
+                          maskRepeat: 'no-repeat',
+                          WebkitMaskRepeat: 'no-repeat',
+                          maskPosition: 'center',
+                          WebkitMaskPosition: 'center',
+                          backgroundColor: `${circleColor}30`,
+                          filter: 'blur(8px)',
+                        }}></div>
                       </div>
                     )}
                   </div>
