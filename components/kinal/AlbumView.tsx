@@ -84,6 +84,7 @@ export default function AlbumView({
   const [flipDir, setFlipDir] = useState<'next' | 'prev'>('next')
   const [tiltStyle, setTiltStyle] = useState<string>('')
   const [dismissCelebration, setDismissCelebration] = useState(false)
+  const [modalMascot, setModalMascot] = useState<AlbumSection | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const isMascotasView = activeDiv === 'Mascotas'
@@ -259,14 +260,24 @@ export default function AlbumView({
             {mascotData.map((mascot, idx) => {
               const circleColor = mascot.mascotColor || '#D4BA46'
               const imgSrc = mascot.mascotImage || ''
+              const isLocked = mascot.progress === 0
               return (
                 <div
                   key={mascot.id}
-                  className="panini-sticker-stagger flex flex-col items-center bg-white dark:bg-[#1a2340] rounded-2xl p-4 border border-outline-variant/10 shadow-premium relative overflow-hidden"
-                  style={{ animationDelay: `${idx * 80}ms` }}
+                  className="panini-sticker-stagger flex flex-col items-center rounded-2xl p-4 border border-outline-variant/10 shadow-premium relative overflow-hidden cursor-pointer active:scale-95 transition-transform duration-150"
+                  style={{
+                    animationDelay: `${idx * 80}ms`,
+                    backgroundColor: isLocked ? '#1a1c22' : undefined,
+                  }}
+                  onClick={() => setModalMascot(mascot)}
                 >
+                  {/* Dark overlay when locked */}
+                  {isLocked && (
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0a0c12] to-[#1a1c22] pointer-events-none z-0"></div>
+                  )}
+
                   {/* Mascot shaped container */}
-                  <div className="relative w-28 h-28 flex items-center justify-center mb-3">
+                  <div className="relative w-28 h-28 flex items-center justify-center mb-3 z-[1]">
                     {/* Drop shadow border effect */}
                     <div
                       className="absolute inset-0 transition-all duration-500"
@@ -280,7 +291,7 @@ export default function AlbumView({
                         WebkitMaskRepeat: 'no-repeat',
                         maskPosition: 'center',
                         WebkitMaskPosition: 'center',
-                        backgroundColor: mascot.progress === 100 ? circleColor : '#d1d5db',
+                        backgroundColor: mascot.progress === 100 ? circleColor : isLocked ? '#3a3d45' : '#d1d5db',
                       }}
                     />
 
@@ -290,7 +301,7 @@ export default function AlbumView({
                       alt={mascot.mascotName || ''}
                       className="w-full h-full object-contain relative z-[1]"
                       style={{
-                        filter: 'grayscale(100%) opacity(0.25)',
+                        filter: isLocked ? 'grayscale(100%) brightness(0.3)' : 'grayscale(100%) opacity(0.25)',
                         maskImage: `url(${imgSrc})`,
                         WebkitMaskImage: `url(${imgSrc})`,
                         maskSize: 'contain',
@@ -319,6 +330,15 @@ export default function AlbumView({
                         WebkitMaskPosition: 'center',
                       }}
                     />
+
+                    {/* Lock icon when 0% */}
+                    {isLocked && (
+                      <div className="absolute inset-0 z-[3] flex items-center justify-center pointer-events-none">
+                        <div className="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center backdrop-blur-sm border border-white/10">
+                          <span className="material-symbols-outlined text-white/60 text-[16px]">lock</span>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Percentage badge */}
                     {mascot.progress > 0 && mascot.progress < 100 && (
@@ -349,15 +369,15 @@ export default function AlbumView({
                   </div>
 
                   {/* Name & info */}
-                  <span className="font-extrabold text-xs text-[#2C3E73] dark:text-white text-center mb-0.5">
+                  <span className={`font-extrabold text-xs text-center mb-0.5 z-[1] ${isLocked ? 'text-gray-500' : 'text-[#2C3E73] dark:text-white'}`}>
                     {mascot.mascotName}
                   </span>
-                  <span className="text-[9px] text-gray-400 font-medium text-center mb-2.5 leading-tight">
+                  <span className={`text-[9px] font-medium text-center mb-2.5 leading-tight z-[1] ${isLocked ? 'text-gray-600' : 'text-gray-400'}`}>
                     {mascot.name}
                   </span>
 
                   {/* Progress bar */}
-                  <div className="w-full space-y-1.5">
+                  <div className="w-full space-y-1.5 z-[1]">
                     <div className="w-full h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-700 relative overflow-hidden"
@@ -614,6 +634,123 @@ export default function AlbumView({
                 <span className="material-symbols-outlined text-[14px]">share</span>
                 Compartir Logro
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══ MASCOT FULLSCREEN MODAL ═══ */}
+      {modalMascot && (
+        <div
+          className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-[998] p-4 animate-in fade-in duration-300"
+          onClick={() => setModalMascot(null)}
+        >
+          <div className="relative max-w-sm w-full flex flex-col items-center animate-in zoom-in-95 duration-300">
+            <button
+              className="absolute -top-12 right-0 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition-all duration-200 z-10 flex items-center justify-center"
+              onClick={() => setModalMascot(null)}
+            >
+              <span className="material-symbols-outlined block text-[24px]">close</span>
+            </button>
+
+            {/* Full mascot image with progress */}
+            <div
+              className="relative w-64 h-64 flex items-center justify-center mb-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Background glow */}
+              <div
+                className="absolute inset-0 rounded-3xl opacity-20 blur-2xl"
+                style={{ backgroundColor: modalMascot.mascotColor || '#D4BA46' }}
+              />
+
+              {/* Grayscale base */}
+              <img
+                src={modalMascot.mascotImage || ''}
+                alt={modalMascot.mascotName || ''}
+                className="w-full h-full object-contain relative z-[1]"
+                style={{
+                  filter: modalMascot.progress === 0 ? 'grayscale(100%) brightness(0.3)' : 'grayscale(100%) opacity(0.2)',
+                  maskImage: `url(${modalMascot.mascotImage || ''})`,
+                  WebkitMaskImage: `url(${modalMascot.mascotImage || ''})`,
+                  maskSize: 'contain',
+                  WebkitMaskSize: 'contain',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                  WebkitMaskPosition: 'center',
+                }}
+              />
+
+              {/* Colored fill */}
+              <img
+                src={modalMascot.mascotImage || ''}
+                alt={modalMascot.mascotName || ''}
+                className="w-full h-full object-contain absolute z-[2] transition-all duration-700"
+                style={{
+                  clipPath: `inset(${100 - modalMascot.progress}% 0 0 0)`,
+                  maskImage: `url(${modalMascot.mascotImage || ''})`,
+                  WebkitMaskImage: `url(${modalMascot.mascotImage || ''})`,
+                  maskSize: 'contain',
+                  WebkitMaskSize: 'contain',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                  WebkitMaskPosition: 'center',
+                }}
+              />
+
+              {/* Lock when 0% */}
+              {modalMascot.progress === 0 && (
+                <div className="absolute inset-0 z-[3] flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-black/60 flex items-center justify-center backdrop-blur-sm border border-white/10">
+                    <span className="material-symbols-outlined text-white/60 text-[32px]">lock</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Glow when 100% */}
+              {modalMascot.progress === 100 && (
+                <div className="absolute inset-0 z-[3] pointer-events-none animate-pulse" style={{
+                  maskImage: `url(${modalMascot.mascotImage || ''})`,
+                  WebkitMaskImage: `url(${modalMascot.mascotImage || ''})`,
+                  maskSize: 'contain',
+                  WebkitMaskSize: 'contain',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                  WebkitMaskPosition: 'center',
+                  backgroundColor: `${modalMascot.mascotColor || '#D4BA46'}30`,
+                  filter: 'blur(12px)',
+                }} />
+              )}
+            </div>
+
+            {/* Info */}
+            <div className="text-center" onClick={(e) => e.stopPropagation()}>
+              <h3 className="font-extrabold text-lg text-white mb-1">{modalMascot.mascotName}</h3>
+              <p className="text-xs text-gray-400 mb-4">{modalMascot.name}</p>
+
+              {/* Progress */}
+              <div className="w-full max-w-xs space-y-2">
+                <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-700"
+                    style={{
+                      width: `${modalMascot.progress}%`,
+                      backgroundColor: modalMascot.mascotColor || '#D4BA46',
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[11px] font-bold text-gray-400">
+                    {modalMascot.unlockedCount} de {modalMascot.stickers.length} estampas
+                  </span>
+                  <span className="text-[13px] font-extrabold" style={{ color: modalMascot.mascotColor || '#D4BA46' }}>
+                    {modalMascot.progress}%
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
