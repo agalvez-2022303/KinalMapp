@@ -279,31 +279,31 @@ export default function AlbumView({
                                 >
                                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none"></div>
                                   
-                                  {/* Medallón con arco de hojas decorativo */}
-                                  <div className="relative z-[2] w-16 h-16 flex items-center justify-center">
-                                    <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-lg">
-                                      {/* Círculo base del medallón */}
-                                      <circle cx="32" cy="32" r="28" fill="white" stroke="#773d1c" strokeWidth="3"/>
-                                      
-                                      {/* Arco de hojas alrededor del medallón - parte superior */}
-                                      <path d="M12 12 Q16 8 20 10 Q24 6 28 8 Q32 4 36 8 Q40 6 44 10 Q48 8 52 12" 
-                                            fill="none" stroke="#773d1c" strokeWidth="2.5" strokeLinecap="round"/>
-                                      {/* Arco de hojas alrededor del medallón - parte inferior */}
-                                      <path d="M12 52 Q16 56 20 54 Q24 58 28 56 Q32 60 36 56 Q40 58 44 54 Q48 56 52 52" 
-                                            fill="none" stroke="#773d1c" strokeWidth="2.5" strokeLinecap="round"/>
-                                      {/* Hojas adicionales en los lados */}
-                                      <path d="M8 20 Q6 24 8 28" fill="none" stroke="#773d1c" strokeWidth="2" strokeLinecap="round"/>
-                                      <path d="M8 36 Q6 40 8 44" fill="none" stroke="#773d1c" strokeWidth="2" strokeLinecap="round"/>
-                                      <path d="M56 20 Q58 24 56 28" fill="none" stroke="#773d1c" strokeWidth="2" strokeLinecap="round"/>
-                                      <path d="M56 36 Q58 40 56 44" fill="none" stroke="#773d1c" strokeWidth="2" strokeLinecap="round"/>
-                                      
-                                      {/* Número centrado */}
-                                      <text x="32" y="32" textAnchor="middle" dominantBaseline="middle" 
-                                            fontSize="18" fontWeight="bold" fill="#773d1c">
-                                        {stickerNum}
-                                      </text>
-                                    </svg>
-                                  </div>
+                                   {/* Medallón con efecto de relieve - 3 capas de oscuro a claro */}
+                                   <div className="relative z-[2] w-16 h-16 flex items-center justify-center">
+                                     <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-lg">
+                                       {/* Círculo exterior - más oscuro (profundidad) */}
+                                       <circle cx="32" cy="32" r="30" fill="none" stroke="#3a1c0d" strokeWidth="2.5"/>
+                                       
+                                       {/* Círculo medio exterior - oscuro */}
+                                       <circle cx="32" cy="32" r="27" fill="none" stroke="#4a2512" strokeWidth="2.5"/>
+                                       
+                                       {/* Círculo medio - tono medio */}
+                                       <circle cx="32" cy="32" r="24" fill="none" stroke="#773d1c" strokeWidth="2.5"/>
+                                       
+                                       {/* Círculo interior - más claro (brillo) */}
+                                       <circle cx="32" cy="32" r="21" fill="none" stroke="#bc7b4e" strokeWidth="2"/>
+                                       
+                                       {/* Centro blanco para el número */}
+                                       <circle cx="32" cy="32" r="18" fill="white" stroke="#bc7b4e" strokeWidth="1.5"/>
+                                       
+                                       {/* Número centrado */}
+                                       <text x="32" y="32" textAnchor="middle" dominantBaseline="middle" 
+                                             fontSize="16" fontWeight="bold" fill="#4a2512">
+                                         {stickerNum}
+                                       </text>
+                                     </svg>
+                                   </div>
                                   
                                   <span className="font-extrabold text-[8px] text-white tracking-wider text-center px-1 truncate max-w-full uppercase relative z-[2] drop-shadow-sm">
                                     {sticker.name}
