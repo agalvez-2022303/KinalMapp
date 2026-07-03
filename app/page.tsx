@@ -18,6 +18,7 @@ export default function KinalMapApp() {
     unlockedStickers,
     progressPercent,
     unlockCheckpoint,
+    resetAlbum,
   } = useAppStore()
 
   return (
@@ -70,6 +71,7 @@ export default function KinalMapApp() {
                 unlockedStickers={unlockedStickers}
                 totalStickers={totalStickers}
                 onNavigate={setView}
+                onReset={resetAlbum}
               />
             )}
             {view === 'map' && (

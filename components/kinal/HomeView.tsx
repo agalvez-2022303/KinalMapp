@@ -8,6 +8,7 @@ interface HomeViewProps {
   unlockedStickers: number
   totalStickers: number
   onNavigate: (v: View) => void
+  onReset: () => void
 }
 
 const colorMap: Record<string, string> = {
@@ -27,8 +28,15 @@ export default function HomeView({
   unlockedStickers,
   totalStickers,
   onNavigate,
+  onReset,
 }: HomeViewProps) {
   const nextReward = rewards.find((r) => r.threshold > progressPercent)
+
+  const handleReset = () => {
+    if (window.confirm('¿Estás seguro que querés reiniciar el álbum? Se borrarán todas las estampas desbloqueadas.')) {
+      onReset()
+    }
+  }
 
   return (
     <div className="flex flex-col w-full h-full bg-background overflow-hidden font-sans">
@@ -38,11 +46,20 @@ export default function HomeView({
           <h1 className="font-extrabold text-xl tracking-tight text-primary dark:text-inverse-primary">
             Kinal<span className="text-[#D4BA46]">Mapp</span>
           </h1>
-          <div className="flex items-center gap-1.5 bg-gradient-to-r from-[#fee269] to-[#D4BA46] px-3.5 py-1 rounded-full text-[#1a1400] shadow-[0_4px_12px_rgba(212,186,70,0.2)] font-bold text-xs select-none">
-            <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-              emoji_events
-            </span>
-            <span>{progressPercent}%</span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleReset}
+              className="p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors cursor-pointer"
+              title="Reiniciar álbum"
+            >
+              <span className="material-symbols-outlined text-gray-400 text-[18px]">refresh</span>
+            </button>
+            <div className="flex items-center gap-1.5 bg-gradient-to-r from-[#fee269] to-[#D4BA46] px-3.5 py-1 rounded-full text-[#1a1400] shadow-[0_4px_12px_rgba(212,186,70,0.2)] font-bold text-xs select-none">
+              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                emoji_events
+              </span>
+              <span>{progressPercent}%</span>
+            </div>
           </div>
         </div>
       </header>
