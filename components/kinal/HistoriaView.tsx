@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { timelineEntries } from '@/lib/kinal-data'
+import ZoomModal from './ZoomModal'
 
 const typeIcon: Record<string, string> = {
   institution: 'corporate_fare',
@@ -205,25 +206,7 @@ export default function HistoriaView() {
         </div>
       </div>
       {modalImg && (
-        <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-in fade-in duration-300"
-          onClick={() => setModalImg(null)}
-        >
-          <div className="relative max-w-full max-h-full flex items-center justify-center animate-in zoom-in-95 duration-300">
-            <button 
-              className="absolute -top-12 right-0 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition-all duration-200 z-10 flex items-center justify-center"
-              onClick={() => setModalImg(null)}
-            >
-              <span className="material-symbols-outlined block text-[24px]">close</span>
-            </button>
-            <img 
-              src={modalImg} 
-              alt="Full view" 
-              className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-white/10" 
-              onClick={(e) => e.stopPropagation()} 
-            />
-          </div>
-        </div>
+        <ZoomModal src={modalImg} alt="Foto histórica" onClose={() => setModalImg(null)} />
       )}
     </>
   )

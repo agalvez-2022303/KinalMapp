@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { mapPOIs, type AlbumSection, type Sticker } from '@/lib/kinal-data'
+import ZoomModal from './ZoomModal'
 
 interface AlbumViewProps {
   sections: AlbumSection[]
@@ -85,6 +86,7 @@ export default function AlbumView({
   const [tiltStyle, setTiltStyle] = useState<string>('')
   const [dismissCelebration, setDismissCelebration] = useState(false)
   const [modalMascot, setModalMascot] = useState<AlbumSection | null>(null)
+  const [zoomImage, setZoomImage] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const isMascotasView = activeDiv === 'Mascotas'
@@ -655,8 +657,8 @@ export default function AlbumView({
 
             {/* Full mascot image with progress */}
             <div
-              className="relative w-64 h-64 flex items-center justify-center mb-4"
-              onClick={(e) => e.stopPropagation()}
+              className="relative w-64 h-64 flex items-center justify-center mb-4 cursor-pointer"
+              onClick={(e) => { e.stopPropagation(); setZoomImage(modalMascot.mascotImage || null) }}
             >
               {/* Background glow */}
               <div
@@ -754,6 +756,10 @@ export default function AlbumView({
             </div>
           </div>
         </div>
+      )}
+
+      {zoomImage && (
+        <ZoomModal src={zoomImage} alt="Mascota" onClose={() => setZoomImage(null)} />
       )}
     </div>
   )
