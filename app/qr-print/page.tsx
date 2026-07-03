@@ -36,7 +36,6 @@ export default function QRPrintPage() {
         @media print {
           body { margin: 0; padding: 0; background: white; }
           .no-print { display: none !important; }
-          .qr-grid { gap: 12px !important; }
           .qr-card { break-inside: avoid; page-break-inside: avoid; }
         }
       `}</style>
@@ -68,19 +67,19 @@ export default function QRPrintPage() {
 
       {/* QR Grid */}
       <div className="max-w-2xl mx-auto px-4 py-6">
-        <div className="qr-grid grid grid-cols-3 gap-4 print:grid-cols-3">
+        <div className="qr-grid grid grid-cols-4 gap-3 print:grid-cols-4 print:gap-2">
           {TEST_CHECKPOINTS.map((cp) => {
             const color = getColor(cp.id)
             return (
               <div
                 key={cp.id}
-                className="qr-card border-2 border-gray-200 rounded-xl overflow-hidden flex flex-col items-center p-3 bg-white"
+                className="qr-card border border-gray-200 rounded-lg overflow-hidden flex flex-col items-center p-2 bg-white"
               >
                 <div
-                  className="w-full text-center py-1.5 rounded-lg mb-2"
+                  className="w-full text-center py-1 rounded mb-1"
                   style={{ backgroundColor: `${color}15` }}
                 >
-                  <p className="text-[8px] font-bold tracking-wider uppercase" style={{ color }}>
+                  <p className="text-[7px] font-bold tracking-wider uppercase" style={{ color }}>
                     {cp.id}
                   </p>
                 </div>
@@ -88,11 +87,11 @@ export default function QRPrintPage() {
                 <img
                   src={qrImageUrl(cp.id)}
                   alt={`QR ${cp.id}`}
-                  width={120}
-                  height={120}
+                  width={90}
+                  height={90}
                   className="block"
                 />
-                <p className="text-[9px] font-bold text-gray-700 text-center mt-2 leading-tight">
+                <p className="text-[8px] font-bold text-gray-700 text-center mt-1 leading-tight">
                   {cp.label}
                 </p>
               </div>
