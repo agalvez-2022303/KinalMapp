@@ -269,25 +269,13 @@ export default function AlbumView({
                   <div className="flex-1 flex flex-col p-4 relative z-10 h-full">
                     {/* Header of the page */}
                     <div className="flex justify-between items-center border-b border-outline-variant/10 pb-3 mb-4">
-                      <div className="flex items-center gap-2">
-                        {currentPage.mascotImage && (
-                          <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border-2 border-white shadow-md" style={{ borderColor: currentPage.mascotColor || '#D4BA46' }}>
-                            <img 
-                              src={currentPage.mascotImage} 
-                              alt={currentPage.mascotName || 'Mascota'}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
-                        <div>
-                          <h2 className="font-extrabold text-sm text-[#2C3E73] dark:text-white font-bold">
-                            {currentPage.name}
-                          </h2>
-                          <p className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
-                            {currentPage.mascotName && <span className="font-bold" style={{ color: currentPage.mascotColor }}>{currentPage.mascotName} • </span>}
-                            Estampas: {currentPage.stickers.filter((s) => s.unlocked).length} de {currentPage.stickers.length}
-                          </p>
-                        </div>
+                      <div>
+                        <h2 className="font-extrabold text-sm text-[#2C3E73] dark:text-white font-bold">
+                          {currentPage.name}
+                        </h2>
+                        <p className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
+                          Estampas: {currentPage.stickers.filter((s) => s.unlocked).length} de {currentPage.stickers.length}
+                        </p>
                       </div>
                       <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#fee269] to-[#D4BA46] flex items-center justify-center shadow-sm">
                         <span className="material-symbols-outlined text-[#1a1400] text-sm font-bold">
