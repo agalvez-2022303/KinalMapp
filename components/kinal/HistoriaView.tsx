@@ -66,12 +66,6 @@ export default function HistoriaView() {
                   const is2026 = entry.year === "2026"
 
                   const nodeColor = is2026 ? '#F7931E' : is1961 ? '#D4BA46' : '#2C3E73'
-                  const categoryLabel = entry.type === 'institution' ? 'Institución' : entry.type === 'career' ? 'Carrera Técnica' : 'Hito Histórico'
-                  const categoryBg = entry.type === 'institution'
-                    ? 'bg-[#2C3E73]/10 text-[#2C3E73] dark:bg-[#fee269]/10 dark:text-[#fee269]'
-                    : entry.type === 'career'
-                    ? 'bg-[#F7931E]/10 text-[#c96c00] dark:bg-[#F7931E]/15 dark:text-[#F7931E]'
-                    : 'bg-[#D4BA46]/15 text-[#756300] dark:bg-[#D4BA46]/10 dark:text-[#D4BA46]'
 
                   return (
                     <div key={i} className="relative scroll-reveal">
@@ -105,16 +99,6 @@ export default function HistoriaView() {
                         <div className="h-[3px] w-full" style={{ backgroundColor: nodeColor }} />
 
                         <div className="p-4">
-                          {/* Category pill + icon */}
-                          <div className="flex items-center justify-between mb-3">
-                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-extrabold tracking-widest uppercase ${categoryBg}`}>
-                              <span className="material-symbols-outlined text-[11px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                                {typeIcon[entry.type] || 'star'}
-                              </span>
-                              {categoryLabel}
-                            </span>
-                          </div>
-
                           <h3 className="font-extrabold text-[13px] text-[#2C3E73] dark:text-white mb-2 leading-snug">
                             {entry.title}
                           </h3>
