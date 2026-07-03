@@ -84,10 +84,20 @@ export default function AlbumView({
   const [flipping, setFlipping] = useState(false)
   const [flipDir, setFlipDir] = useState<'next' | 'prev'>('next')
   const [tiltStyle, setTiltStyle] = useState<string>('')
-  const [dismissCelebration, setDismissCelebration] = useState(false)
+  const [dismissCelebration, setDismissCelebration] = useState(() => {
+    if (typeof window !== 'undefined') return localStorage.getItem('kinal-celebration-dismissed') === '1'
+    return false
+  })
   const [modalMascot, setModalMascot] = useState<AlbumSection | null>(null)
   const [zoomImage, setZoomImage] = useState<string | null>(null)
   const [mascotAlert, setMascotAlert] = useState<{ name: string; color: string } | null>(null)
+  const [celebratedMascots, setCelebratedMascots] = useState<Set<string>>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('kinal-celebrated-mascots')
+      return saved ? new Set(JSON.parse(saved)) : new Set()
+    }
+    return new Set()
+  })
   const prevMascotProgressRef = useRef<Record<string, number>>({})
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -163,13 +173,17 @@ export default function AlbumView({
   useEffect(() => {
     mascotData.forEach(m => {
       const prev = prevMascotProgressRef.current[m.id] ?? 0
-      if (prev < 100 && m.progress === 100) {
+      if (prev < 100 && m.progress === 100 && !celebratedMascots.has(m.id)) {
         setMascotAlert({ name: m.mascotName || m.name, color: m.mascotColor || '#D4BA46' })
+        const next = new Set(celebratedMascots)
+        next.add(m.id)
+        setCelebratedMascots(next)
+        localStorage.setItem('kinal-celebrated-mascots', JSON.stringify([...next]))
         setTimeout(() => setMascotAlert(null), 4000)
       }
       prevMascotProgressRef.current[m.id] = m.progress
     })
-  }, [mascotData])
+  }, [mascotData, celebratedMascots])
 
   const divisionOrder: ViewMode[] = ['JR', 'SR', 'Histórica', 'Mascotas']
 
@@ -638,7 +652,7 @@ export default function AlbumView({
             </div>
             <div className="flex flex-col gap-2.5 w-full">
               <button
-                onClick={() => setDismissCelebration(true)}
+                onClick={() => { setDismissCelebration(true); localStorage.setItem('kinal-celebration-dismissed', '1') }}
                 className="w-full py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-[#fee269] to-[#D4BA46] text-[#1a1400] shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
               >
                 Ver mi Álbum

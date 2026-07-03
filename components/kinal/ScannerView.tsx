@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import Link from 'next/link'
 import { mapPOIs } from '@/lib/kinal-data'
 
 interface ScannerViewProps {
@@ -401,16 +400,6 @@ export default function ScannerView({
                   ? isStarting ? 'Iniciando...' : 'Activar Cámara'
                   : 'Escanear Otro'}
               </button>
-
-              {scanState === 'idle' && (
-                <Link
-                  href="/qr-prueba"
-                  className="inline-flex items-center gap-1.5 text-[10px] font-bold text-white/30 hover:text-white/60 transition-colors pointer-events-auto"
-                >
-                  <span className="material-symbols-outlined text-[12px]">qr_code_2</span>
-                  Ver QRs de prueba
-                </Link>
-              )}
             </div>
           )}
         </div>
