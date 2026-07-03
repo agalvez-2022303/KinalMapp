@@ -271,7 +271,7 @@ export default function AlbumView({
                             >
                               {sticker.unlocked ? (
                                 <div 
-                                  className="w-full h-full flex flex-col items-center justify-center space-y-1.5 p-2 rounded-lg border relative overflow-hidden"
+                                  className="w-full h-full flex flex-col items-center justify-center space-y-1.5 p-2 rounded-lg border relative overflow-hidden sticker-glow-ring"
                                   style={{ 
                                     backgroundColor: currentPage.mascotColor || '#fee269',
                                     borderColor: currentPage.mascotColor ? `${currentPage.mascotColor}40` : '#D4BA4640'
@@ -279,8 +279,9 @@ export default function AlbumView({
                                 >
                                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none"></div>
                                   
+
                                    {/* Medallón con efecto de relieve - 3 capas de oscuro a claro */}
-                                   <div className="relative z-[2] w-16 h-16 flex items-center justify-center medallion-vibrate">
+                                   <div className="relative z-[2] w-16 h-16 flex items-center justify-center medallion-waves">
                                      <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-lg">
                                        {/* Círculo exterior - más oscuro (profundidad) */}
                                        <circle cx="32" cy="32" r="30" fill="none" stroke="#3a1c0d" strokeWidth="2.5"/>
