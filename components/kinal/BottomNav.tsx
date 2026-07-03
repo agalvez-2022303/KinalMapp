@@ -51,9 +51,9 @@ export default function BottomNav({ current, onChange }: BottomNavProps) {
               key={id}
               onClick={() => onChange(id)}
               aria-label={label}
-              className={`flex flex-col items-center justify-center transition-all duration-200 px-3 py-1 rounded-xl cursor-pointer relative ${
+              className={`flex flex-col items-center justify-center transition-all duration-200 px-3 py-1.5 rounded-xl cursor-pointer relative ${
                 isActive 
-                  ? 'text-[#2C3E73] dark:text-[#fee269] font-extrabold scale-105' 
+                  ? 'text-[#2C3E73] dark:text-[#fee269] font-extrabold bg-[#2C3E73]/10 dark:bg-[#fee269]/10 scale-105' 
                   : 'text-[#5c5d66] dark:text-[#c5c6d1] hover:bg-gray-100/50 dark:hover:bg-[#1a2340]/40'
               }`}
             >
@@ -67,11 +67,6 @@ export default function BottomNav({ current, onChange }: BottomNavProps) {
                 {icon}
               </span>
               <span className="text-[9px] font-bold tracking-wide mt-0.5 leading-none">{label}</span>
-              
-              {/* Golden active dot indicator */}
-              {isActive && (
-                <span className="absolute bottom-0 w-1.5 h-1.5 rounded-full bg-[#D4BA46] shadow-[0_0_8px_#D4BA46] animate-pulse"></span>
-              )}
             </button>
           )
         })}
