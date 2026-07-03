@@ -4,10 +4,13 @@ import Link from 'next/link'
 import { TEST_CHECKPOINTS } from '@/lib/checkpoints-test'
 
 const CHECKPOINT_COLORS: Record<string, string> = {
-  'CP-A': '#2C3E73',
-  'CP-B': '#F7931E',
-  'CP-C': '#D4BA46',
-  'CP-D': '#16a34a',
+  'CP-BASICOS': '#bc7b4e',
+  'CP-INFORMATICA': '#a6867a',
+  'CP-MECANICA': '#584946',
+  'CP-ELECTRONICA': '#a16f4f',
+  'CP-ELECTRICIDAD': '#224076',
+  'CP-DIBUJO': '#c8923a',
+  'CP-HISTORICA': '#D4BA46',
 }
 
 function qrImageUrl(data: string) {

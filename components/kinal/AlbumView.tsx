@@ -21,9 +21,9 @@ const divisionOrder = ['JR', 'SR', 'Histórica'] as const
 type Division = typeof divisionOrder[number]
 
 const DIVISION_COLORS: Record<Division, { primary: string; accent: string; bg: string; border: string }> = {
-  JR:        { primary: '#2C3E73', accent: '#D4BA46', bg: 'bg-[#eef0f8] text-[#2C3E73]', border: 'border-[#2C3E73]' },
-  SR:        { primary: '#F7931E', accent: '#2C3E73', bg: 'bg-[#fff4e8] text-[#F7931E]', border: 'border-[#F7931E]' },
-  Histórica: { primary: '#D4BA46', accent: '#2C3E73', bg: 'bg-[#fffbe8] text-[#D4BA46]', border: 'border-[#D4BA46]' },
+  JR:        { primary: '#bc7b4e', accent: '#773d1c', bg: 'bg-[#f5ede4] text-[#bc7b4e]', border: 'border-[#bc7b4e]' },
+  SR:        { primary: '#6692c1', accent: '#224076', bg: 'bg-[#e8f0f8] text-[#6692c1]', border: 'border-[#6692c1]' },
+  Histórica: { primary: '#D4BA46', accent: '#b8860b', bg: 'bg-[#fffbe8] text-[#D4BA46]', border: 'border-[#D4BA46]' },
 }
 
 const PAGE_BACKGROUND_ICONS: Record<string, string> = {
@@ -56,15 +56,16 @@ function lightenColor(hex: string, amount: number): string {
   return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`
 }
 
-// Genera los 5 colores del medallón a partir del color base
-function getMedallionColors(baseColor: string) {
+// Genera los 5 colores del medallón a partir del color base y el color del círculo
+function getMedallionColors(baseColor: string, circleColor?: string) {
+  const mc = circleColor || darkenColor(baseColor, 30)
   return {
-    outerDark: darkenColor(baseColor, 60),
-    dark: darkenColor(baseColor, 30),
-    medium: baseColor,
-    light: lightenColor(baseColor, 40),
-    center: lightenColor(baseColor, 80),
-    text: darkenColor(baseColor, 50),
+    outerDark: darkenColor(mc, 40),
+    dark: darkenColor(mc, 15),
+    medium: mc,
+    light: lightenColor(mc, 30),
+    center: lightenColor(baseColor, 60),
+    text: darkenColor(mc, 40),
   }
 }
 
@@ -294,7 +295,7 @@ export default function AlbumView({
                           
                           const stickerNum = previousStickersCount + idx + 1;
                           const baseColor = currentPage.mascotColor || '#fee269';
-                          const mc = getMedallionColors(baseColor);
+                          const mc = getMedallionColors(baseColor, currentPage.mascotCircleColor);
                           
                           return (
                             <div
