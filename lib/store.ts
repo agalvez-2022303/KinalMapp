@@ -107,7 +107,7 @@ export function useAppStore() {
   }, [unlockedCheckpoints])
 
   const autocompleteAlbum = useCallback((): { newlyUnlocked: string[] } => {
-    const allCheckpoints = ['CP-BASICOS', 'CP-INFORMATICA', 'CP-MECANICA', 'CP-ELECTRONICA', 'CP-ELECTRICIDAD', 'CP-DIBUJO', 'CP-HISTORICA']
+    const allCheckpoints = ['CP-BASICOS-1', 'CP-BASICOS-2', 'CP-INFORMATICA', 'CP-MECANICA', 'CP-ELECTRONICA', 'CP-ELECTRICIDAD', 'CP-DIBUJO', 'CP-HISTORICA']
     setUnlockedCheckpoints(allCheckpoints)
     saveCheckpoints(allCheckpoints)
 

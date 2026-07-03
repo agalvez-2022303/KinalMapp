@@ -1,10 +1,12 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { TEST_CHECKPOINTS } from '@/lib/checkpoints-test'
 
 const CHECKPOINT_COLORS: Record<string, string> = {
-  'CP-BASICOS': '#bc7b4e',
+  'CP-BASICOS-1': '#bc7b4e',
+  'CP-BASICOS-2': '#a67040',
   'CP-INFORMATICA': '#a6867a',
   'CP-MECANICA': '#584946',
   'CP-ELECTRONICA': '#a16f4f',
@@ -18,6 +20,15 @@ function qrImageUrl(data: string) {
 }
 
 export default function QRPruebaPage() {
+  useEffect(() => {
+    document.body.style.overflow = 'auto'
+    document.documentElement.style.overflow = 'auto'
+    return () => {
+      document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
+    }
+  }, [])
+
   return (
     <main className="min-h-screen bg-[#f0ebe0] font-sans">
       <header className="sticky top-0 z-20 bg-[#2C3E73] text-white px-4 py-4 shadow-lg">

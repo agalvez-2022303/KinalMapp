@@ -256,74 +256,109 @@ export default function AlbumView({
         {isMascotasView ? (
           /* ═══ MASCOTAS GRID ═══ */
           <div className="grid grid-cols-2 gap-4">
-            {mascotData.map((mascot, idx) => (
-              <div
-                key={mascot.id}
-                className="panini-sticker-stagger flex flex-col items-center bg-white dark:bg-[#1a2340] rounded-2xl p-4 border border-outline-variant/10 shadow-premium relative overflow-hidden"
-                style={{ animationDelay: `${idx * 80}ms` }}
-              >
-                {/* Mascot Image with Fill Effect */}
-                <div className="relative w-24 h-24 mb-3">
-                  {/* Grayscale base */}
-                  <img
-                    src={mascot.mascotImage!}
-                    alt={mascot.mascotName || ''}
-                    className="w-full h-full object-contain absolute inset-0"
-                    style={{ filter: 'grayscale(100%) opacity(0.3)' }}
-                  />
-                  {/* Colored fill - clips from bottom based on progress */}
-                  <img
-                    src={mascot.mascotImage!}
-                    alt={mascot.mascotName || ''}
-                    className="w-full h-full object-contain absolute inset-0 transition-all duration-700"
+            {mascotData.map((mascot, idx) => {
+              const circleColor = mascot.mascotColor || '#D4BA46'
+              return (
+                <div
+                  key={mascot.id}
+                  className="panini-sticker-stagger flex flex-col items-center bg-white dark:bg-[#1a2340] rounded-2xl p-4 border border-outline-variant/10 shadow-premium relative overflow-hidden"
+                  style={{ animationDelay: `${idx * 80}ms` }}
+                >
+                  {/* Circular mascot container */}
+                  <div
+                    className="relative w-28 h-28 rounded-full flex items-center justify-center mb-3 border-4 transition-all duration-500"
                     style={{
-                      clipPath: `inset(${100 - mascot.progress}% 0 0 0)`,
+                      borderColor: mascot.progress === 100 ? circleColor : '#e5e7eb',
+                      boxShadow: mascot.progress === 100
+                        ? `0 0 20px ${circleColor}40, inset 0 0 15px ${circleColor}10`
+                        : 'inset 0 2px 8px rgba(0,0,0,0.06)',
+                      background: `radial-gradient(circle, ${circleColor}08 0%, transparent 70%)`,
                     }}
-                  />
-                  {/* Glow ring when complete */}
-                  {mascot.progress === 100 && (
-                    <div
-                      className="absolute inset-[-4px] rounded-full border-2 animate-pulse pointer-events-none"
-                      style={{ borderColor: mascot.mascotColor || '#D4BA46' }}
+                  >
+                    {/* Progress ring SVG */}
+                    <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="56" fill="none" stroke="#f3f4f6" strokeWidth="4" />
+                      <circle
+                        cx="60" cy="60" r="56" fill="none"
+                        stroke={circleColor}
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 56}`}
+                        strokeDashoffset={`${2 * Math.PI * 56 * (1 - mascot.progress / 100)}`}
+                        className="transition-all duration-700"
+                      />
+                    </svg>
+
+                    {/* Grayscale base */}
+                    <img
+                      src={mascot.mascotImage!}
+                      alt={mascot.mascotName || ''}
+                      className="w-20 h-20 object-contain relative z-[1]"
+                      style={{ filter: 'grayscale(100%) opacity(0.25)' }}
                     />
-                  )}
-                </div>
-
-                {/* Name */}
-                <span className="font-extrabold text-xs text-[#2C3E73] dark:text-white text-center mb-1">
-                  {mascot.mascotName}
-                </span>
-
-                {/* Section name */}
-                <span className="text-[9px] text-gray-400 font-medium text-center mb-2 leading-tight">
-                  {mascot.name}
-                </span>
-
-                {/* Progress bar */}
-                <div className="w-full space-y-1">
-                  <div className="w-full h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-700"
+                    {/* Colored fill */}
+                    <img
+                      src={mascot.mascotImage!}
+                      alt={mascot.mascotName || ''}
+                      className="w-20 h-20 object-contain absolute z-[2] transition-all duration-700"
                       style={{
-                        width: `${mascot.progress}%`,
-                        backgroundColor: mascot.mascotColor || '#D4BA46',
+                        clipPath: `inset(${100 - mascot.progress}% 0 0 0)`,
                       }}
                     />
+
+                    {/* Percentage in center when > 0 */}
+                    {mascot.progress > 0 && mascot.progress < 100 && (
+                      <div className="absolute bottom-1 right-1 z-[3] bg-white dark:bg-[#1a2340] rounded-full px-1.5 py-0.5 shadow-md border border-gray-100 dark:border-white/10">
+                        <span className="text-[9px] font-extrabold" style={{ color: circleColor }}>
+                          {mascot.progress}%
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Checkmark when 100% */}
+                    {mascot.progress === 100 && (
+                      <div className="absolute inset-0 z-[3] flex items-center justify-center">
+                        <div className="absolute inset-0 rounded-full animate-pulse pointer-events-none" style={{ boxShadow: `0 0 24px ${circleColor}50` }}></div>
+                      </div>
+                    )}
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-[8px] font-bold text-gray-400">
-                      {mascot.unlockedCount}/{mascot.stickers.length}
-                    </span>
-                    <span
-                      className="text-[9px] font-extrabold"
-                      style={{ color: mascot.mascotColor || '#D4BA46' }}
-                    >
-                      {mascot.progress}%
-                    </span>
+
+                  {/* Name & info */}
+                  <span className="font-extrabold text-xs text-[#2C3E73] dark:text-white text-center mb-0.5">
+                    {mascot.mascotName}
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-medium text-center mb-2.5 leading-tight">
+                    {mascot.name}
+                  </span>
+
+                  {/* Progress bar */}
+                  <div className="w-full space-y-1.5">
+                    <div className="w-full h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-700 relative overflow-hidden"
+                        style={{
+                          width: `${mascot.progress}%`,
+                          backgroundColor: circleColor,
+                        }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 animate-[shimmer_2s_infinite]"></div>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[8px] font-bold text-gray-400">
+                        {mascot.unlockedCount}/{mascot.stickers.length}
+                      </span>
+                      <span
+                        className="text-[9px] font-extrabold"
+                        style={{ color: circleColor }}
+                      >
+                        {mascot.progress}%
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         ) : (
           /* ═══ BOOK VIEW ═══ */

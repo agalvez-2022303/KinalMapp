@@ -16,7 +16,8 @@ export const mapPOIs: MapPOI[] = [
   // Centro del campus / Edificio principal - Entrada
   { id: 'poi-1', label: 'Entrada Principal', x: 50, y: 30, type: 'building', description: 'Acceso principal — 6A Av. 13-54, Zona 7, Guatemala.', lat: 14.62598, lng: -90.53552 },
   // Básicos (JR)
-  { id: 'poi-2', label: 'Checkpoint Básicos', x: 25, y: 45, type: 'checkpoint', description: 'Edificio de Básicos — División JR', checkpointId: 'CP-BASICOS', lat: 14.62638, lng: -90.53572 },
+  { id: 'poi-2', label: 'Checkpoint Básicos 1', x: 25, y: 45, type: 'checkpoint', description: 'Edificio de Básicos — Aulas 1ra-3ra', checkpointId: 'CP-BASICOS-1', lat: 14.62638, lng: -90.53572 },
+  { id: 'poi-2b', label: 'Checkpoint Básicos 2', x: 20, y: 50, type: 'checkpoint', description: 'Edificio de Básicos — Aulas 4ta-6ta', checkpointId: 'CP-BASICOS-2', lat: 14.62645, lng: -90.53565 },
   // Informática
   { id: 'poi-3', label: 'Checkpoint Informática', x: 70, y: 55, type: 'checkpoint', description: 'Laboratorios de Computación e Informática', checkpointId: 'CP-INFORMATICA', lat: 14.62625, lng: -90.53510 },
   // Mecánica
@@ -74,19 +75,19 @@ export const albumSections: AlbumSection[] = [
     mascotImage: '/mascotas/Basicos_CHIP.png',
     mascotName: 'CHIP',
     stickers: [
-      { id: 's1', name: 'Matemáticas I', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '📐' },
-      { id: 's2', name: 'Idioma Español', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '📖' },
-      { id: 's3', name: 'Computación', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '💻' },
-      { id: 's4', name: 'Inglés', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🌐' },
-      { id: 's5', name: 'Artes Plasticas', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🎨'},
-      { id: 's6', name: 'Actitudes', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🤝'},
-      { id: 's7', name: 'Religión', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🙏'},
-      { id: 's8', name: 'Ciencias Naturales', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🔬'},
-      { id: 's9', name: 'Ciencias Sociales', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🌍'},
-      { id: 's10', name: 'Emprendimiento', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🚀'},
-      { id: 's11', name: 'Música', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🎵'},
-      { id: 's12', name: 'Kaqchikel', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🌿'},
-      { id: 's13', name: 'Industriales(M, E y EL)', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS', unlocked: false, emoji: '🛠️'},
+      { id: 's1', name: 'Matemáticas I', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-1', unlocked: false, emoji: '📐' },
+      { id: 's2', name: 'Idioma Español', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-1', unlocked: false, emoji: '📖' },
+      { id: 's3', name: 'Computación', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-1', unlocked: false, emoji: '💻' },
+      { id: 's4', name: 'Inglés', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-1', unlocked: false, emoji: '🌐' },
+      { id: 's5', name: 'Artes Plasticas', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-1', unlocked: false, emoji: '🎨'},
+      { id: 's6', name: 'Actitudes', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-1', unlocked: false, emoji: '🤝'},
+      { id: 's7', name: 'Religión', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-1', unlocked: false, emoji: '🙏'},
+      { id: 's8', name: 'Ciencias Naturales', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-2', unlocked: false, emoji: '🔬'},
+      { id: 's9', name: 'Ciencias Sociales', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-2', unlocked: false, emoji: '🌍'},
+      { id: 's10', name: 'Emprendimiento', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-2', unlocked: false, emoji: '🚀'},
+      { id: 's11', name: 'Música', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-2', unlocked: false, emoji: '🎵'},
+      { id: 's12', name: 'Kaqchikel', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-2', unlocked: false, emoji: '🌿'},
+      { id: 's13', name: 'Industriales(M, E y EL)', section: 'Primero Básico', sectionId: 'basicos-1', checkpointId: 'CP-BASICOS-2', unlocked: false, emoji: '🛠️'},
       
     ],
   },
