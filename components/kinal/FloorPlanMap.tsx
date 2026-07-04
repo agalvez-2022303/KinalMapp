@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, useMemo, useCallback } from "react"
-import { MapContainer, ImageOverlay, Polyline, CircleMarker, useMap, type PaneProps } from "react-leaflet"
+import { MapContainer, ImageOverlay, Polyline, CircleMarker, useMap, ZoomControl, type PaneProps } from "react-leaflet"
 import L from "leaflet"
 import { floorPlans, type FloorPlan, type FloorPlanPOI } from "@/lib/kinal-data"
 import { type RouteStep } from "@/lib/routing"
@@ -349,16 +349,9 @@ function FloorSelector({
 
 function MapControls({ floor }: { floor: FloorPlan }) {
   const map = useMap()
-  const [isZoomedIn, setIsZoomedIn] = useState(false)
-
-  useEffect(() => {
-    const check = () => setIsZoomedIn(map.getZoom() > 0)
-    map.on("zoomend", check)
-    return () => { map.off("zoomend", check) }
-  }, [map])
 
   return (
-    <div className="absolute bottom-6 right-4 z-[1000] flex flex-col gap-2">
+    <div className="absolute bottom-[140px] right-4 z-[1000] flex flex-col gap-2">
       <button
         onClick={() => {
           const bounds = L.latLngBounds([0, 0], [floor.height, floor.width])
@@ -368,20 +361,6 @@ function MapControls({ floor }: { floor: FloorPlan }) {
         title="Centrar"
       >
         <span className="material-symbols-outlined text-[20px]">my_location</span>
-      </button>
-      <button
-        onClick={() => map.zoomIn()}
-        className="w-11 h-11 rounded-xl bg-white/90 glass-panel shadow-md flex items-center justify-center text-[#13275c] hover:bg-white active:scale-95 transition-all cursor-pointer border border-outline-variant/20"
-        title="Acercar"
-      >
-        <span className="material-symbols-outlined text-[20px]">add</span>
-      </button>
-      <button
-        onClick={() => map.zoomOut()}
-        className="w-11 h-11 rounded-xl bg-white/90 glass-panel shadow-md flex items-center justify-center text-[#13275c] hover:bg-white active:scale-95 transition-all cursor-pointer border border-outline-variant/20"
-        title="Alejar"
-      >
-        <span className="material-symbols-outlined text-[20px]">remove</span>
       </button>
     </div>
   )
@@ -506,11 +485,18 @@ export default function FloorPlanMap({
         attributionControl={false}
         crs={L.CRS.Simple}
         style={{ width: "100%", height: "100%", zIndex: 1 }}
-        zoomSnap={0}
+        zoomSnap={0.25}
         zoomDelta={0.5}
-        wheelPxPerZoomLevel={60}
+        wheelPxPerZoomLevel={80}
+        minZoom={-3}
+        maxZoom={3}
+        doubleClickZoom={true}
+        scrollWheelZoom={true}
+        dragging={true}
+        touchZoom={true}
         key={fadeKey}
       >
+        <ZoomControl position="bottomright" />
         <ImageOverlay
           url={activeFloor.image}
           bounds={[[0, 0], [activeFloor.height, activeFloor.width]]}
