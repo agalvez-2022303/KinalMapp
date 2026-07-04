@@ -1,106 +1,202 @@
 'use client'
 
-import { useEffect } from 'react'
-import { TEST_CHECKPOINTS } from '@/lib/checkpoints-test'
+import { useEffect, useState, useCallback } from 'react'
+import { mapPOIs } from '@/lib/kinal-data'
 
-const SECTION_COLORS: Record<string, string> = {
-  'CP-BA': '#bc7b4e',
-  'CP-INF': '#a6867a',
-  'CP-MEC': '#584946',
-  'CP-ELE': '#a16f4f',
-  'CP-ELC': '#224076',
-  'CP-DIB': '#c8923a',
-  'CP-HIS': '#D4BA46',
+const APP_URL = 'https://kinal-maa.vercel.app'
+
+const SECTION_CONFIG: Record<string, { label: string; color: string; emoji: string }> = {
+  'CP-BA': { label: 'Básicos — CHIP', color: '#bc7b4e', emoji: '🐾' },
+  'CP-INF': { label: 'Informática — KODY', color: '#a6867a', emoji: '🐾' },
+  'CP-MEC': { label: 'Mecánica — KONG', color: '#584946', emoji: '🐾' },
+  'CP-ELE': { label: 'Electrónica — Nova', color: '#a16f4f', emoji: '🐾' },
+  'CP-ELC': { label: 'Electricidad — VOLT', color: '#224076', emoji: '🐾' },
+  'CP-DIB': { label: 'Dibujo Técnico — NEO', color: '#c8923a', emoji: '🐾' },
+  'CP-HIS': { label: 'Histórica — REXY', color: '#D4BA46', emoji: '🐾' },
 }
 
-function getColor(id: string): string {
-  for (const [prefix, color] of Object.entries(SECTION_COLORS)) {
-    if (id.startsWith(prefix)) return color
+function getSection(id: string) {
+  for (const [prefix, cfg] of Object.entries(SECTION_CONFIG)) {
+    if (id.startsWith(prefix)) return cfg
   }
-  return '#2C3E73'
+  return { label: 'Otro', color: '#2C3E73', emoji: '📌' }
 }
 
-function qrImageUrl(data: string) {
-  return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=${encodeURIComponent(data)}`
+function qrUrl(data: string, size = 300) {
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&margin=6&data=${encodeURIComponent(data)}`
+}
+
+async function downloadQR(id: string, label: string) {
+  const url = qrUrl(id, 500)
+  const res = await fetch(url)
+  const blob = await res.blob()
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = `QR-${id}-${label.replace(/\s+/g, '_')}.png`
+  a.click()
+  URL.revokeObjectURL(a.href)
+}
+
+async function downloadAll(checkpoints: { id: string; label: string }[]) {
+  for (const cp of checkpoints) {
+    await new Promise(r => setTimeout(r, 300))
+    await downloadQR(cp.id, cp.label)
+  }
 }
 
 export default function QRPrintPage() {
+  const [checkpoints, setCheckpoints] = useState<{ id: string; label: string }[]>([])
+
   useEffect(() => {
     document.body.style.overflow = 'auto'
     document.documentElement.style.overflow = 'auto'
+    const cps = mapPOIs
+      .filter(p => p.type === 'checkpoint' && p.checkpointId)
+      .map(p => ({ id: p.checkpointId!, label: p.label }))
+    setCheckpoints(cps)
   }, [])
 
+  const grouped = checkpoints.reduce<Record<string, { id: string; label: string }[]>>((acc, cp) => {
+    const prefix = cp.id.split('-').slice(0, 2).join('-')
+    if (!acc[prefix]) acc[prefix] = []
+    acc[prefix].push(cp)
+    return acc
+  }, {})
+
+  const handleDownloadAll = useCallback(() => {
+    void downloadAll(checkpoints)
+  }, [checkpoints])
+
   return (
-    <main className="min-h-screen bg-white font-sans">
+    <main className="min-h-screen bg-[#f5f6fa] font-sans">
       <style>{`
         @media print {
-          body { margin: 0; padding: 0; background: white; }
+          body { margin: 0 !important; padding: 0 !important; background: white !important; }
           .no-print { display: none !important; }
           .qr-card { break-inside: avoid; page-break-inside: avoid; }
+          .section-group { break-inside: avoid; page-break-inside: avoid; }
         }
       `}</style>
 
-      {/* Header - no print */}
-      <header className="no-print bg-[#2C3E73] text-white px-4 py-4 shadow-lg">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <div>
+      {/* Header */}
+      <header className="no-print bg-gradient-to-r from-[#1b2a4e] to-[#0f1830] text-white px-4 py-5 shadow-lg">
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-center sm:text-left">
             <p className="text-[10px] tracking-[0.2em] uppercase text-[#fee269] font-bold">
               KinalMapp · Expo 2026
             </p>
-            <h1 className="font-bold text-lg">QRs de Prueba — Printable</h1>
+            <h1 className="font-extrabold text-xl tracking-tight">
+              QRs de Prueba
+            </h1>
+            <p className="text-[11px] text-gray-300 mt-1">
+              Escanea cada código para desbloquear estampas del álbum
+            </p>
           </div>
-          <button
-            onClick={() => window.print()}
-            className="flex items-center gap-2 bg-[#fee269] text-[#1a1400] px-4 py-2 rounded-xl font-bold text-sm hover:brightness-105 active:scale-95 transition-all cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-[18px]">print</span>
-            Imprimir / PDF
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleDownloadAll}
+              className="flex items-center gap-2 bg-[#fee269] text-[#1a1400] px-4 py-2.5 rounded-xl font-bold text-sm hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[18px]">download</span>
+              Descargar todos
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="flex items-center gap-2 bg-white/10 text-white border border-white/20 px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-white/15 active:scale-95 transition-all cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[18px]">print</span>
+              Imprimir
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Print title - only visible when printing */}
-      <div className="hidden print:block text-center py-4 border-b-2 border-gray-200 mb-4">
-        <h1 className="text-xl font-bold text-gray-800">KinalMapp — QRs de Prueba</h1>
-        <p className="text-xs text-gray-500 mt-1">Expo Kinal 2026 — Escanea cada código para desbloquear estampas</p>
+      {/* App QR */}
+      <div className="max-w-3xl mx-auto px-4 py-6">
+        <div className="no-print bg-gradient-to-br from-[#1b2a4e] to-[#0f1830] rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 border border-[#fee269]/20 shadow-lg">
+          <div className="bg-white p-3 rounded-xl shadow-md">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={qrUrl(APP_URL, 160)} alt="QR KinalMapp" width={160} height={160} className="block" />
+          </div>
+          <div className="text-center sm:text-left">
+            <p className="text-[9px] font-extrabold tracking-widest text-[#fee269] uppercase mb-1">
+              Acceso a la App
+            </p>
+            <h2 className="text-white font-extrabold text-lg mb-2">KinalMapp</h2>
+            <p className="text-[11px] text-gray-300 leading-relaxed mb-3">
+              Escanea este código para abrir la app en tu teléfono y explorar el campus, escanear checkpoints y coleccionar estampas.
+            </p>
+            <p className="text-[10px] font-mono text-[#fee269]/70 bg-white/5 px-3 py-1.5 rounded-lg inline-block">
+              {APP_URL}
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* QR Grid */}
-      <div className="max-w-2xl mx-auto px-4 py-6">
-        <div className="qr-grid grid grid-cols-4 gap-3 print:grid-cols-4 print:gap-2">
-          {TEST_CHECKPOINTS.map((cp) => {
-            const color = getColor(cp.id)
-            return (
-              <div
-                key={cp.id}
-                className="qr-card border border-gray-200 rounded-lg overflow-hidden flex flex-col items-center p-2 bg-white"
-              >
-                <div
-                  className="w-full text-center py-1 rounded mb-1"
-                  style={{ backgroundColor: `${color}15` }}
+      {/* QR Grid by section */}
+      <div className="max-w-3xl mx-auto px-4 pb-12 space-y-6">
+        {Object.entries(grouped).map(([prefix, cps]) => {
+          const section = getSection(prefix)
+          return (
+            <div key={prefix} className="section-group">
+              {/* Section header */}
+              <div className="no-print flex items-center gap-3 mb-3">
+                <div className="h-px flex-1" style={{ backgroundColor: `${section.color}30` }} />
+                <span
+                  className="text-[10px] font-extrabold tracking-widest uppercase px-3 py-1 rounded-full border"
+                  style={{
+                    color: section.color,
+                    backgroundColor: `${section.color}10`,
+                    borderColor: `${section.color}30`,
+                  }}
                 >
-                  <p className="text-[7px] font-bold tracking-wider uppercase" style={{ color }}>
-                    {cp.id}
-                  </p>
-                </div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={qrImageUrl(cp.id)}
-                  alt={`QR ${cp.id}`}
-                  width={90}
-                  height={90}
-                  className="block"
-                />
-                <p className="text-[8px] font-bold text-gray-700 text-center mt-1 leading-tight">
-                  {cp.label}
-                </p>
+                  {section.emoji} {section.label}
+                </span>
+                <div className="h-px flex-1" style={{ backgroundColor: `${section.color}30` }} />
               </div>
-            )
-          })}
-        </div>
 
-        <p className="no-print text-center text-xs text-gray-400 mt-6 pb-8">
-          Tip: presiona Ctrl+P (o Cmd+P en Mac) y selecciona &quot;Guardar como PDF&quot; para descargar.
+              {/* QR cards */}
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                {cps.map(cp => (
+                  <div
+                    key={cp.id}
+                    className="qr-card bg-white rounded-xl border border-gray-200 overflow-hidden flex flex-col items-center p-3 hover:shadow-md transition-shadow group"
+                  >
+                    <div
+                      className="w-full text-center py-1 rounded-lg mb-2"
+                      style={{ backgroundColor: `${section.color}12` }}
+                    >
+                      <p className="text-[8px] font-bold tracking-wider uppercase" style={{ color: section.color }}>
+                        {cp.id}
+                      </p>
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={qrUrl(cp.id, 200)}
+                      alt={`QR ${cp.id}`}
+                      width={120}
+                      height={120}
+                      className="block"
+                    />
+                    <p className="text-[9px] font-bold text-gray-700 text-center mt-2 leading-tight">
+                      {cp.label}
+                    </p>
+                    <button
+                      onClick={() => void downloadQR(cp.id, cp.label)}
+                      className="no-print mt-2 flex items-center gap-1 text-[8px] font-bold px-2 py-1 rounded-md border border-gray-200 text-gray-400 hover:text-[#2C3E73] hover:border-[#2C3E73]/30 hover:bg-[#2C3E73]/5 transition-all cursor-pointer opacity-0 group-hover:opacity-100"
+                    >
+                      <span className="material-symbols-outlined text-[10px]">download</span>
+                      PNG
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+
+        <p className="no-print text-center text-[11px] text-gray-400 pt-4">
+          Tip: pasa el mouse sobre un QR para ver el botón de descarga, o usá &quot;Descargar todos&quot; para obtener las imágenes.
         </p>
       </div>
     </main>
