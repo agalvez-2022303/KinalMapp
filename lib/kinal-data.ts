@@ -23,6 +23,16 @@ export interface RouteEdge {
   to: string
 }
 
+export interface RoomShape {
+  id: string
+  x: number
+  y: number
+  width: number
+  height: number
+  color: string
+  label: string
+}
+
 export interface FloorPlan {
   id: string
   name: string
@@ -32,6 +42,17 @@ export interface FloorPlan {
   pois: FloorPlanPOI[]
   nodes: RouteNode[]
   edges: RouteEdge[]
+  rooms: RoomShape[]
+}
+
+export const DEPT_COLORS = {
+  mecanica: '#F7931E',
+  dibujo: '#D4BA46',
+  electricidad: '#2C3E73',
+  electronica: '#22C55E',
+  informatica: '#8B5CF6',
+  entrance: '#9CA3AF',
+  stairs: '#6B7280',
 }
 
 export const floorPlans: FloorPlan[] = [
@@ -49,6 +70,16 @@ export const floorPlans: FloorPlan[] = [
       { id: 'C15', label: 'Sistemas auxiliares del motor', x: 35, y: 65, type: 'checkpoint', description: 'Proyectos de sistemas auxiliares del motor' },
       { id: 'I12', label: 'Motores', x: 58, y: 65, type: 'checkpoint', description: 'Proyectos de Motores' },
       { id: 'entrance-pb', label: 'Entrada Principal', x: 5, y: 50, type: 'entrance', description: 'Acceso principal al edificio' },
+    ],
+    rooms: [
+      { id: 'room-c11', x: 0, y: 0, width: 23.5, height: 45, color: DEPT_COLORS.mecanica, label: 'C11' },
+      { id: 'room-c12', x: 23.5, y: 0, width: 23, height: 45, color: DEPT_COLORS.dibujo, label: 'C12' },
+      { id: 'room-c13', x: 46.5, y: 0, width: 23.5, height: 45, color: DEPT_COLORS.mecanica, label: 'C13' },
+      { id: 'room-c14', x: 0, y: 45, width: 23.5, height: 45, color: DEPT_COLORS.mecanica, label: 'C14' },
+      { id: 'room-c15', x: 23.5, y: 45, width: 23, height: 45, color: DEPT_COLORS.mecanica, label: 'C15' },
+      { id: 'room-i12', x: 46.5, y: 45, width: 23.5, height: 45, color: DEPT_COLORS.mecanica, label: 'I12' },
+      { id: 'room-entrance', x: 0, y: 40, width: 10, height: 20, color: DEPT_COLORS.entrance, label: 'Entrada' },
+      { id: 'room-stairs-pb', x: 77, y: 40, width: 16, height: 20, color: DEPT_COLORS.stairs, label: 'Escaleras' },
     ],
     nodes: [
       { id: 'hw-pb-1', floorPlanId: 'pb', x: 12, y: 45 },
@@ -78,6 +109,11 @@ export const floorPlans: FloorPlan[] = [
     pois: [
       { id: 'C20', label: 'Ciencias Exactas', x: 25, y: 30, type: 'checkpoint', description: 'Proyectos de ciencias exactas' },
       { id: 'G21', label: 'Ciencias Naturales', x: 55, y: 30, type: 'checkpoint', description: 'Proyectos de ciencias naturales' },
+    ],
+    rooms: [
+      { id: 'room-c20', x: 10, y: 15, width: 30, height: 35, color: DEPT_COLORS.dibujo, label: 'C20' },
+      { id: 'room-g21', x: 40, y: 15, width: 30, height: 35, color: DEPT_COLORS.informatica, label: 'G21' },
+      { id: 'room-stairs-p2', x: 77, y: 40, width: 16, height: 20, color: DEPT_COLORS.stairs, label: 'Escaleras' },
     ],
     nodes: [
       { id: 'hw-p2-1', floorPlanId: 'p2', x: 25, y: 45 },
@@ -109,6 +145,20 @@ export const floorPlans: FloorPlan[] = [
       { id: 'H32', label: 'Informática III', x: 50, y: 66, type: 'checkpoint', description: 'Proyectos de informática' },
       { id: 'H33', label: 'Informática IV', x: 65, y: 66, type: 'checkpoint', description: 'Proyectos de informática' },
       { id: 'H34', label: 'Informática V', x: 78, y: 66, type: 'checkpoint', description: 'Proyectos de informática' },
+    ],
+    rooms: [
+      { id: 'room-c31', x: 0, y: 0, width: 20, height: 30, color: DEPT_COLORS.electricidad, label: 'C31' },
+      { id: 'room-c32', x: 20, y: 0, width: 20, height: 30, color: DEPT_COLORS.electricidad, label: 'C32' },
+      { id: 'room-c33', x: 40, y: 0, width: 22, height: 30, color: DEPT_COLORS.electricidad, label: 'C33' },
+      { id: 'room-c36', x: 0, y: 30, width: 20, height: 24, color: DEPT_COLORS.electronica, label: 'C36' },
+      { id: 'room-c37', x: 20, y: 30, width: 20, height: 24, color: DEPT_COLORS.electronica, label: 'C37' },
+      { id: 'room-c38', x: 40, y: 30, width: 22, height: 24, color: DEPT_COLORS.electronica, label: 'C38' },
+      { id: 'room-g35', x: 0, y: 54, width: 20, height: 31, color: DEPT_COLORS.informatica, label: 'G35' },
+      { id: 'room-g36', x: 20, y: 54, width: 20, height: 31, color: DEPT_COLORS.informatica, label: 'G36' },
+      { id: 'room-h32', x: 40, y: 54, width: 17.5, height: 31, color: DEPT_COLORS.informatica, label: 'H32' },
+      { id: 'room-h33', x: 57.5, y: 54, width: 14, height: 31, color: DEPT_COLORS.informatica, label: 'H33' },
+      { id: 'room-h34', x: 71.5, y: 54, width: 13.5, height: 31, color: DEPT_COLORS.informatica, label: 'H34' },
+      { id: 'room-stairs-p3', x: 77, y: 40, width: 16, height: 20, color: DEPT_COLORS.stairs, label: 'Escaleras' },
     ],
     nodes: [
       { id: 'hw-p3-1', floorPlanId: 'p3', x: 10, y: 45 },

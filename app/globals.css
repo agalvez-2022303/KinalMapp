@@ -543,6 +543,156 @@
   50%       { box-shadow: 0 0 20px 4px rgba(212, 186, 70, 0.25); }
 }
 
+/* ─── Map Route Animations ──────────────────────────────────────────────────── */
+
+@keyframes dash-move {
+  to { stroke-dashoffset: -40; }
+}
+.route-dash-animated {
+  animation: dash-move 0.8s linear infinite;
+}
+
+@keyframes route-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(247, 147, 30, 0.4)); }
+  50%      { filter: drop-shadow(0 0 12px rgba(247, 147, 30, 0.7)); }
+}
+.route-glow {
+  animation: route-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.15); opacity: 0.85; }
+}
+.nav-pulse {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes nav-ripple {
+  0%   { transform: scale(0.5); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+.nav-ripple {
+  animation: nav-ripple 2s ease-out infinite;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up {
+  animation: fade-in-up 0.3s ease-out both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-in {
+  animation: fade-in 0.3s ease-out both;
+}
+
+.floor-transition-enter {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+.floor-transition-enter-active {
+  opacity: 1;
+}
+.floor-transition-exit {
+  opacity: 1;
+  transition: opacity 0.25s ease-in;
+}
+.floor-transition-exit-active {
+  opacity: 0;
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.slide-up {
+  animation: slide-up 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* POI Marker */
+.poi-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.poi-marker:hover {
+  transform: scale(1.1);
+}
+.poi-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  transition: all 0.2s ease;
+  position: relative;
+}
+.poi-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.poi-marker.selected .poi-dot::after {
+  opacity: 0.5;
+  animation: nav-ripple 2s ease-out infinite;
+}
+.poi-marker.selected .poi-dot {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.8), 0 2px 12px rgba(0,0,0,0.3);
+}
+.poi-badge {
+  font-size: 8px;
+  font-weight: 800;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  padding: 1px 5px;
+  border-radius: 6px;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.02em;
+}
+.poi-label {
+  font-size: 7px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(0,0,0,0.7);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Floor tab elevator style */
+.floor-tab-active {
+  background: linear-gradient(135deg, #2C3E73, #13275c);
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(44,62,115,0.3);
+}
+
+/* Map gradient background */
+.map-bg-gradient {
+  background: linear-gradient(160deg, #eef1f5 0%, #dde0e8 50%, #d0d5e1 100%);
+}
+
 /* ─── Premium Front-End Improvements ────────────────────────────────────────── */
 
 /* Glassmorphism de alta gama */
