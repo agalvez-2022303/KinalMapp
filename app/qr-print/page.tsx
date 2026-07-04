@@ -63,8 +63,13 @@ export default function QRPrintPage() {
     return acc
   }, {})
 
-  const handleDownloadAll = useCallback(() => {
-    void downloadAll(checkpoints)
+  const handleDownloadAll = useCallback(async () => {
+    await downloadQR(APP_URL, 'KinalMapp_App')
+    await new Promise(r => setTimeout(r, 300))
+    for (const cp of checkpoints) {
+      await new Promise(r => setTimeout(r, 300))
+      await downloadQR(cp.id, cp.label)
+    }
   }, [checkpoints])
 
   return (
@@ -118,7 +123,7 @@ export default function QRPrintPage() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={qrUrl(APP_URL, 160)} alt="QR KinalMapp" width={160} height={160} className="block" />
           </div>
-          <div className="text-center sm:text-left">
+          <div className="text-center sm:text-left flex-1">
             <p className="text-[9px] font-extrabold tracking-widest text-[#fee269] uppercase mb-1">
               Acceso a la App
             </p>
@@ -126,9 +131,18 @@ export default function QRPrintPage() {
             <p className="text-[11px] text-gray-300 leading-relaxed mb-3">
               Escanea este código para abrir la app en tu teléfono y explorar el campus, escanear checkpoints y coleccionar estampas.
             </p>
-            <p className="text-[10px] font-mono text-[#fee269]/70 bg-white/5 px-3 py-1.5 rounded-lg inline-block">
-              {APP_URL}
-            </p>
+            <div className="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
+              <p className="text-[10px] font-mono text-[#fee269]/70 bg-white/5 px-3 py-1.5 rounded-lg">
+                {APP_URL}
+              </p>
+              <button
+                onClick={() => void downloadQR(APP_URL, 'KinalMapp_App')}
+                className="no-print flex items-center gap-1 text-[10px] font-bold px-3 py-1.5 rounded-lg bg-[#fee269]/15 text-[#fee269] border border-[#fee269]/30 hover:bg-[#fee269]/25 transition-all cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[14px]">download</span>
+                Descargar QR
+              </button>
+            </div>
           </div>
         </div>
       </div>
