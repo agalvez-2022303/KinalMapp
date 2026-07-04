@@ -3,28 +3,62 @@
 import { useState, useEffect } from "react"
 import MobileFrame from "@/components/kinal/MobileFrame"
 import dynamic from "next/dynamic"
+import { getAllFloorPOIs, type FloorPlanPOI } from "@/lib/kinal-data"
+import { calculateRoute, type RouteStep } from "@/lib/routing"
 
-const KinalMap = dynamic(() => import("@/components/kinal/KinalMap"), {
+const FloorPlanMap = dynamic(() => import("@/components/kinal/FloorPlanMap"), {
   ssr: false,
 })
 
-const CHIPS = ["Todos", "Checkpoints", "Eventos", "Edificios"] as const
-
-type ChipType = typeof CHIPS[number]
-
 export default function MapaPage() {
-  const [activeChip, setActiveChip] = useState<ChipType>("Todos")
   const [unlockedCheckpoints, setUnlockedCheckpoints] = useState<string[]>([])
-  const [selectedPOI, setSelectedPOI] = useState<any>(null)
+  const [selectedPOI, setSelectedPOI] = useState<FloorPlanPOI | null>(null)
+  const [routeSteps, setRouteSteps] = useState<RouteStep[]>([])
+  const [routeFrom, setRouteFrom] = useState<FloorPlanPOI | null>(null)
+  const [showRouteSelector, setShowRouteSelector] = useState(false)
+
+  const allPOIs = getAllFloorPOIs()
+  const entrancePOI = allPOIs.find(p => p.type === "entrance")
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem('kinalmap-checkpoints-v1')
+      const raw = localStorage.getItem("kinalmap-checkpoints-v1")
       if (raw) {
         setUnlockedCheckpoints(JSON.parse(raw))
       }
     } catch {}
   }, [])
+
+  const activeRoute = routeSteps.length > 0 && routeFrom && selectedPOI
+    ? { from: routeFrom, to: selectedPOI, steps: routeSteps }
+    : null
+
+  const handleComoLlegar = () => {
+    setRouteFrom(entrancePOI || null)
+    setShowRouteSelector(true)
+    setRouteSteps([])
+  }
+
+  const handleTrazarRuta = () => {
+    if (!routeFrom || !selectedPOI) return
+    const steps = calculateRoute(routeFrom, selectedPOI)
+    if (steps.length > 0) {
+      setRouteSteps(steps)
+      setShowRouteSelector(false)
+    }
+  }
+
+  const handleClearRoute = () => {
+    setRouteSteps([])
+    setRouteFrom(null)
+    setShowRouteSelector(false)
+  }
+
+  const floorNames: Record<string, string> = {
+    pb: "Planta Baja",
+    p2: "Piso 2",
+    p3: "Piso 3",
+  }
 
   return (
     <main
@@ -42,7 +76,6 @@ export default function MapaPage() {
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
       <MobileFrame>
-        {/* Top layer */}
         <div
           style={{
             background: "#ffffff",
@@ -78,7 +111,6 @@ export default function MapaPage() {
             </div>
           </header>
 
-          {/* Search */}
           <div style={{ padding: "10px 20px" }}>
             <div
               style={{
@@ -105,41 +137,8 @@ export default function MapaPage() {
               />
             </div>
           </div>
-
-          {/* Filter chips */}
-          <div
-            className="hide-scrollbar"
-            style={{
-              display: "flex",
-              gap: 10,
-              padding: "10px 20px 15px 20px",
-              overflowX: "auto",
-            }}
-          >
-            {CHIPS.map((chip) => (
-              <button
-                key={chip}
-                onClick={() => setActiveChip(chip)}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: 20,
-                  border: "none",
-                  background: activeChip === chip ? "#2C3E73" : "#eeeff1",
-                  color: activeChip === chip ? "#ffffff" : "#333",
-                  fontWeight: 600,
-                  fontSize: "0.85rem",
-                  whiteSpace: "nowrap",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                }}
-              >
-                {chip}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* Map Canvas */}
         <div
           style={{
             flexGrow: 1,
@@ -150,11 +149,14 @@ export default function MapaPage() {
             flexDirection: "column",
           }}
         >
-          <KinalMap
+          <FloorPlanMap
             unlockedCheckpoints={unlockedCheckpoints}
-            filter={activeChip}
             selectedPOI={selectedPOI}
-            onSelectPOI={setSelectedPOI}
+            onSelectPOI={(poi) => {
+              setSelectedPOI(poi)
+              if (poi && activeRoute) handleClearRoute()
+            }}
+            route={activeRoute}
           />
 
           {/* Info tooltip */}
@@ -182,8 +184,8 @@ export default function MapaPage() {
             Campus Kinal
           </div>
 
-          {/* POI detail popup */}
-          {selectedPOI && (
+          {/* Route selector panel */}
+          {showRouteSelector && selectedPOI && (
             <div
               style={{
                 position: "absolute",
@@ -196,9 +198,164 @@ export default function MapaPage() {
                 boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
                 border: "1px solid rgba(0,0,0,0.07)",
                 zIndex: 1000,
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
+              }}
+            >
+              <p style={{ fontWeight: 800, fontSize: "0.85rem", color: "#1a2340", marginBottom: 12 }}>
+                Trazar ruta
+              </p>
+              <div style={{ marginBottom: 12 }}>
+                <label style={{ fontSize: "0.65rem", fontWeight: 700, color: "#999", textTransform: "uppercase", display: "block", marginBottom: 4 }}>
+                  Desde
+                </label>
+                <select
+                  value={routeFrom?.id || ""}
+                  onChange={(e) => {
+                    const poi = allPOIs.find(p => p.id === e.target.value)
+                    setRouteFrom(poi || null)
+                  }}
+                  style={{
+                    width: "100%",
+                    padding: "10px 12px",
+                    borderRadius: 10,
+                    border: "1px solid #e0e0e0",
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    color: "#1a2340",
+                    background: "#f8f8f8",
+                    outline: "none",
+                  }}
+                >
+                  {allPOIs.filter(p => p.id !== selectedPOI.id).map(poi => (
+                    <option key={poi.id} value={poi.id}>{poi.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ fontSize: "0.65rem", fontWeight: 700, color: "#999", textTransform: "uppercase", display: "block", marginBottom: 4 }}>
+                  Hasta
+                </label>
+                <div style={{
+                  width: "100%",
+                  padding: "10px 12px",
+                  borderRadius: 10,
+                  border: "1px solid #e0e0e0",
+                  fontSize: "0.8rem",
+                  fontWeight: 600,
+                  color: "#1a2340",
+                  background: "#f0f2f8",
+                }}>
+                  {selectedPOI.label}
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 10 }}>
+                <button
+                  onClick={handleTrazarRuta}
+                  disabled={!routeFrom}
+                  style={{
+                    flex: 1,
+                    padding: "12px",
+                    borderRadius: 10,
+                    border: "none",
+                    background: routeFrom ? "#2C3E73" : "#ccc",
+                    color: "#fff",
+                    fontWeight: 700,
+                    fontSize: "0.8rem",
+                    cursor: routeFrom ? "pointer" : "not-allowed",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 6,
+                  }}
+                >
+                  <i className="fa-solid fa-route"></i>
+                  Trazar ruta
+                </button>
+                <button
+                  onClick={() => setShowRouteSelector(false)}
+                  style={{
+                    padding: "12px 16px",
+                    borderRadius: 10,
+                    border: "1px solid #e0e0e0",
+                    background: "#fff",
+                    color: "#666",
+                    fontWeight: 600,
+                    fontSize: "0.8rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Route steps panel */}
+          {routeSteps.length > 0 && !showRouteSelector && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 20,
+                left: 15,
+                right: 15,
+                padding: "14px",
+                borderRadius: "16px",
+                background: "#ffffff",
+                boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
+                border: "1px solid rgba(0,0,0,0.07)",
+                zIndex: 1000,
+                maxHeight: 200,
+                overflowY: "auto",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                <span style={{ fontWeight: 800, fontSize: "0.8rem", color: "#F7931E", display: "flex", alignItems: "center", gap: 6 }}>
+                  <i className="fa-solid fa-route"></i>
+                  Ruta activa
+                </span>
+                <button
+                  onClick={handleClearRoute}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#999",
+                    cursor: "pointer",
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                  }}
+                >
+                  Limpiar
+                </button>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {routeSteps.map((step, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: "0.72rem" }}>
+                    <div style={{
+                      width: 8, height: 8, borderRadius: "50%", marginTop: 3, flexShrink: 0,
+                      background: step.type === "stairs" ? "#9CA3AF" : step.type === "arrival" ? "#22C55E" : "#2C3E73",
+                    }} />
+                    <span style={{ color: "#555", lineHeight: 1.3 }}>
+                      {step.label || floorNames[step.floorPlanId] || step.floorPlanId}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* POI detail popup */}
+          {selectedPOI && !showRouteSelector && routeSteps.length === 0 && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 20,
+                left: 15,
+                right: 15,
+                padding: "16px",
+                borderRadius: "16px",
+                background: "#ffffff",
+                boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
+                border: "1px solid rgba(0,0,0,0.07)",
+                zIndex: 1000,
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -208,14 +365,15 @@ export default function MapaPage() {
                       width: "40px",
                       height: "40px",
                       borderRadius: "12px",
-                      background: "rgba(44, 62, 115, 0.1)",
+                      background: "#2C3E73",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: "1.2rem",
+                      fontSize: "1rem",
+                      color: "#fff",
                     }}
                   >
-                    {selectedPOI.type === 'checkpoint' ? '⚡' : selectedPOI.type === 'event' ? '★' : '🏢'}
+                    {selectedPOI.type === "entrance" ? "🚪" : selectedPOI.type === "stairs" ? "⬆" : "⚡"}
                   </div>
                   <div>
                     <p style={{ margin: 0, fontWeight: "bold", fontSize: "0.9rem", color: "#1a2340" }}>{selectedPOI.label}</p>
@@ -235,30 +393,29 @@ export default function MapaPage() {
                   ✕
                 </button>
               </div>
-
-              {selectedPOI.type === 'checkpoint' && (
-                <div
+              <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+                <button
+                  onClick={handleComoLlegar}
                   style={{
+                    flex: 1,
+                    padding: "10px",
+                    borderRadius: 10,
+                    border: "none",
+                    background: "#2C3E73",
+                    color: "#fff",
+                    fontWeight: 700,
+                    fontSize: "0.78rem",
+                    cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 12px",
-                    borderRadius: "10px",
-                    fontSize: "0.75rem",
-                    fontWeight: "bold",
-                    background: unlockedCheckpoints.includes(selectedPOI.checkpointId || '')
-                      ? "rgba(34, 197, 94, 0.12)"
-                      : "rgba(212, 186, 70, 0.12)",
-                    color: unlockedCheckpoints.includes(selectedPOI.checkpointId || '')
-                      ? "#16a34a"
-                      : "#92750a",
+                    justifyContent: "center",
+                    gap: 6,
                   }}
                 >
-                  {unlockedCheckpoints.includes(selectedPOI.checkpointId || '')
-                    ? '✓ Checkpoint escaneado — Estampas desbloqueadas'
-                    : '⬡ Escanea el código QR de este checkpoint para obtener estampas'}
-                </div>
-              )}
+                  <i className="fa-solid fa-location-arrow"></i>
+                  Cómo llegar
+                </button>
+              </div>
             </div>
           )}
         </div>

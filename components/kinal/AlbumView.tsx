@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { mapPOIs, type AlbumSection, type Sticker } from '@/lib/kinal-data'
+import { type AlbumSection, type Sticker } from '@/lib/kinal-data'
 import ZoomModal from './ZoomModal'
 
 interface AlbumViewProps {
@@ -153,11 +153,8 @@ export default function AlbumView({
     setTiltStyle('rotateX(0deg) rotateY(0deg)')
   }
 
-  const getScanHint = (sticker: Sticker) => {
-    const poi = mapPOIs.find((p) => p.checkpointId === sticker.checkpointId)
-    return poi
-      ? `Escanea el código QR en ${poi.label} para desbloquear.`
-      : 'Visita el checkpoint correspondiente en la exposición.'
+  const getScanHint = (_sticker: Sticker) => {
+    return 'Visita el checkpoint correspondiente en la exposición y escanea el código QR para desbloquear.'
   }
 
   // Calcular datos de mascotas

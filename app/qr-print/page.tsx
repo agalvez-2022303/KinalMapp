@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { mapPOIs } from '@/lib/kinal-data'
+import { getAllCheckpoints } from '@/lib/kinal-data'
 
 const APP_URL = 'https://kinal-maa.vercel.app'
 
@@ -50,9 +50,7 @@ export default function QRPrintPage() {
   useEffect(() => {
     document.body.style.overflow = 'auto'
     document.documentElement.style.overflow = 'auto'
-    const cps = mapPOIs
-      .filter(p => p.type === 'checkpoint' && p.checkpointId)
-      .map(p => ({ id: p.checkpointId!, label: p.label }))
+    const cps = getAllCheckpoints().map(c => ({ id: c.id, label: c.label }))
     setCheckpoints(cps)
   }, [])
 

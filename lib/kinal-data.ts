@@ -1,63 +1,151 @@
-// ─── Campus Map Points of Interest ───────────────────────────────────────────
+// ─── Floor Plan Types ───────────────────────────────────────────────────────
 
-export interface MapPOI {
+export interface FloorPlanPOI {
   id: string
   label: string
-  x: number   // percentage
-  y: number   // percentage
-  type: 'checkpoint' | 'event' | 'building'
+  x: number
+  y: number
+  type: 'checkpoint' | 'entrance' | 'stairs'
   description: string
   checkpointId?: string
-  lat?: number
-  lng?: number
 }
 
-export const mapPOIs: MapPOI[] = [
-  { id: 'poi-1', label: 'Entrada Principal', x: 50, y: 30, type: 'building', description: 'Acceso principal — 6A Av. 13-54, Zona 7, Guatemala.', lat: 14.62598, lng: -90.53552 },
-  { id: 'poi-ba-1', label: 'Matemáticas I', x: 12, y: 38, type: 'checkpoint', description: 'Estampita: Matemáticas I', checkpointId: 'CP-BA-1', lat: 14.62638, lng: -90.53580 },
-  { id: 'poi-ba-2', label: 'Idioma Español', x: 16, y: 42, type: 'checkpoint', description: 'Estampita: Idioma Español', checkpointId: 'CP-BA-2', lat: 14.62640, lng: -90.53576 },
-  { id: 'poi-ba-3', label: 'Computación', x: 20, y: 38, type: 'checkpoint', description: 'Estampita: Computación', checkpointId: 'CP-BA-3', lat: 14.62636, lng: -90.53572 },
-  { id: 'poi-ba-4', label: 'Inglés', x: 24, y: 42, type: 'checkpoint', description: 'Estampita: Inglés', checkpointId: 'CP-BA-4', lat: 14.62638, lng: -90.53568 },
-  { id: 'poi-ba-5', label: 'Artes Plásticas', x: 14, y: 46, type: 'checkpoint', description: 'Estampita: Artes Plásticas', checkpointId: 'CP-BA-5', lat: 14.62642, lng: -90.53574 },
-  { id: 'poi-ba-6', label: 'Actitudes', x: 18, y: 50, type: 'checkpoint', description: 'Estampita: Actitudes', checkpointId: 'CP-BA-6', lat: 14.62644, lng: -90.53570 },
-  { id: 'poi-ba-7', label: 'Religión', x: 22, y: 46, type: 'checkpoint', description: 'Estampita: Religión', checkpointId: 'CP-BA-7', lat: 14.62640, lng: -90.53566 },
-  { id: 'poi-ba-8', label: 'Ciencias Naturales', x: 26, y: 50, type: 'checkpoint', description: 'Estampita: Ciencias Naturales', checkpointId: 'CP-BA-8', lat: 14.62642, lng: -90.53562 },
-  { id: 'poi-ba-9', label: 'Ciencias Sociales', x: 14, y: 54, type: 'checkpoint', description: 'Estampita: Ciencias Sociales', checkpointId: 'CP-BA-9', lat: 14.62646, lng: -90.53568 },
-  { id: 'poi-ba-10', label: 'Emprendimiento', x: 18, y: 58, type: 'checkpoint', description: 'Estampita: Emprendimiento', checkpointId: 'CP-BA-10', lat: 14.62648, lng: -90.53564 },
-  { id: 'poi-ba-11', label: 'Música', x: 22, y: 54, type: 'checkpoint', description: 'Estampita: Música', checkpointId: 'CP-BA-11', lat: 14.62644, lng: -90.53560 },
-  { id: 'poi-ba-12', label: 'Kaqchikel', x: 26, y: 58, type: 'checkpoint', description: 'Estampita: Kaqchikel', checkpointId: 'CP-BA-12', lat: 14.62646, lng: -90.53556 },
-  { id: 'poi-ba-13', label: 'BA-Mecánica', x: 14, y: 62, type: 'checkpoint', description: 'Estampita: BA-Mecánica', checkpointId: 'CP-BA-13', lat: 14.62650, lng: -90.53562 },
-  { id: 'poi-ba-14', label: 'BA-Electricidad', x: 18, y: 66, type: 'checkpoint', description: 'Estampita: BA-Electricidad', checkpointId: 'CP-BA-14', lat: 14.62652, lng: -90.53558 },
-  { id: 'poi-ba-15', label: 'BA-Electrónica', x: 22, y: 62, type: 'checkpoint', description: 'Estampita: BA-Electrónica', checkpointId: 'CP-BA-15', lat: 14.62648, lng: -90.53554 },
-  { id: 'poi-inf-1', label: '4to Informática', x: 62, y: 46, type: 'checkpoint', description: 'Estampita: 4to Informática', checkpointId: 'CP-INF-1', lat: 14.62628, lng: -90.53518 },
-  { id: 'poi-inf-2', label: '5to Informática', x: 66, y: 50, type: 'checkpoint', description: 'Estampita: 5to Informática', checkpointId: 'CP-INF-2', lat: 14.62626, lng: -90.53514 },
-  { id: 'poi-inf-3', label: '6to Informática', x: 70, y: 46, type: 'checkpoint', description: 'Estampita: 6to Informática', checkpointId: 'CP-INF-3', lat: 14.62624, lng: -90.53510 },
-  { id: 'poi-mec-1', label: '4to Mecánica', x: 38, y: 64, type: 'checkpoint', description: 'Estampita: 4to Mecánica', checkpointId: 'CP-MEC-1', lat: 14.62588, lng: -90.53530 },
-  { id: 'poi-mec-2', label: '5to Mecánica', x: 42, y: 68, type: 'checkpoint', description: 'Estampita: 5to Mecánica', checkpointId: 'CP-MEC-2', lat: 14.62586, lng: -90.53526 },
-  { id: 'poi-mec-3', label: '6to Mecánica', x: 46, y: 64, type: 'checkpoint', description: 'Estampita: 6to Mecánica', checkpointId: 'CP-MEC-3', lat: 14.62584, lng: -90.53522 },
-  { id: 'poi-ele-1', label: '4to Electrónica', x: 24, y: 60, type: 'checkpoint', description: 'Estampita: 4to Electrónica', checkpointId: 'CP-ELE-1', lat: 14.62594, lng: -90.53582 },
-  { id: 'poi-ele-2', label: '5to Electrónica', x: 28, y: 64, type: 'checkpoint', description: 'Estampita: 5to Electrónica', checkpointId: 'CP-ELE-2', lat: 14.62592, lng: -90.53578 },
-  { id: 'poi-ele-3', label: '6to Electrónica', x: 32, y: 60, type: 'checkpoint', description: 'Estampita: 6to Electrónica', checkpointId: 'CP-ELE-3', lat: 14.62590, lng: -90.53574 },
-  { id: 'poi-elc-1', label: '4to Electricidad', x: 64, y: 22, type: 'checkpoint', description: 'Estampita: 4to Electricidad', checkpointId: 'CP-ELC-1', lat: 14.62650, lng: -90.53506 },
-  { id: 'poi-elc-2', label: '5to Electricidad', x: 68, y: 26, type: 'checkpoint', description: 'Estampita: 5to Electricidad', checkpointId: 'CP-ELC-2', lat: 14.62648, lng: -90.53502 },
-  { id: 'poi-elc-3', label: '6to Electricidad', x: 72, y: 22, type: 'checkpoint', description: 'Estampita: 6to Electricidad', checkpointId: 'CP-ELC-3', lat: 14.62646, lng: -90.53498 },
-  { id: 'poi-dib-1', label: '4to Dibujo Técnico', x: 52, y: 76, type: 'checkpoint', description: 'Estampita: 4to Dibujo Técnico', checkpointId: 'CP-DIB-1', lat: 14.62570, lng: -90.53516 },
-  { id: 'poi-dib-2', label: '5to Dibujo Técnico', x: 56, y: 80, type: 'checkpoint', description: 'Estampita: 5to Dibujo Técnico', checkpointId: 'CP-DIB-2', lat: 14.62568, lng: -90.53512 },
-  { id: 'poi-dib-3', label: '6to Dibujo Técnico', x: 60, y: 76, type: 'checkpoint', description: 'Estampita: 6to Dibujo Técnico', checkpointId: 'CP-DIB-3', lat: 14.62566, lng: -90.53508 },
-  { id: 'poi-his-1', label: 'Fundación 1961', x: 12, y: 74, type: 'checkpoint', description: 'Estampita: Fundación 1961', checkpointId: 'CP-HIS-1', lat: 14.62576, lng: -90.53568 },
-  { id: 'poi-his-2', label: '25 Años de Trayectoria', x: 16, y: 78, type: 'checkpoint', description: 'Estampita: 25 Años de Trayectoria', checkpointId: 'CP-HIS-2', lat: 14.62574, lng: -90.53564 },
-  { id: 'poi-his-3', label: '65 Años Kinal', x: 20, y: 74, type: 'checkpoint', description: 'Estampita: 65 Años Kinal', checkpointId: 'CP-HIS-3', lat: 14.62572, lng: -90.53560 },
+export interface RouteNode {
+  id: string
+  floorPlanId: string
+  x: number
+  y: number
+  label?: string
+}
+
+export interface RouteEdge {
+  from: string
+  to: string
+}
+
+export interface FloorPlan {
+  id: string
+  name: string
+  image: string
+  width: number
+  height: number
+  pois: FloorPlanPOI[]
+  nodes: RouteNode[]
+  edges: RouteEdge[]
+}
+
+export const floorPlans: FloorPlan[] = [
+  {
+    id: 'pb',
+    name: 'Planta Baja',
+    image: '/planos/Edif1.png',
+    width: 1348,
+    height: 558,
+    pois: [
+      { id: 'C11', label: 'Sistemas básicos del vehículo', x: 12, y: 25, type: 'checkpoint', description: 'Proyectos de sistemas básicos del vehículo' },
+      { id: 'C12', label: 'Dibujo Técnico', x: 35, y: 25, type: 'checkpoint', description: 'Proyectos de Dibujo Técnico' },
+      { id: 'C13', label: 'Sistemas básicos del vehículo', x: 58, y: 25, type: 'checkpoint', description: 'Proyectos de sistemas básicos del vehículo' },
+      { id: 'C14', label: 'Sistemas eléctricos', x: 12, y: 65, type: 'checkpoint', description: 'Proyectos de sistemas eléctricos' },
+      { id: 'C15', label: 'Sistemas auxiliares del motor', x: 35, y: 65, type: 'checkpoint', description: 'Proyectos de sistemas auxiliares del motor' },
+      { id: 'I12', label: 'Motores', x: 58, y: 65, type: 'checkpoint', description: 'Proyectos de Motores' },
+      { id: 'entrance-pb', label: 'Entrada Principal', x: 5, y: 50, type: 'entrance', description: 'Acceso principal al edificio' },
+    ],
+    nodes: [
+      { id: 'hw-pb-1', floorPlanId: 'pb', x: 12, y: 45 },
+      { id: 'hw-pb-2', floorPlanId: 'pb', x: 35, y: 45 },
+      { id: 'hw-pb-3', floorPlanId: 'pb', x: 58, y: 45 },
+      { id: 'stairs-pb', floorPlanId: 'pb', x: 85, y: 50, label: 'Escaleras' },
+    ],
+    edges: [
+      { from: 'hw-pb-1', to: 'hw-pb-2' },
+      { from: 'hw-pb-2', to: 'hw-pb-3' },
+      { from: 'hw-pb-3', to: 'stairs-pb' },
+      { from: 'entrance-pb', to: 'hw-pb-1' },
+      { from: 'C11', to: 'hw-pb-1' },
+      { from: 'C14', to: 'hw-pb-1' },
+      { from: 'C12', to: 'hw-pb-2' },
+      { from: 'C15', to: 'hw-pb-2' },
+      { from: 'C13', to: 'hw-pb-3' },
+      { from: 'I12', to: 'hw-pb-3' },
+    ],
+  },
+  {
+    id: 'p2',
+    name: 'Piso 2',
+    image: '/planos/edif2.png',
+    width: 1360,
+    height: 910,
+    pois: [
+      { id: 'C20', label: 'Ciencias Exactas', x: 25, y: 30, type: 'checkpoint', description: 'Proyectos de ciencias exactas' },
+      { id: 'G21', label: 'Ciencias Naturales', x: 55, y: 30, type: 'checkpoint', description: 'Proyectos de ciencias naturales' },
+    ],
+    nodes: [
+      { id: 'hw-p2-1', floorPlanId: 'p2', x: 25, y: 45 },
+      { id: 'hw-p2-2', floorPlanId: 'p2', x: 55, y: 45 },
+      { id: 'stairs-p2', floorPlanId: 'p2', x: 85, y: 50, label: 'Escaleras' },
+    ],
+    edges: [
+      { from: 'hw-p2-1', to: 'hw-p2-2' },
+      { from: 'hw-p2-2', to: 'stairs-p2' },
+      { from: 'C20', to: 'hw-p2-1' },
+      { from: 'G21', to: 'hw-p2-2' },
+    ],
+  },
+  {
+    id: 'p3',
+    name: 'Piso 3',
+    image: '/planos/plano3.png',
+    width: 1360,
+    height: 910,
+    pois: [
+      { id: 'C31', label: 'Electricidad I', x: 10, y: 18, type: 'checkpoint', description: 'Proyectos de Electricidad' },
+      { id: 'C32', label: 'Electricidad II', x: 30, y: 18, type: 'checkpoint', description: 'Proyectos de Electricidad' },
+      { id: 'C33', label: 'Electricidad III', x: 50, y: 18, type: 'checkpoint', description: 'Proyectos de Electricidad' },
+      { id: 'C36', label: 'Electrónica I', x: 10, y: 42, type: 'checkpoint', description: 'Proyectos de Electrónica' },
+      { id: 'C37', label: 'Electrónica II', x: 30, y: 42, type: 'checkpoint', description: 'Proyectos de Electrónica' },
+      { id: 'C38', label: 'Electrónica III', x: 50, y: 42, type: 'checkpoint', description: 'Proyectos de Electrónica' },
+      { id: 'G35', label: 'Informática I', x: 10, y: 66, type: 'checkpoint', description: 'Proyectos de informática' },
+      { id: 'G36', label: 'Informática II', x: 30, y: 66, type: 'checkpoint', description: 'Proyectos de informática' },
+      { id: 'H32', label: 'Informática III', x: 50, y: 66, type: 'checkpoint', description: 'Proyectos de informática' },
+      { id: 'H33', label: 'Informática IV', x: 65, y: 66, type: 'checkpoint', description: 'Proyectos de informática' },
+      { id: 'H34', label: 'Informática V', x: 78, y: 66, type: 'checkpoint', description: 'Proyectos de informática' },
+    ],
+    nodes: [
+      { id: 'hw-p3-1', floorPlanId: 'p3', x: 10, y: 45 },
+      { id: 'hw-p3-2', floorPlanId: 'p3', x: 30, y: 45 },
+      { id: 'hw-p3-3', floorPlanId: 'p3', x: 50, y: 45 },
+      { id: 'hw-p3-4', floorPlanId: 'p3', x: 70, y: 45 },
+      { id: 'stairs-p3', floorPlanId: 'p3', x: 85, y: 50, label: 'Escaleras' },
+    ],
+    edges: [
+      { from: 'hw-p3-1', to: 'hw-p3-2' },
+      { from: 'hw-p3-2', to: 'hw-p3-3' },
+      { from: 'hw-p3-3', to: 'hw-p3-4' },
+      { from: 'hw-p3-4', to: 'stairs-p3' },
+      { from: 'C31', to: 'hw-p3-1' },
+      { from: 'C36', to: 'hw-p3-1' },
+      { from: 'G35', to: 'hw-p3-1' },
+      { from: 'C32', to: 'hw-p3-2' },
+      { from: 'C37', to: 'hw-p3-2' },
+      { from: 'G36', to: 'hw-p3-2' },
+      { from: 'C33', to: 'hw-p3-3' },
+      { from: 'C38', to: 'hw-p3-3' },
+      { from: 'H32', to: 'hw-p3-3' },
+      { from: 'H33', to: 'hw-p3-4' },
+      { from: 'H34', to: 'hw-p3-4' },
+    ],
+  },
 ]
 
-export const todayEvents = [
-  { time: '08:30', title: 'Inauguración Expo Anual', location: 'Aula Magna', color: 'gold' },
-  { time: '09:00', title: 'Feria de Computación', location: 'Lab. Informática', color: 'orange' },
-  { time: '10:30', title: 'Muestra de Diseño Gráfico', location: 'Pasillo C', color: 'navy' },
-  { time: '13:00', title: 'Presentación Banda Escolar', location: 'Cancha Principal', color: 'gold' },
-  { time: '15:00', title: 'Premiación de Checkpoints', location: 'Aula Magna', color: 'orange' },
-]
+export function getAllFloorPOIs(): FloorPlanPOI[] {
+  return floorPlans.flatMap(fp => fp.pois)
+}
 
-// ─── Sticker Album Data ───────────────────────────────────────────────────────
+export function getFloorPlanById(id: string): FloorPlan | undefined {
+  return floorPlans.find(fp => fp.id === id)
+}
+
+// ─── Sticker Album Data (unchanged) ─────────────────────────────────────────
 
 export interface Sticker {
   id: string
@@ -107,7 +195,6 @@ export const albumSections: AlbumSection[] = [
       { id: 's13', name: 'BA-Mecánica', section: 'Básicos', sectionId: 'basicos-1', checkpointId: 'CP-BA-13', unlocked: false, emoji: '🔧'},
       { id: 's14', name: 'BA-Electricidad', section: 'Básicos', sectionId: 'basicos-1', checkpointId: 'CP-BA-14', unlocked: false, emoji: '💡'},
       { id: 's15', name: 'BA-Electrónica', section: 'Básicos', sectionId: 'basicos-1', checkpointId: 'CP-BA-15', unlocked: false, emoji: '⚡'},
-      
     ],
   },
   {
@@ -202,7 +289,27 @@ export const albumSections: AlbumSection[] = [
   },
 ]
 
-// ─── Historia / Timeline Data ─────────────────────────────────────────────────
+export function getAllCheckpoints(): { id: string; label: string; description: string }[] {
+  return albumSections.flatMap(sec =>
+    sec.stickers.map(st => ({
+      id: st.checkpointId,
+      label: st.name,
+      description: `Estampita: ${st.name}`,
+    }))
+  )
+}
+
+// ─── Events ─────────────────────────────────────────────────────────────────
+
+export const todayEvents = [
+  { time: '08:30', title: 'Inauguración Expo Anual', location: 'Aula Magna', color: 'gold' },
+  { time: '09:00', title: 'Feria de Computación', location: 'Lab. Informática', color: 'orange' },
+  { time: '10:30', title: 'Muestra de Diseño Gráfico', location: 'Pasillo C', color: 'navy' },
+  { time: '13:00', title: 'Presentación Banda Escolar', location: 'Cancha Principal', color: 'gold' },
+  { time: '15:00', title: 'Premiación de Checkpoints', location: 'Aula Magna', color: 'orange' },
+]
+
+// ─── Timeline ───────────────────────────────────────────────────────────────
 
 export interface TimelineEntry {
   year: string
@@ -213,7 +320,7 @@ export interface TimelineEntry {
 }
 
 export const timelineEntries: TimelineEntry[] = [
-   {
+  {
     year: "1961",
     title: 'Fundación de Kinal',
     description: 'Inicia la labor educativa en el municipio de Mixco, impulsada por fieles del Opus Dei y jóvenes profesionales.',

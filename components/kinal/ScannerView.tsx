@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { mapPOIs } from '@/lib/kinal-data'
+import { getAllCheckpoints } from '@/lib/kinal-data'
 
 interface ScannerViewProps {
   unlockedCheckpoints: string[]
@@ -10,9 +10,7 @@ interface ScannerViewProps {
 
 type ScanState = 'idle' | 'scanning' | 'success' | 'already' | 'error'
 
-const VALID_CHECKPOINTS = mapPOIs
-  .filter((p) => p.type === 'checkpoint' && p.checkpointId)
-  .map((p) => ({ id: p.checkpointId!, label: p.label }))
+const VALID_CHECKPOINTS = getAllCheckpoints().map((c) => ({ id: c.id, label: c.label }))
 
 const COOLDOWN_MS = 2500
 
