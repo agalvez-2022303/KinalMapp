@@ -7,7 +7,8 @@ import { TEST_CHECKPOINTS } from '@/lib/checkpoints-test'
 const CHECKPOINT_COLORS: Record<string, string> = {
   'CP-BA-1': '#bc7b4e', 'CP-BA-2': '#b07040', 'CP-BA-3': '#a46635', 'CP-BA-4': '#985c2a',
   'CP-BA-5': '#8c5220', 'CP-BA-6': '#804815', 'CP-BA-7': '#743e0a', 'CP-BA-8': '#683400',
-  'CP-BA-9': '#5c2a00', 'CP-BA-10': '#502000', 'CP-BA-11': '#441600', 'CP-BA-12': '#380c00', 'CP-BA-13': '#2c0200',
+  'CP-BA-9': '#5c2a00', 'CP-BA-10': '#502000', 'CP-BA-11': '#441600', 'CP-BA-12': '#380c00',
+  'CP-BA-13': '#bc7b4e', 'CP-BA-14': '#a46635', 'CP-BA-15': '#8c5220',
   'CP-INF-1': '#bda69a', 'CP-INF-2': '#b09888', 'CP-INF-3': '#a38a76',
   'CP-MEC-1': '#a7a4a9', 'CP-MEC-2': '#9a969b', 'CP-MEC-3': '#8d898e',
   'CP-ELE-1': '#d7bb96', 'CP-ELE-2': '#caa884', 'CP-ELE-3': '#bd9572',
