@@ -1,7 +1,7 @@
 "use client"
 
 import { type RouteStep } from "@/lib/routing"
-import { type FloorPlanPOI, getBuildingFromId } from "@/lib/kinal-data"
+import { type FloorPlanPOI, getBuildingFromId, getLevelById, getBuildingById } from "@/lib/kinal-data"
 
 interface NavigationGuideProps {
   steps: RouteStep[]
@@ -13,16 +13,16 @@ interface NavigationGuideProps {
   isPaused?: boolean
 }
 
-const floorNames: Record<string, string> = {
-  pb: "Planta Baja",
-  p2: "Piso 2",
-  p3: "Piso 3",
+function getLevelName(levelId: string): string {
+  const level = getLevelById(levelId)
+  return level?.name || levelId
 }
 
 function getStepIcon(type: string) {
   switch (type) {
     case "arrival": return "📍"
     case "stairs": return "⬆️"
+    case "exterior": return "🌳"
     default: return "🚶"
   }
 }
@@ -39,6 +39,9 @@ function getStepLabel(step: RouteStep, index: number, total: number, fromPOI?: F
   if (step.type === "stairs") {
     const label = step.label || "Subir escaleras"
     return `${label}`
+  }
+  if (step.type === "exterior") {
+    return "Cruzar el campus"
   }
   if (step.label) return `Seguir hacia ${step.label}`
   return "Continuar"
@@ -142,11 +145,11 @@ export default function NavigationGuide({
                     </div>
                     {step.type !== "arrival" && (
                       <span className="text-[8px] text-gray-400 font-medium ml-4">
-                        {floorNames[step.floorPlanId] || step.floorPlanId}
+                        {getLevelName(step.levelId)}
                         {step.label && getBuildingFromId(step.label) !== "Edificio" ? ` · ${getBuildingFromId(step.label)}` : ""}
-                        {i < steps.length - 1 && steps[i + 1]?.floorPlanId !== step.floorPlanId && (
+                        {i < steps.length - 1 && steps[i + 1]?.levelId !== step.levelId && (
                           <span className="text-[#6B7280] ml-1">
-                            → {floorNames[steps[i + 1]?.floorPlanId] || steps[i + 1]?.floorPlanId}
+                            → {getLevelName(steps[i + 1]?.levelId)}
                           </span>
                         )}
                       </span>

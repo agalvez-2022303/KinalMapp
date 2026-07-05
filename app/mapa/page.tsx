@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import MobileFrame from "@/components/kinal/MobileFrame"
 import dynamic from "next/dynamic"
-import { getAllFloorPOIs, type FloorPlanPOI } from "@/lib/kinal-data"
+import { getAllLevelPOIs as getAllFloorPOIs, getAllBuildings, type FloorPlanPOI } from "@/lib/kinal-data"
 import { calculateRoute, type RouteStep } from "@/lib/routing"
 
 const FloorPlanMap = dynamic(() => import("@/components/kinal/FloorPlanMap"), {
@@ -54,10 +54,10 @@ export default function MapaPage() {
     setShowRouteSelector(false)
   }
 
-  const floorNames: Record<string, string> = {
-    pb: "Planta Baja",
-    p2: "Piso 2",
-    p3: "Piso 3",
+  const floorNames: Record<string, string> = {}
+  // Build level name lookup from all buildings
+  for (const b of getAllBuildings()) {
+    for (const l of b.levels) floorNames[l.id] = l.name
   }
 
   return (
@@ -334,7 +334,7 @@ export default function MapaPage() {
                       background: step.type === "stairs" ? "#9CA3AF" : step.type === "arrival" ? "#22C55E" : "#2C3E73",
                     }} />
                     <span style={{ color: "#555", lineHeight: 1.3 }}>
-                      {step.label || floorNames[step.floorPlanId] || step.floorPlanId}
+                      {step.label || floorNames[step.levelId] || step.levelId}
                     </span>
                   </div>
                 ))}

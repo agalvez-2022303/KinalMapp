@@ -1,63 +1,85 @@
-import { floorPlans, type FloorPlanPOI } from "./kinal-data"
+import { buildings, STAIR_LINKS, BUILDING_EXITS, type BuildingLevel, type FloorPlanPOI } from "./kinal-data"
 
 export interface RouteStep {
-  floorPlanId: string
+  levelId: string
   x: number
   y: number
   label?: string
-  type: "walk" | "stairs" | "arrival"
+  type: "walk" | "stairs" | "arrival" | "exterior"
 }
 
 interface GraphNode {
   id: string
-  floorPlanId: string
+  levelId: string
   x: number
   y: number
   label?: string
-}
-
-interface GraphEdge {
-  from: string
-  to: string
 }
 
 function buildGraph() {
   const nodes = new Map<string, GraphNode>()
   const adj = new Map<string, { to: string; weight: number }[]>()
 
-  for (const fp of floorPlans) {
-    for (const node of fp.nodes) {
-      nodes.set(node.id, node)
-      adj.set(node.id, [])
-    }
-    for (const poi of fp.pois) {
-      nodes.set(poi.id, { id: poi.id, floorPlanId: fp.id, x: poi.x, y: poi.y, label: poi.label })
-      adj.set(poi.id, [])
-    }
-  }
-
-  for (const fp of floorPlans) {
-    for (const edge of fp.edges) {
-      const a = nodes.get(edge.from)
-      const b = nodes.get(edge.to)
-      if (!a || !b) continue
-      const w = Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
-      adj.get(edge.from)!.push({ to: edge.to, weight: w })
-      adj.get(edge.to)!.push({ to: edge.from, weight: w })
+  // Add all nodes from all building levels
+  for (const b of buildings) {
+    for (const level of b.levels) {
+      for (const node of level.nodes) {
+        nodes.set(node.id, node)
+        adj.set(node.id, [])
+      }
+      for (const poi of level.pois) {
+        nodes.set(poi.id, { id: poi.id, levelId: level.id, x: poi.x, y: poi.y, label: poi.label })
+        adj.set(poi.id, [])
+      }
     }
   }
 
-  const stairs = floorPlans.map(fp => fp.nodes.find(n => n.id.startsWith("stairs-")))
-  for (let i = 0; i < stairs.length - 1; i++) {
-    const a = stairs[i]
-    const b = stairs[i + 1]
-    if (a && b) {
-      adj.get(a.id)!.push({ to: b.id, weight: 10 })
-      adj.get(b.id)!.push({ to: a.id, weight: 10 })
+  // Add edges within each level
+  for (const b of buildings) {
+    for (const level of b.levels) {
+      for (const edge of level.edges) {
+        const a = nodes.get(edge.from)
+        const b = nodes.get(edge.to)
+        if (!a || !b) continue
+        const w = Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+        adj.get(edge.from)!.push({ to: edge.to, weight: w })
+        adj.get(edge.to)!.push({ to: edge.from, weight: w })
+      }
+    }
+  }
+
+  // Connect stairs within the same building (between consecutive levels)
+  for (const [buildingId, links] of Object.entries(STAIR_LINKS)) {
+    for (const [stairA, stairB] of links) {
+      const a = nodes.get(stairA)
+      const b = nodes.get(stairB)
+      if (a && b) {
+        adj.get(stairA)!.push({ to: stairB, weight: 10 })
+        adj.get(stairB)!.push({ to: stairA, weight: 10 })
+      }
+    }
+  }
+
+  // Connect building exits to exterior nodes
+  for (const [exitNodeId, extNodeId] of Object.entries(BUILDING_EXITS)) {
+    const exitNode = nodes.get(exitNodeId)
+    const extNode = nodes.get(extNodeId)
+    if (exitNode && extNode) {
+      adj.get(exitNodeId)!.push({ to: extNodeId, weight: 5 })
+      adj.get(extNodeId)!.push({ to: exitNodeId, weight: 5 })
     }
   }
 
   return { nodes, adj }
+}
+
+function getLevelName(levelId: string): string {
+  const parts = levelId.split("-")
+  const levelNum = parts[parts.length - 1]
+  if (levelNum === "n1") return "Nivel 1"
+  if (levelNum === "n2") return "Nivel 2"
+  if (levelNum === "n3") return "Nivel 3"
+  return levelId
 }
 
 export function calculateRoute(
@@ -114,57 +136,73 @@ export function calculateRoute(
 
   if (path.length < 2) return []
 
+  // Convert path to RouteSteps
   const steps: RouteStep[] = []
-  let lastFloor = nodes.get(path[0])!.floorPlanId
+  let lastLevel = nodes.get(path[0])!.levelId
+
   for (let i = 0; i < path.length; i++) {
     const node = nodes.get(path[i])!
-    const floorChanged = node.floorPlanId !== lastFloor
-    if (floorChanged) {
-      steps.push({
-        type: "stairs",
-        floorPlanId: node.floorPlanId,
-        x: node.x,
-        y: node.y,
-        label: node.label || (node.floorPlanId === "pb" ? "Bajar a Planta Baja" : "Subir al Piso 2"),
-      })
-    }
+    const levelChanged = node.levelId !== lastLevel
+    const isExterior = node.levelId === "exterior"
     const isStairNode = node.id.startsWith("stairs-")
+    const isExitNode = node.id.startsWith("exit-")
     const isArrival = i === path.length - 1
+
+    if (levelChanged) {
+      if (isExterior) {
+        steps.push({
+          type: "exterior",
+          levelId: node.levelId,
+          x: node.x,
+          y: node.y,
+          label: "Cruzar el campus",
+        })
+      } else if (isStairNode) {
+        steps.push({
+          type: "stairs",
+          levelId: node.levelId,
+          x: node.x,
+          y: node.y,
+          label: node.label || getLevelName(node.levelId),
+        })
+      }
+    }
+
     steps.push({
-      type: isArrival ? "arrival" : isStairNode && floorChanged ? "stairs" : "walk",
-      floorPlanId: node.floorPlanId,
+      type: isArrival ? "arrival" : isExitNode ? "walk" : isStairNode && levelChanged ? "stairs" : isExterior ? "exterior" : "walk",
+      levelId: node.levelId,
       x: node.x,
       y: node.y,
       label: node.label,
     })
-    lastFloor = node.floorPlanId
+
+    lastLevel = node.levelId
   }
 
-  const floorNames: Record<string, string> = {
-    pb: "Planta Baja",
-    p2: "Piso 2",
-    p3: "Piso 3",
-  }
-
+  // Clean up duplicate/adjacent steps
   const cleanSteps: RouteStep[] = []
   for (let i = 0; i < steps.length; i++) {
+    // Skip duplicate consecutive stairs
+    if (i > 0 && steps[i].type === "stairs" && steps[i - 1].type === "stairs") continue
+    // Skip consecutive exterior steps (keep only first)
+    if (i > 0 && steps[i].type === "exterior" && steps[i - 1].type === "exterior") continue
+
     if (i === 0) {
-      cleanSteps.push({
-        ...steps[i],
-        label: `Salir de: ${fromPOI.label}`,
-      })
+      cleanSteps.push({ ...steps[i], label: `Salir de: ${fromPOI.label}` })
       continue
     }
-    const prevStep = steps[i - 1]
-    if (steps[i].type === "stairs" && prevStep.type === "stairs") continue
-    if (steps[i].type === "walk" && prevStep.type === "stairs" && steps[i].label?.startsWith("Subir")) {
-      cleanSteps.push({
-        ...steps[i],
-        label: `Subir a ${floorNames[steps[i].floorPlanId] || steps[i].floorPlanId}`,
-      })
-      continue
-    }
+
     cleanSteps.push(steps[i])
+  }
+
+  // Add descriptive labels for key transitions
+  for (let i = 0; i < cleanSteps.length; i++) {
+    if (cleanSteps[i].type === "exterior" && !cleanSteps[i].label) {
+      cleanSteps[i].label = "Atravesar el campus"
+    }
+    if (cleanSteps[i].type === "arrival") {
+      cleanSteps[i].label = `Llegar a: ${toPOI.label}`
+    }
   }
 
   return cleanSteps

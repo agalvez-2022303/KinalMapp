@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo, useCallback, useRef } from "react"
-import { getAllFloorPOIs, floorPlans, getBuildingFromId, type FloorPlanPOI } from "@/lib/kinal-data"
+import { getAllLevelPOIs, getAllLevels, getAllBuildings, getLevelById, getBuildingById, getBuildingFromId, type FloorPlanPOI, type Building, type BuildingLevel } from "@/lib/kinal-data"
 import { calculateRoute, type RouteStep } from "@/lib/routing"
 import dynamic from "next/dynamic"
 import NavigationGuide from "./NavigationGuide"
@@ -28,12 +28,18 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
   const routeStepsRef = useRef(routeSteps)
   routeStepsRef.current = routeSteps
 
-  const allPOIs = useMemo(() => getAllFloorPOIs(), [])
+  const allPOIs = useMemo(() => getAllLevelPOIs(), [])
 
   const entrancePOI = useMemo(
     () => allPOIs.find((p) => p.type === "entrance"),
     [allPOIs]
   )
+
+  const levelNames = useMemo(() => {
+    const map: Record<string, string> = {}
+    for (const l of getAllLevels()) map[l.id] = l.name
+    return map
+  }, [])
 
   const activeRoute = useMemo(() => {
     if (routeMode !== "active" && routeMode !== "navigating") return null
@@ -61,7 +67,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
     setRouteMode("idle")
     setRouteFrom(null)
     setCurrentNavStep(0)
-    setNavFloorId("pb")
+    setNavFloorId("")
     if (timerRef.current) {
       clearInterval(timerRef.current)
       timerRef.current = null
@@ -83,7 +89,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
     setRouteMode("navigating")
     setCurrentNavStep(0)
     const firstStep = routeStepsRef.current[0]
-    setNavFloorId(firstStep?.floorPlanId || "pb")
+    if (firstStep) setNavFloorId(firstStep.levelId)
 
     const steps = routeStepsRef.current
     if (steps.length < 2) return
@@ -97,7 +103,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
         }
         const step = steps[next]
         if (step) {
-          setNavFloorId(step.floorPlanId)
+          setNavFloorId(step.levelId)
         }
         return next
       })
@@ -107,7 +113,6 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
   const handlePauseNavigation = useCallback(() => {
     setIsPaused((p) => {
       if (p) {
-        // Resume
         timerRef.current = setInterval(() => {
           setCurrentNavStep((prev) => {
             const next = prev + 1
@@ -116,12 +121,11 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
               timerRef.current = null
             }
             const step = routeSteps[next]
-            if (step) setNavFloorId(step.floorPlanId)
+            if (step) setNavFloorId(step.levelId)
             return next
           })
         }, 3000)
       } else {
-        // Pause
         if (timerRef.current) {
           clearInterval(timerRef.current)
           timerRef.current = null
@@ -134,12 +138,6 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
   const handleStopNavigation = useCallback(() => {
     handleClearRoute()
   }, [handleClearRoute])
-
-  const floorNames: Record<string, string> = {
-    pb: "Planta Baja",
-    p2: "Piso 2",
-    p3: "Piso 3",
-  }
 
   return (
     <div className="flex flex-col w-full h-full bg-background overflow-hidden font-sans">
@@ -211,7 +209,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="text-[10px] font-bold text-gray-700 leading-tight block">
-                          {step.label || floorNames[step.floorPlanId] || step.floorPlanId}
+                          {step.label || levelNames[step.levelId] || step.levelId}
                         </span>
                       </div>
                     </div>
@@ -344,7 +342,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                         Ubicación
                       </p>
                       <p className="text-xs font-extrabold text-primary mt-0.5 leading-none">
-                        {floorPlans.find((fp) => fp.id === selectedPOI.floorPlanId)?.name || selectedPOI.floorPlanId}
+                        {getBuildingFromId(selectedPOI.id)}
                       </p>
                     </div>
                     <div className="bg-gray-50 p-3 rounded-2xl border border-outline-variant/10">

@@ -1,4 +1,4 @@
-// ─── Floor Plan Types ───────────────────────────────────────────────────────
+// ─── Types ──────────────────────────────────────────────────────────────────
 
 export interface FloorPlanPOI {
   id: string
@@ -8,27 +8,12 @@ export interface FloorPlanPOI {
   type: 'checkpoint' | 'entrance' | 'stairs'
   description: string
   checkpointId?: string
-  building?: string
-}
-
-const BUILDING_NAMES: Record<string, string> = {
-  C: "Edificio C",
-  G: "Edificio G",
-  H: "Edificio H",
-  I: "Edificio I",
-  F: "Edificio F",
-  B: "Servicios",
-}
-
-export function getBuildingFromId(id: string): string {
-  if (id.startsWith("entrance")) return "Entrada Principal"
-  const prefix = id.charAt(0)
-  return BUILDING_NAMES[prefix] || "Edificio"
+  buildingId?: string
 }
 
 export interface RouteNode {
   id: string
-  floorPlanId: string
+  levelId: string
   x: number
   y: number
   label?: string
@@ -49,9 +34,10 @@ export interface RoomShape {
   label: string
 }
 
-export interface FloorPlan {
+export interface BuildingLevel {
   id: string
   name: string
+  buildingId: string
   image: string
   width: number
   height: number
@@ -60,6 +46,14 @@ export interface FloorPlan {
   edges: RouteEdge[]
   rooms: RoomShape[]
 }
+
+export interface Building {
+  id: string
+  name: string
+  levels: BuildingLevel[]
+}
+
+// ─── Soft blue & orange palette ────────────────────────────────────────────
 
 export const DEPT_COLORS = {
   mecanica: '#F7931E',
@@ -71,141 +65,355 @@ export const DEPT_COLORS = {
   stairs: '#6B7280',
 }
 
-export const floorPlans: FloorPlan[] = [
+const SOFT_BLUE = '#3B82F6'
+const SOFT_ORANGE = '#FB923C'
+
+// ─── Building helpers ───────────────────────────────────────────────────────
+
+const BUILDING_NAMES: Record<string, string> = {
+  C: "Edificio C",
+  G: "Edificio G",
+  H: "Edificio H",
+  I: "Edificio I",
+  F: "Edificio F",
+  B: "Servicios",
+}
+
+export function getBuildingFromId(id: string): string {
+  if (id.startsWith("entrance")) return "Entrada Principal"
+  const prefix = id.charAt(0)
+  return BUILDING_NAMES[prefix] || "Edificio"
+}
+
+// ─── Buildings data ────────────────────────────────────────────────────────
+
+export const buildings: Building[] = [
+  // ── Edificio C (C, I) ──────────────────────────────────────────────────────
   {
-    id: 'pb',
-    name: 'Planta Baja',
-    image: '/planos/plano-nivel-1.svg',
-    width: 2487,
-    height: 995,
-    pois: [
-      { id: 'C-12', label: 'Dibujo Técnico', x: 2070, y: 377, type: 'checkpoint', description: 'Proyectos de Dibujo Técnico' },
-      { id: 'C-13', label: 'Sistemas básicos del vehículo', x: 2210, y: 304, type: 'checkpoint', description: 'Proyectos de sistemas básicos del vehículo' },
-      { id: 'C-14', label: 'Sistemas eléctricos', x: 2070, y: 308, type: 'checkpoint', description: 'Proyectos de sistemas eléctricos' },
-      { id: 'C-15', label: 'Sistemas auxiliares del motor', x: 2143, y: 184, type: 'checkpoint', description: 'Proyectos de sistemas auxiliares del motor' },
-      { id: 'I-12', label: 'Motores', x: 2337, y: 226, type: 'checkpoint', description: 'Proyectos de Motores' },
-      { id: 'entrance-pb', label: 'Entrada Principal', x: 1625, y: 624, type: 'entrance', description: 'Acceso principal al edificio' },
-    ],
-    rooms: [
-      { id: 'room-c12', x: 1950, y: 300, width: 180, height: 150, color: DEPT_COLORS.dibujo, label: 'C-12' },
-      { id: 'room-c13', x: 2100, y: 230, width: 220, height: 150, color: DEPT_COLORS.mecanica, label: 'C-13' },
-      { id: 'room-c14', x: 1950, y: 230, width: 180, height: 150, color: DEPT_COLORS.mecanica, label: 'C-14' },
-      { id: 'room-c15', x: 2000, y: 120, width: 200, height: 130, color: DEPT_COLORS.mecanica, label: 'C-15' },
-      { id: 'room-i12', x: 2200, y: 120, width: 200, height: 130, color: DEPT_COLORS.mecanica, label: 'I-12' },
-      { id: 'room-entrance', x: 1550, y: 580, width: 120, height: 80, color: DEPT_COLORS.entrance, label: 'Entrada' },
-      { id: 'room-stairs-pb', x: 2100, y: 60, width: 100, height: 80, color: DEPT_COLORS.stairs, label: 'Escaleras' },
-    ],
-    nodes: [
-      { id: 'hw-pb-1', floorPlanId: 'pb', x: 1800, y: 550 },
-      { id: 'hw-pb-2', floorPlanId: 'pb', x: 1800, y: 380 },
-      { id: 'hw-pb-3', floorPlanId: 'pb', x: 1800, y: 220 },
-      { id: 'stairs-pb', floorPlanId: 'pb', x: 2150, y: 100, label: 'Escaleras' },
-    ],
-    edges: [
-      { from: 'hw-pb-1', to: 'hw-pb-2' },
-      { from: 'hw-pb-2', to: 'hw-pb-3' },
-      { from: 'hw-pb-3', to: 'stairs-pb' },
-      { from: 'entrance-pb', to: 'hw-pb-1' },
-      { from: 'C-14', to: 'hw-pb-1' },
-      { from: 'C-12', to: 'hw-pb-2' },
-      { from: 'C-15', to: 'hw-pb-2' },
-      { from: 'C-13', to: 'hw-pb-3' },
-      { from: 'I-12', to: 'hw-pb-3' },
+    id: "edificio-c",
+    name: "Edificio C",
+    levels: [
+      {
+        id: "edificio-c-n1",
+        name: "Nivel 1",
+        buildingId: "edificio-c",
+        image: "/planos/edificio-c-n1.svg",
+        width: 637,
+        height: 550,
+        pois: [
+          { id: 'C-12', label: 'Dibujo Técnico', x: 220, y: 377, type: 'checkpoint', description: 'Proyectos de Dibujo Técnico' },
+          { id: 'C-13', label: 'Sistemas básicos del vehículo', x: 360, y: 304, type: 'checkpoint', description: 'Proyectos de sistemas básicos del vehículo' },
+          { id: 'C-14', label: 'Sistemas eléctricos', x: 220, y: 308, type: 'checkpoint', description: 'Proyectos de sistemas eléctricos' },
+          { id: 'C-15', label: 'Sistemas auxiliares del motor', x: 293, y: 184, type: 'checkpoint', description: 'Proyectos de sistemas auxiliares del motor' },
+          { id: 'I-12', label: 'Motores', x: 487, y: 226, type: 'checkpoint', description: 'Proyectos de Motores' },
+        ],
+        rooms: [
+          { id: 'room-c12', x: 100, y: 300, width: 180, height: 150, color: DEPT_COLORS.dibujo, label: 'C-12' },
+          { id: 'room-c13', x: 250, y: 230, width: 220, height: 150, color: DEPT_COLORS.mecanica, label: 'C-13' },
+          { id: 'room-c14', x: 100, y: 230, width: 180, height: 150, color: DEPT_COLORS.mecanica, label: 'C-14' },
+          { id: 'room-c15', x: 150, y: 120, width: 200, height: 130, color: DEPT_COLORS.mecanica, label: 'C-15' },
+          { id: 'room-i12', x: 350, y: 120, width: 200, height: 130, color: DEPT_COLORS.mecanica, label: 'I-12' },
+          { id: 'room-stairs-ec-n1', x: 250, y: 60, width: 100, height: 80, color: DEPT_COLORS.stairs, label: 'Escaleras' },
+        ],
+        nodes: [
+          { id: 'hw-ec-n1-1', levelId: 'edificio-c-n1', x: 100, y: 450 },
+          { id: 'hw-ec-n1-2', levelId: 'edificio-c-n1', x: 100, y: 300 },
+          { id: 'hw-ec-n1-3', levelId: 'edificio-c-n1', x: 100, y: 180 },
+          { id: 'stairs-ec-n1', levelId: 'edificio-c-n1', x: 300, y: 100, label: 'Escaleras' },
+          { id: 'exit-ec-n1', levelId: 'edificio-c-n1', x: 637, y: 450, label: 'Salida Edificio C' },
+        ],
+        edges: [
+          { from: 'hw-ec-n1-1', to: 'hw-ec-n1-2' },
+          { from: 'hw-ec-n1-2', to: 'hw-ec-n1-3' },
+          { from: 'hw-ec-n1-3', to: 'stairs-ec-n1' },
+          { from: 'C-14', to: 'hw-ec-n1-1' },
+          { from: 'C-12', to: 'hw-ec-n1-2' },
+          { from: 'C-15', to: 'hw-ec-n1-2' },
+          { from: 'C-13', to: 'hw-ec-n1-3' },
+          { from: 'I-12', to: 'hw-ec-n1-3' },
+          { from: 'exit-ec-n1', to: 'hw-ec-n1-1' },
+        ],
+      },
+      {
+        id: "edificio-c-n2",
+        name: "Nivel 2",
+        buildingId: "edificio-c",
+        image: "/planos/edificio-c-n2.svg",
+        width: 800,
+        height: 1200,
+        pois: [
+          { id: 'C-20', label: 'Ciencias Exactas', x: 370, y: 999, type: 'checkpoint', description: 'Proyectos de ciencias exactas' },
+        ],
+        rooms: [
+          { id: 'room-c20', x: 200, y: 850, width: 350, height: 300, color: DEPT_COLORS.dibujo, label: 'C-20' },
+          { id: 'room-stairs-ec-n2', x: 600, y: 1500, width: 120, height: 100, color: DEPT_COLORS.stairs, label: 'Escaleras' },
+        ],
+        nodes: [
+          { id: 'hw-ec-n2-1', levelId: 'edificio-c-n2', x: 300, y: 1100 },
+          { id: 'hw-ec-n2-2', levelId: 'edificio-c-n2', x: 400, y: 1100 },
+          { id: 'stairs-ec-n2', levelId: 'edificio-c-n2', x: 660, y: 1550, label: 'Escaleras' },
+        ],
+        edges: [
+          { from: 'hw-ec-n2-1', to: 'hw-ec-n2-2' },
+          { from: 'hw-ec-n2-2', to: 'stairs-ec-n2' },
+          { from: 'C-20', to: 'hw-ec-n2-2' },
+        ],
+      },
+      {
+        id: "edificio-c-n3",
+        name: "Nivel 3",
+        buildingId: "edificio-c",
+        image: "/planos/edificio-c-n3.svg",
+        width: 875,
+        height: 850,
+        pois: [
+          { id: 'C-31', label: 'Electricidad I', x: 711, y: 682, type: 'checkpoint', description: 'Proyectos de Electricidad' },
+          { id: 'C-32', label: 'Electricidad II', x: 415, y: 685, type: 'checkpoint', description: 'Proyectos de Electricidad' },
+          { id: 'C-33', label: 'Electricidad III', x: 715, y: 534, type: 'checkpoint', description: 'Proyectos de Electricidad' },
+          { id: 'C-36', label: 'Electrónica I', x: 416, y: 274, type: 'checkpoint', description: 'Proyectos de Electrónica' },
+          { id: 'C-37', label: 'Electrónica II', x: 720, y: 275, type: 'checkpoint', description: 'Proyectos de Electrónica' },
+          { id: 'C-38', label: 'Electrónica III', x: 420, y: 121, type: 'checkpoint', description: 'Proyectos de Electrónica' },
+        ],
+        rooms: [
+          { id: 'room-c31', x: 580, y: 600, width: 200, height: 160, color: DEPT_COLORS.electricidad, label: 'C-31' },
+          { id: 'room-c32', x: 280, y: 600, width: 200, height: 160, color: DEPT_COLORS.electricidad, label: 'C-32' },
+          { id: 'room-c33', x: 580, y: 450, width: 200, height: 160, color: DEPT_COLORS.electricidad, label: 'C-33' },
+          { id: 'room-c36', x: 280, y: 200, width: 200, height: 150, color: DEPT_COLORS.electronica, label: 'C-36' },
+          { id: 'room-c37', x: 580, y: 200, width: 200, height: 150, color: DEPT_COLORS.electronica, label: 'C-37' },
+          { id: 'room-c38', x: 280, y: 50, width: 200, height: 150, color: DEPT_COLORS.electronica, label: 'C-38' },
+          { id: 'room-stairs-ec-n3', x: 700, y: 50, width: 100, height: 80, color: DEPT_COLORS.stairs, label: 'Escaleras' },
+        ],
+        nodes: [
+          { id: 'hw-ec-n3-1', levelId: 'edificio-c-n3', x: 200, y: 750 },
+          { id: 'hw-ec-n3-2', levelId: 'edificio-c-n3', x: 200, y: 550 },
+          { id: 'hw-ec-n3-3', levelId: 'edificio-c-n3', x: 200, y: 350 },
+          { id: 'hw-ec-n3-4', levelId: 'edificio-c-n3', x: 200, y: 150 },
+          { id: 'stairs-ec-n3', levelId: 'edificio-c-n3', x: 750, y: 90, label: 'Escaleras' },
+        ],
+        edges: [
+          { from: 'hw-ec-n3-1', to: 'hw-ec-n3-2' },
+          { from: 'hw-ec-n3-2', to: 'hw-ec-n3-3' },
+          { from: 'hw-ec-n3-3', to: 'hw-ec-n3-4' },
+          { from: 'hw-ec-n3-4', to: 'stairs-ec-n3' },
+          { from: 'C-31', to: 'hw-ec-n3-2' },
+          { from: 'C-32', to: 'hw-ec-n3-2' },
+          { from: 'C-33', to: 'hw-ec-n3-3' },
+          { from: 'C-36', to: 'hw-ec-n3-4' },
+          { from: 'C-37', to: 'hw-ec-n3-4' },
+          { from: 'C-38', to: 'hw-ec-n3-4' },
+        ],
+      },
     ],
   },
+
+  // ── Edificio de Básicos (G, H) ─────────────────────────────────────────────
   {
-    id: 'p2',
-    name: 'Piso 2',
-    image: '/planos/plano-nivel-2.svg',
-    width: 3067,
-    height: 2322,
-    pois: [
-      { id: 'C-20', label: 'Ciencias Exactas', x: 2270, y: 999, type: 'checkpoint', description: 'Proyectos de ciencias exactas' },
-      { id: 'G-21', label: 'Ciencias Naturales', x: 698, y: 1147, type: 'checkpoint', description: 'Proyectos de ciencias naturales' },
-    ],
-    rooms: [
-      { id: 'room-c20', x: 2100, y: 850, width: 350, height: 300, color: DEPT_COLORS.dibujo, label: 'C-20' },
-      { id: 'room-g21', x: 500, y: 1000, width: 350, height: 300, color: DEPT_COLORS.informatica, label: 'G-21' },
-      { id: 'room-stairs-p2', x: 2500, y: 1500, width: 120, height: 100, color: DEPT_COLORS.stairs, label: 'Escaleras' },
-    ],
-    nodes: [
-      { id: 'hw-p2-1', floorPlanId: 'p2', x: 1500, y: 1100 },
-      { id: 'hw-p2-2', floorPlanId: 'p2', x: 2200, y: 1100 },
-      { id: 'stairs-p2', floorPlanId: 'p2', x: 2560, y: 1550, label: 'Escaleras' },
-    ],
-    edges: [
-      { from: 'hw-p2-1', to: 'hw-p2-2' },
-      { from: 'hw-p2-2', to: 'stairs-p2' },
-      { from: 'C-20', to: 'hw-p2-2' },
-      { from: 'G-21', to: 'hw-p2-1' },
+    id: "basicos",
+    name: "Edificio de Básicos",
+    levels: [
+      {
+        id: "basicos-n1",
+        name: "Nivel 1",
+        buildingId: "basicos",
+        image: "/planos/basicos-n1.svg",
+        width: 850,
+        height: 550,
+        pois: [],
+        rooms: [],
+        nodes: [
+          { id: 'exit-basicos-n1', levelId: 'basicos-n1', x: 850, y: 275, label: 'Salida Básicos' },
+        ],
+        edges: [],
+      },
+      {
+        id: "basicos-n2",
+        name: "Nivel 2",
+        buildingId: "basicos",
+        image: "/planos/basicos-n2.svg",
+        width: 1200,
+        height: 1000,
+        pois: [
+          { id: 'G-21', label: 'Ciencias Naturales', x: 698, y: 647, type: 'checkpoint', description: 'Proyectos de ciencias naturales' },
+        ],
+        rooms: [
+          { id: 'room-g21', x: 500, y: 500, width: 350, height: 300, color: DEPT_COLORS.informatica, label: 'G-21' },
+        ],
+        nodes: [
+          { id: 'hw-basicos-n2-1', levelId: 'basicos-n2', x: 500, y: 600 },
+          { id: 'hw-basicos-n2-2', levelId: 'basicos-n2', x: 700, y: 600 },
+        ],
+        edges: [
+          { from: 'hw-basicos-n2-1', to: 'hw-basicos-n2-2' },
+          { from: 'G-21', to: 'hw-basicos-n2-1' },
+        ],
+      },
+      {
+        id: "basicos-n3",
+        name: "Nivel 3",
+        buildingId: "basicos",
+        image: "/planos/basicos-n3.svg",
+        width: 1200,
+        height: 897,
+        pois: [
+          { id: 'G-35', label: 'Informática I', x: 640, y: 440, type: 'checkpoint', description: 'Proyectos de informática' },
+          { id: 'G-36', label: 'Informática II', x: 645, y: 260, type: 'checkpoint', description: 'Proyectos de informática' },
+          { id: 'H-32', label: 'Informática III', x: 313, y: 689, type: 'checkpoint', description: 'Proyectos de informática' },
+          { id: 'H-33', label: 'Informática IV', x: 214, y: 498, type: 'checkpoint', description: 'Proyectos de informática' },
+          { id: 'H-34', label: 'Informática V', x: 120, y: 325, type: 'checkpoint', description: 'Proyectos de informática' },
+        ],
+        rooms: [
+          { id: 'room-g35', x: 520, y: 360, width: 200, height: 160, color: DEPT_COLORS.informatica, label: 'G-35' },
+          { id: 'room-g36', x: 520, y: 180, width: 200, height: 160, color: DEPT_COLORS.informatica, label: 'G-36' },
+          { id: 'room-h32', x: 200, y: 600, width: 180, height: 160, color: DEPT_COLORS.informatica, label: 'H-32' },
+          { id: 'room-h33', x: 120, y: 420, width: 180, height: 160, color: DEPT_COLORS.informatica, label: 'H-33' },
+          { id: 'room-h34', x: 30, y: 240, width: 180, height: 160, color: DEPT_COLORS.informatica, label: 'H-34' },
+        ],
+        nodes: [
+          { id: 'hw-basicos-n3-1', levelId: 'basicos-n3', x: 800, y: 600 },
+          { id: 'hw-basicos-n3-2', levelId: 'basicos-n3', x: 800, y: 420 },
+          { id: 'hw-basicos-n3-3', levelId: 'basicos-n3', x: 800, y: 250 },
+        ],
+        edges: [
+          { from: 'hw-basicos-n3-1', to: 'hw-basicos-n3-2' },
+          { from: 'hw-basicos-n3-2', to: 'hw-basicos-n3-3' },
+          { from: 'G-35', to: 'hw-basicos-n3-2' },
+          { from: 'G-36', to: 'hw-basicos-n3-3' },
+          { from: 'H-32', to: 'hw-basicos-n3-1' },
+          { from: 'H-33', to: 'hw-basicos-n3-1' },
+          { from: 'H-34', to: 'hw-basicos-n3-2' },
+        ],
+      },
     ],
   },
+
+  // ── Campus exterior (connects buildings) ────────────────────────────────────
   {
-    id: 'p3',
-    name: 'Piso 3',
-    image: '/planos/plano-nivel-3.svg',
-    width: 2375,
-    height: 1097,
-    pois: [
-      { id: 'C-31', label: 'Electricidad I', x: 2211, y: 682, type: 'checkpoint', description: 'Proyectos de Electricidad' },
-      { id: 'C-32', label: 'Electricidad II', x: 1915, y: 685, type: 'checkpoint', description: 'Proyectos de Electricidad' },
-      { id: 'C-33', label: 'Electricidad III', x: 2215, y: 534, type: 'checkpoint', description: 'Proyectos de Electricidad' },
-      { id: 'C-36', label: 'Electrónica I', x: 1916, y: 274, type: 'checkpoint', description: 'Proyectos de Electrónica' },
-      { id: 'C-37', label: 'Electrónica II', x: 2220, y: 275, type: 'checkpoint', description: 'Proyectos de Electrónica' },
-      { id: 'C-38', label: 'Electrónica III', x: 1920, y: 121, type: 'checkpoint', description: 'Proyectos de Electrónica' },
-      { id: 'G-35', label: 'Informática I', x: 640, y: 640, type: 'checkpoint', description: 'Proyectos de informática' },
-      { id: 'G-36', label: 'Informática II', x: 645, y: 460, type: 'checkpoint', description: 'Proyectos de informática' },
-      { id: 'H-32', label: 'Informática III', x: 313, y: 889, type: 'checkpoint', description: 'Proyectos de informática' },
-      { id: 'H-33', label: 'Informática IV', x: 214, y: 698, type: 'checkpoint', description: 'Proyectos de informática' },
-      { id: 'H-34', label: 'Informática V', x: 120, y: 525, type: 'checkpoint', description: 'Proyectos de informática' },
-    ],
-    rooms: [
-      { id: 'room-c31', x: 2080, y: 600, width: 200, height: 160, color: DEPT_COLORS.electricidad, label: 'C-31' },
-      { id: 'room-c32', x: 1780, y: 600, width: 200, height: 160, color: DEPT_COLORS.electricidad, label: 'C-32' },
-      { id: 'room-c33', x: 2080, y: 450, width: 200, height: 160, color: DEPT_COLORS.electricidad, label: 'C-33' },
-      { id: 'room-c36', x: 1780, y: 200, width: 200, height: 150, color: DEPT_COLORS.electronica, label: 'C-36' },
-      { id: 'room-c37', x: 2080, y: 200, width: 200, height: 150, color: DEPT_COLORS.electronica, label: 'C-37' },
-      { id: 'room-c38', x: 1780, y: 50, width: 200, height: 150, color: DEPT_COLORS.electronica, label: 'C-38' },
-      { id: 'room-g35', x: 520, y: 560, width: 200, height: 160, color: DEPT_COLORS.informatica, label: 'G-35' },
-      { id: 'room-g36', x: 520, y: 380, width: 200, height: 160, color: DEPT_COLORS.informatica, label: 'G-36' },
-      { id: 'room-h32', x: 200, y: 800, width: 180, height: 160, color: DEPT_COLORS.informatica, label: 'H-32' },
-      { id: 'room-h33', x: 120, y: 620, width: 180, height: 160, color: DEPT_COLORS.informatica, label: 'H-33' },
-      { id: 'room-h34', x: 30, y: 440, width: 180, height: 160, color: DEPT_COLORS.informatica, label: 'H-34' },
-      { id: 'room-stairs-p3', x: 2200, y: 50, width: 100, height: 80, color: DEPT_COLORS.stairs, label: 'Escaleras' },
-    ],
-    nodes: [
-      { id: 'hw-p3-1', floorPlanId: 'p3', x: 1400, y: 800 },
-      { id: 'hw-p3-2', floorPlanId: 'p3', x: 1400, y: 620 },
-      { id: 'hw-p3-3', floorPlanId: 'p3', x: 1400, y: 450 },
-      { id: 'hw-p3-4', floorPlanId: 'p3', x: 1400, y: 250 },
-      { id: 'stairs-p3', floorPlanId: 'p3', x: 2250, y: 90, label: 'Escaleras' },
-    ],
-    edges: [
-      { from: 'hw-p3-1', to: 'hw-p3-2' },
-      { from: 'hw-p3-2', to: 'hw-p3-3' },
-      { from: 'hw-p3-3', to: 'hw-p3-4' },
-      { from: 'hw-p3-4', to: 'stairs-p3' },
-      { from: 'C-31', to: 'hw-p3-2' },
-      { from: 'C-32', to: 'hw-p3-2' },
-      { from: 'C-33', to: 'hw-p3-3' },
-      { from: 'C-36', to: 'hw-p3-4' },
-      { from: 'C-37', to: 'hw-p3-4' },
-      { from: 'C-38', to: 'hw-p3-4' },
-      { from: 'G-35', to: 'hw-p3-2' },
-      { from: 'G-36', to: 'hw-p3-3' },
-      { from: 'H-32', to: 'hw-p3-1' },
-      { from: 'H-33', to: 'hw-p3-1' },
-      { from: 'H-34', to: 'hw-p3-2' },
+    id: "exterior",
+    name: "Campus",
+    levels: [
+      {
+        id: "exterior",
+        name: "Campus",
+        buildingId: "exterior",
+        image: "/planos/exterior-campus.svg",
+        width: 800,
+        height: 600,
+        pois: [],
+        rooms: [],
+        nodes: [
+          { id: 'ext-c', levelId: 'exterior', x: 200, y: 300, label: 'Edificio C' },
+          { id: 'ext-basicos', levelId: 'exterior', x: 600, y: 300, label: 'Básicos' },
+        ],
+        edges: [
+          { from: 'ext-c', to: 'ext-basicos' },
+        ],
+      },
     ],
   },
 ]
 
-export function getAllFloorPOIs(): FloorPlanPOI[] {
-  return floorPlans.flatMap(fp => fp.pois)
+// ─── Cross-building stair links ────────────────────────────────────────────
+// Stairs within each building connect consecutive levels
+export const STAIR_LINKS: Record<string, [string, string][]> = {
+  "edificio-c": [
+    ["stairs-ec-n1", "stairs-ec-n2"],
+    ["stairs-ec-n2", "stairs-ec-n3"],
+  ],
+  "basicos": [],
 }
 
-export function getFloorPlanById(id: string): FloorPlan | undefined {
-  return floorPlans.find(fp => fp.id === id)
+// ─── Building entrance → exterior node mapping ─────────────────────────────
+export const BUILDING_EXITS: Record<string, string> = {
+  "exit-ec-n1": "ext-c",
+  "exit-basicos-n1": "ext-basicos",
+}
+
+// ─── Helper functions ──────────────────────────────────────────────────────
+
+export function getAllBuildings(): Building[] {
+  return buildings
+}
+
+export function getBuildingById(id: string): Building | undefined {
+  return buildings.find(b => b.id === id)
+}
+
+export function getLevelById(id: string): BuildingLevel | undefined {
+  for (const b of buildings) {
+    const level = b.levels.find(l => l.id === id)
+    if (level) return level
+  }
+  return undefined
+}
+
+export function getLevelByRoomId(roomId: string): BuildingLevel | undefined {
+  for (const b of buildings) {
+    for (const l of b.levels) {
+      if (l.pois.some(p => p.id === roomId)) return l
+    }
+  }
+  return undefined
+}
+
+export function getBuildingForLevel(levelId: string): Building | undefined {
+  for (const b of buildings) {
+    if (b.levels.some(l => l.id === levelId)) return b
+  }
+  return undefined
+}
+
+export function getAllLevelPOIs(): FloorPlanPOI[] {
+  return buildings.flatMap(b => b.levels.flatMap(l => l.pois))
+}
+
+export function getAllLevels(): BuildingLevel[] {
+  return buildings.flatMap(b => b.levels)
+}
+
+export function findPOI(id: string): FloorPlanPOI | undefined {
+  for (const b of buildings) {
+    for (const l of b.levels) {
+      const poi = l.pois.find(p => p.id === id)
+      if (poi) return poi
+    }
+  }
+  return undefined
+}
+
+export function findLevelByPOIId(id: string): BuildingLevel | undefined {
+  for (const b of buildings) {
+    for (const l of b.levels) {
+      if (l.pois.some(p => p.id === id)) return l
+    }
+  }
+  return undefined
+}
+
+// ─── Resolve room search (e.g. "H24", "C-28") ──────────────────────────────
+export function searchRoom(query: string): { poi: FloorPlanPOI; level: BuildingLevel; building: Building } | null {
+  const q = query.trim().toUpperCase()
+  for (const b of buildings) {
+    for (const l of b.levels) {
+      const poi = l.pois.find(p => p.id.toUpperCase() === q)
+      if (poi) return { poi, level: l, building: b }
+    }
+  }
+  return null
+}
+
+export function getBuildingDisplayName(roomId: string): string {
+  // e.g. "C-12" → "Edificio C", "G-21" → "Edificio de Básicos"
+  for (const b of buildings) {
+    for (const l of b.levels) {
+      if (l.pois.some(p => p.id === roomId)) return b.name
+    }
+  }
+  return getBuildingFromId(roomId)
+}
+
+// ─── Forward compat ─────────────────────────────────────────────────────────
+export function getFloorPlanById(id: string) {
+  return getLevelById(id)
 }
 
 // ─── Sticker Album Data (unchanged) ─────────────────────────────────────────
