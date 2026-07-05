@@ -102,7 +102,7 @@ export const floorPlans: FloorPlan[] = [
     name: 'Piso 2',
     image: '/planos/plano-nivel-2.svg',
     width: 3067,
-    height: 2380,
+    height: 2322,
     pois: [
       { id: 'C-20', label: 'Ciencias Exactas', x: 2270, y: 999, type: 'checkpoint', description: 'Proyectos de ciencias exactas' },
       { id: 'G-21', label: 'Ciencias Naturales', x: 698, y: 1147, type: 'checkpoint', description: 'Proyectos de ciencias naturales' },
