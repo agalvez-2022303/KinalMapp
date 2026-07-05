@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo, useCallback, useRef } from "react"
-import { getAllLevelPOIs, getAllLevels, getAllBuildings, getLevelById, getBuildingById, getBuildingFromId, type FloorPlanPOI, type Building, type BuildingLevel } from "@/lib/kinal-data"
+import { getAllLevelPOIs, getBuildingFromId, type FloorPlanPOI } from "@/lib/kinal-data"
 import { calculateRoute, type RouteStep } from "@/lib/routing"
 import dynamic from "next/dynamic"
 import NavigationGuide from "./NavigationGuide"
@@ -35,11 +35,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
     [allPOIs]
   )
 
-  const levelNames = useMemo(() => {
-    const map: Record<string, string> = {}
-    for (const l of getAllLevels()) map[l.id] = l.name
-    return map
-  }, [])
+
 
   const activeRoute = useMemo(() => {
     if (routeMode !== "active" && routeMode !== "navigating") return null
@@ -181,51 +177,16 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
           />
         )}
 
-        {/* Route steps indicator (when route is calculated but not navigating) */}
+        {/* Start navigation button (when route is calculated but not navigating) */}
         {routeMode === "active" && routeSteps.length > 0 && (
-          <div className="absolute top-16 left-4 right-4 z-20 max-h-[160px] overflow-y-auto hide-scrollbar fade-in-up">
-            <div className="bg-white/95 glass-panel rounded-xl p-3 shadow-md border border-outline-variant/15">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-1.5 text-[10px] font-extrabold text-[#F7931E] uppercase tracking-wider">
-                  <span className="material-symbols-outlined text-[14px]">route</span>
-                  Ruta lista
-                </div>
-                <span className="text-[8px] font-bold text-gray-400">
-                  {routeFrom?.label} – {routeFrom?.id} → {selectedPOI?.label} – {selectedPOI?.id}
-                </span>
-              </div>
-              <div className="space-y-1.5 max-h-[80px] overflow-y-auto hide-scrollbar">
-                {routeSteps.map((step, i) => {
-                  const isLast = i === routeSteps.length - 1
-                  return (
-                    <div key={i} className="flex items-start gap-2.5">
-                      <div className="flex flex-col items-center gap-0.5 mt-0.5">
-                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                          step.type === "stairs" ? "bg-[#9CA3AF]" :
-                          isLast ? "bg-[#22C55E]" :
-                          "bg-[#F7931E]"
-                        }`} />
-                        {!isLast && <span className="w-0.5 h-3 bg-gray-200 rounded-full" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="text-[10px] font-bold text-gray-700 leading-tight block">
-                          {step.label || levelNames[step.levelId] || step.levelId}
-                        </span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* Start navigation button */}
-              <button
-                onClick={handleStartNavigation}
-                className="mt-3 w-full bg-gradient-to-r from-[#F7931E] to-[#e07e0a] hover:brightness-110 text-white py-2.5 rounded-xl font-bold text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-sm">play_arrow</span>
-                Iniciar navegación
-              </button>
-            </div>
+          <div className="absolute top-16 left-4 right-4 z-20 flex justify-center fade-in-up">
+            <button
+              onClick={handleStartNavigation}
+              className="bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] hover:brightness-110 text-white py-3 px-6 rounded-xl font-bold text-xs shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-sm">play_arrow</span>
+              Iniciar navegación guiada
+            </button>
           </div>
         )}
 
