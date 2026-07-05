@@ -11,27 +11,27 @@ const colorMap: Record<string, string> = {
 }
 
 function getEventTimeValue(time: string): number {
-  if (time === 'Todo el día') return 0
   const [h, m] = time.split(':').map(Number)
   return h * 60 + (m || 0)
 }
 
-function isEventPast(time: string, now: Date): boolean {
-  if (time === 'Todo el día') return false
+function getEndDate(time: string, now: Date): Date {
   const [h, m] = time.split(':').map(Number)
-  const eventDate = new Date(now)
-  eventDate.setHours(h, m || 0, 0, 0)
-  return now >= eventDate
+  const d = new Date(now)
+  d.setHours(h, m || 0, 0, 0)
+  d.setHours(d.getHours() + 1)
+  return d
+}
+
+function isEventPast(time: string, now: Date): boolean {
+  return now >= getEndDate(time, now)
 }
 
 function isEventActive(time: string, now: Date): boolean {
-  if (time === 'Todo el día') return true
   const [h, m] = time.split(':').map(Number)
-  const eventDate = new Date(now)
-  eventDate.setHours(h, m || 0, 0, 0)
-  const endDate = new Date(eventDate)
-  endDate.setHours(endDate.getHours() + 1)
-  return now >= eventDate && now < endDate
+  const start = new Date(now)
+  start.setHours(h, m || 0, 0, 0)
+  return now >= start && now < getEndDate(time, now)
 }
 
 export default function HorarioPage() {
@@ -111,12 +111,12 @@ export default function HorarioPage() {
               {sorted.map((ev, i) => {
                 const past = isEventPast(ev.time, now)
                 const active = isEventActive(ev.time, now)
-                const accent = colorMap[ev.color] || '#2c3e73'
+                const accent = past ? '#EF4444' : (colorMap[ev.color] || '#2c3e73')
 
                 return (
                   <div
                     key={i}
-                    className={`bg-white p-4 rounded-2xl shadow-premium border border-outline-variant/10 border-l-4 hover-scale-bounce transition-all ${past ? 'opacity-55' : ''}`}
+                    className={`bg-white p-4 rounded-2xl shadow-premium border border-outline-variant/10 border-l-4 hover-scale-bounce transition-all ${past ? 'border-red-300/60' : ''}`}
                     style={{ borderLeftColor: accent }}
                   >
                     <div className="flex justify-between items-center mb-2">
@@ -133,14 +133,17 @@ export default function HorarioPage() {
                         </span>
                       )}
                       {past && (
-                        <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">Completado</span>
+                        <span className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[12px] text-red-500">cancel</span>
+                          <span className="text-[8px] font-bold text-red-500 uppercase tracking-widest">Finalizado</span>
+                        </span>
                       )}
                     </div>
-                    <h4 className={`font-bold text-xs truncate ${past ? 'text-gray-400' : 'text-[#2c3e73]'}`}>
+                    <h4 className={`font-bold text-xs truncate ${past ? 'text-red-500' : 'text-[#2c3e73]'}`}>
                       {ev.title}
                     </h4>
-                    <p className="text-[10px] text-gray-400 font-medium flex items-center gap-1 mt-1 leading-none">
-                      <span className="material-symbols-outlined text-[12px] text-gray-400">location_on</span>
+                    <p className={`text-[10px] font-medium flex items-center gap-1 mt-1 leading-none ${past ? 'text-red-400' : 'text-gray-400'}`}>
+                      <span className="material-symbols-outlined text-[12px]">location_on</span>
                       {ev.location}
                     </p>
                   </div>
