@@ -171,33 +171,25 @@ export default function MapaPage() {
                 return (
                   <div
                     key={i}
-                    className="bg-white p-4 rounded-2xl shadow-premium border border-outline-variant/10 border-l-4 hover-scale-bounce transition-all"
+                    className="bg-white p-4 rounded-2xl shadow-premium border border-outline-variant/10 border-l-4 hover-scale-bounce transition-all flex items-center gap-3"
                     style={{ borderLeftColor: accent }}
                   >
-                    <div className="flex justify-between items-center mb-2">
-                      <span
-                        className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-gray-100 uppercase"
-                        style={{ color: accent }}
-                      >
-                        {ev.location}
-                      </span>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-xs text-[#2c3e73] truncate">
+                        {ev.title} <span className="text-gray-400 font-medium">— {ev.location}</span>
+                      </h4>
                     </div>
-                    <h4 className="font-bold text-xs text-[#2c3e73]">{ev.title}</h4>
-                    <p className="text-[10px] font-medium flex items-center gap-1 mt-1 leading-none text-gray-400">
-                      <span className="material-symbols-outlined text-[12px]">location_on</span>
-                      {ev.location}
-                    </p>
                     <button
                       onClick={() => handleVerEnMapa(ev.location)}
                       disabled={!locationInfo}
-                      className={`mt-3 w-full py-2.5 rounded-xl font-bold text-[10px] flex items-center justify-center gap-1.5 transition-all border-none ${
+                      className={`flex-shrink-0 px-3.5 py-2 rounded-xl font-bold text-[10px] flex items-center justify-center gap-1 transition-all border-none ${
                         locationInfo
                           ? 'bg-primary text-white cursor-pointer'
                           : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                       }`}
                     >
                       <span className="material-symbols-outlined text-sm">map</span>
-                      Ver en el mapa
+                      Ver mapa
                     </button>
                   </div>
                 )
