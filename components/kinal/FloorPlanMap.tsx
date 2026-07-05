@@ -49,10 +49,10 @@ function RoomOverlay({ floor }: { floor: FloorPlan }) {
       {floor.rooms.map((room) => (
         <rect
           key={room.id}
-          x={(room.x / 100) * floor.width}
-          y={(room.y / 100) * floor.height}
-          width={(room.width / 100) * floor.width}
-          height={(room.height / 100) * floor.height}
+          x={room.x}
+          y={room.y}
+          width={room.width}
+          height={room.height}
           fill={room.color}
           fillOpacity={0.12}
           stroke={room.color}
@@ -64,13 +64,14 @@ function RoomOverlay({ floor }: { floor: FloorPlan }) {
       {floor.rooms.map((room) => (
         <text
           key={`text-${room.id}`}
-          x={((room.x + room.width / 2) / 100) * floor.width}
-          y={((room.y + room.height / 2) / 100) * floor.height}
+          x={room.x + room.width / 2}
+          y={room.y + room.height / 2}
           textAnchor="middle"
           dominantBaseline="central"
           fill={room.color}
           fillOpacity={0.2}
           fontSize={Math.min(floor.width, floor.height) * 0.04}
+
           fontWeight={800}
           fontFamily="system-ui, sans-serif"
         >
@@ -131,12 +132,12 @@ function getPOIIcon(
 }
 
 const POI_COLORS: Record<string, string> = {
-  C11: "#F7931E", C12: "#D4BA46", C13: "#F7931E",
-  C14: "#F7931E", C15: "#F7931E", I12: "#F7931E",
-  C20: "#D4BA46", G21: "#8B5CF6",
-  C31: "#2C3E73", C32: "#2C3E73", C33: "#2C3E73",
-  C36: "#22C55E", C37: "#22C55E", C38: "#22C55E",
-  G35: "#8B5CF6", G36: "#8B5CF6", H32: "#8B5CF6", H33: "#8B5CF6", H34: "#8B5CF6",
+  "C-12": "#D4BA46", "C-13": "#F7931E", "C-14": "#F7931E",
+  "C-15": "#F7931E", "I-12": "#F7931E",
+  "C-20": "#D4BA46", "G-21": "#8B5CF6",
+  "C-31": "#2C3E73", "C-32": "#2C3E73", "C-33": "#2C3E73",
+  "C-36": "#22C55E", "C-37": "#22C55E", "C-38": "#22C55E",
+  "G-35": "#8B5CF6", "G-36": "#8B5CF6", "H-32": "#8B5CF6", "H-33": "#8B5CF6", "H-34": "#8B5CF6",
 }
 
 function FloorMarkers({
@@ -161,7 +162,7 @@ function FloorMarkers({
         label: poi.label,
         type: poi.type,
         color,
-        pos: [(poi.y / 100) * floor.height, (poi.x / 100) * floor.width] as L.LatLngTuple,
+        pos: [poi.y, poi.x] as L.LatLngTuple,
         isSelected: selectedPOI?.id === poi.id,
         isUnlocked,
       }
@@ -226,8 +227,8 @@ function RouteOverlay({
     const steps: [number, number][] = []
     for (const step of route.steps) {
       if (step.floorPlanId === floorId) {
-        const lat = (step.y / 100) * floor.height
-        const lng = (step.x / 100) * floor.width
+        const lat = step.y
+        const lng = step.x
         if (steps.length === 0 || steps[steps.length - 1][0] !== lat || steps[steps.length - 1][1] !== lng) {
           steps.push([lat, lng])
         }
@@ -389,8 +390,8 @@ function NavSimulator({ active, route, floorId, floor }: NavSimulatorProps) {
     const steps: [number, number][] = []
     for (const step of route.steps) {
       if (step.floorPlanId === floorId) {
-        const lat = (step.y / 100) * floor.height
-        const lng = (step.x / 100) * floor.width
+        const lat = step.y
+        const lng = step.x
         if (steps.length === 0 || steps[steps.length - 1][0] !== lat || steps[steps.length - 1][1] !== lng) {
           steps.push([lat, lng])
         }
