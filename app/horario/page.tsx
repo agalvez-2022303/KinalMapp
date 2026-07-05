@@ -38,7 +38,7 @@ export default function HorarioPage() {
   const [now, setNow] = useState(new Date())
 
   useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 30000)
+    const timer = setInterval(() => setNow(new Date()), 5000)
     return () => clearInterval(timer)
   }, [])
 
