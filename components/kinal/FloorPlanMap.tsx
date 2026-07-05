@@ -235,7 +235,7 @@ function RouteOverlay({
       }
     }
     return steps
-  }, [route, floorId, floor])
+  }, [route, floorId])
 
   useEffect(() => {
     if (floorSteps.length > 0) {
@@ -398,7 +398,7 @@ function NavSimulator({ active, route, floorId, floor }: NavSimulatorProps) {
       }
     }
     return steps
-  }, [route, floorId, floor])
+  }, [route, floorId])
 
   useEffect(() => {
     if (!active || floorPositions.length < 2) return

@@ -25,6 +25,8 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
   const [isPaused, setIsPaused] = useState(false)
   const [navFloorId, setNavFloorId] = useState<string>("pb")
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const routeStepsRef = useRef(routeSteps)
+  routeStepsRef.current = routeSteps
 
   const allPOIs = useMemo(() => getAllFloorPOIs(), [])
 
@@ -74,27 +76,33 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
   }, [routeMode, handleClearRoute])
 
   const handleStartNavigation = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+    }
     setRouteMode("navigating")
     setCurrentNavStep(0)
-    setNavFloorId(routeSteps[0]?.floorPlanId || "pb")
+    const firstStep = routeStepsRef.current[0]
+    setNavFloorId(firstStep?.floorPlanId || "pb")
 
-    // Auto-advance through steps every 3 seconds
+    const steps = routeStepsRef.current
+    if (steps.length < 2) return
+
     timerRef.current = setInterval(() => {
       setCurrentNavStep((prev) => {
         const next = prev + 1
-        if (next >= routeSteps.length - 1) {
+        if (next >= steps.length - 1) {
           if (timerRef.current) clearInterval(timerRef.current)
           timerRef.current = null
         }
-        // Update floor based on current step
-        const step = routeSteps[next]
+        const step = steps[next]
         if (step) {
           setNavFloorId(step.floorPlanId)
         }
         return next
       })
     }, 3000)
-  }, [routeSteps])
+  }, [])
 
   const handlePauseNavigation = useCallback(() => {
     setIsPaused((p) => {
