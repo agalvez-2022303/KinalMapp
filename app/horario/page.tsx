@@ -15,34 +15,59 @@ function getEventTimeValue(time: string): number {
   return h * 60 + (m || 0)
 }
 
-function getEndDate(time: string, now: Date): Date {
-  const [h, m] = time.split(':').map(Number)
-  const d = new Date(now)
-  d.setHours(h, m || 0, 0, 0)
-  d.setHours(d.getHours() + 1)
-  return d
+function getGtHourMinute(): { h: number; m: number } {
+  const f = new Intl.DateTimeFormat('en', {
+    timeZone: 'America/Guatemala',
+    hour: '2-digit', minute: '2-digit', hour12: false,
+  })
+  const parts = f.formatToParts(new Date())
+  return {
+    h: parseInt(parts.find(p => p.type === 'hour')!.value, 10),
+    m: parseInt(parts.find(p => p.type === 'minute')!.value, 10),
+  }
 }
 
-function isEventPast(time: string, now: Date): boolean {
-  return now >= getEndDate(time, now)
+function getGtDateLabel(): string {
+  const f = new Intl.DateTimeFormat('es-GT', {
+    timeZone: 'America/Guatemala',
+    weekday: 'long', day: 'numeric', month: 'long',
+  })
+  return f.format(new Date())
 }
 
-function isEventActive(time: string, now: Date): boolean {
+function isEventPast(time: string): boolean {
+  const now = getGtHourMinute()
   const [h, m] = time.split(':').map(Number)
-  const start = new Date(now)
-  start.setHours(h, m || 0, 0, 0)
-  return now >= start && now < getEndDate(time, now)
+  const endH = h + 1
+  const endM = m || 0
+  return now.h > endH || (now.h === endH && now.m >= endM)
+}
+
+function isEventActive(time: string): boolean {
+  const now = getGtHourMinute()
+  const [h, m] = time.split(':').map(Number)
+  const startM = m || 0
+  const started = now.h > h || (now.h === h && now.m >= startM)
+  if (!started) return false
+  const endH = h + 1
+  const endM = startM
+  return now.h < endH || (now.h === endH && now.m < endM)
 }
 
 export default function HorarioPage() {
-  const [now, setNow] = useState(new Date())
+  const [, tick] = useState(0)
 
   useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 5000)
+    const timer = setInterval(() => tick(n => n + 1), 5000)
     return () => clearInterval(timer)
   }, [])
 
-  const sorted = [...todayEvents].sort((a, b) => getEventTimeValue(a.time) - getEventTimeValue(b.time))
+  const sorted = [...todayEvents].sort((a, b) => {
+    const aPast = isEventPast(a.time)
+    const bPast = isEventPast(b.time)
+    if (aPast !== bPast) return aPast ? 1 : -1
+    return getEventTimeValue(a.time) - getEventTimeValue(b.time)
+  })
 
   return (
     <div className="showcase-grid-bg min-h-dvh h-dvh w-full flex items-center justify-center p-0 md:p-6 overflow-hidden">
@@ -54,7 +79,7 @@ export default function HorarioPage() {
           </span>
           <h1 className="text-4xl font-extrabold tracking-tight text-white">Horario</h1>
           <p className="text-sm text-gray-400 leading-relaxed">
-            Lista completa de eventos de hoy con actualización automática. Los eventos se marcan como completados según la hora del teléfono.
+            Lista completa de eventos de hoy con horario de Guatemala. Los eventos finalizados se mueven al final y se marcan en rojo.
           </p>
         </div>
         <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-3">
@@ -69,10 +94,6 @@ export default function HorarioPage() {
             <li className="flex items-start gap-2">
               <span className="text-[#fee269] font-bold">•</span>
               <span>Los eventos <strong>tachados</strong> ya pasaron según tu hora local.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#fee269] font-bold">•</span>
-              <span>Los eventos <strong>"Todo el día"</strong> siempre aparecen como activos.</span>
             </li>
           </ul>
         </div>
@@ -105,12 +126,12 @@ export default function HorarioPage() {
           <main className="flex-1 overflow-y-auto" style={{ background: '#f5f6fa' }}>
             <div className="px-container-margin py-5 space-y-3 pb-24 max-w-md mx-auto">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">
-                {now.toLocaleDateString('es-GT', { weekday: 'long', day: 'numeric', month: 'long' })}
+                {getGtDateLabel()}
               </p>
 
               {sorted.map((ev, i) => {
-                const past = isEventPast(ev.time, now)
-                const active = isEventActive(ev.time, now)
+                const past = isEventPast(ev.time)
+                const active = isEventActive(ev.time)
                 const accent = past ? '#EF4444' : (colorMap[ev.color] || '#2c3e73')
 
                 return (
