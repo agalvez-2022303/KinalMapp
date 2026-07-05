@@ -2,6 +2,7 @@
 
 import { todayEvents, rewards } from '@/lib/kinal-data'
 import type { View } from '@/lib/store'
+import Link from 'next/link'
 
 interface HomeViewProps {
   progressPercent: number
@@ -173,12 +174,12 @@ export default function HomeView({
         <section className="space-y-3 animate-in fade-in slide-in-from-bottom duration-500 delay-200">
           <div className="flex justify-between items-center">
             <h3 className="font-extrabold text-sm text-[#2C3E73] dark:text-white tracking-tight">Eventos de Hoy</h3>
-            <span 
-              onClick={() => onNavigate('map')}
+            <Link 
+              href="/horario"
               className="text-[10px] font-bold text-[#D4BA46] hover:underline cursor-pointer flex items-center gap-0.5"
             >
-              VER MAPA <span className="material-symbols-outlined text-[10px] font-bold">arrow_forward</span>
-            </span>
+              Ver horario <span className="material-symbols-outlined text-[10px] font-bold">arrow_forward</span>
+            </Link>
           </div>
           <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 select-none">
             {todayEvents.map((ev, i) => (
