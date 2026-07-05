@@ -584,7 +584,6 @@ export function getAllCheckpoints(): { id: string; label: string; description: s
 // ─── Events ─────────────────────────────────────────────────────────────────
 
 export const todayEvents = [
-  { time: '00:10', title: 'Besos a Cajchun', location: 'Sex-23', color: 'orange' },
   { time: '04:00', title: 'Proyectos de Motores', location: 'I-12', color: 'gold' },
   { time: '04:00', title: 'Proyectos de Dibujo Técnico', location: 'C-12', color: 'gold' },
   { time: '04:00', title: 'Proyectos de sistemas básicos del vehículo', location: 'C-11', color: 'orange' },
