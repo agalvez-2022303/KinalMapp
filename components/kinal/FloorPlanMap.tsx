@@ -14,6 +14,8 @@ interface FloorPlanMapProps {
   route: { from: FloorPlanPOI; to: FloorPlanPOI; steps: RouteStep[] } | null
   navFloorId?: string
   onNavFloorChange?: (id: string) => void
+  navBuildingId?: string
+  onNavBuildingChange?: (id: string) => void
 }
 
 // ─── Soft blue & orange palette ──────────────────────────────────────────
@@ -484,11 +486,21 @@ export default function FloorPlanMap({
   route,
   navFloorId,
   onNavFloorChange,
+  navBuildingId,
+  onNavBuildingChange,
 }: FloorPlanMapProps) {
   const buildingList = useMemo(() => getAllBuildings(), [])
   const [activeBuildingId, setActiveBuildingId] = useState(buildingList[0]?.id || "edificio-c")
   const [activeLevelId, setActiveLevelId] = useState("")
   const [fadeKey, setFadeKey] = useState(0)
+
+  useEffect(() => {
+    if (navBuildingId && buildingList.some(b => b.id === navBuildingId)) {
+      setActiveBuildingId(navBuildingId)
+      if (onNavBuildingChange) onNavBuildingChange(navBuildingId)
+      setFadeKey((k) => k + 1)
+    }
+  }, [navBuildingId, buildingList, onNavBuildingChange])
 
   const activeBuilding = useMemo(() => getBuildingById(activeBuildingId), [activeBuildingId])
 
