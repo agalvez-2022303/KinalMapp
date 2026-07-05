@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import MobileFrame from "@/components/kinal/MobileFrame"
 import dynamic from "next/dynamic"
+import Link from "next/link"
 import { getAllLevelPOIs as getAllFloorPOIs, getAllBuildings, type FloorPlanPOI } from "@/lib/kinal-data"
 import { calculateRoute, type RouteStep } from "@/lib/routing"
 
@@ -22,7 +22,7 @@ export default function MapaPage() {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("kinalmap-checkpoints-v1")
+      const raw = localStorage.getItem("kinalmap-checkpoints-v2")
       if (raw) {
         setUnlockedCheckpoints(JSON.parse(raw))
       }
@@ -55,371 +55,201 @@ export default function MapaPage() {
   }
 
   const floorNames: Record<string, string> = {}
-  // Build level name lookup from all buildings
   for (const b of getAllBuildings()) {
     for (const l of b.levels) floorNames[l.id] = l.name
   }
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#e0e0e0",
-        padding: "20px 0",
-      }}
-    >
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
-      <MobileFrame>
-        <div
-          style={{
-            background: "#ffffff",
-            zIndex: 10,
-            boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-            flexShrink: 0,
-          }}
-        >
-          <header
-            style={{
-              padding: "20px 20px 10px 20px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <i className="fa-solid fa-bars" style={{ color: "#2C3E73", fontSize: "1.2rem" }} />
-            <span style={{ color: "#2C3E73", fontWeight: 800, fontSize: "1.1rem" }}>
-              Mapa Kinal
-            </span>
-            <div
-              style={{
-                width: 35,
-                height: 35,
-                borderRadius: 10,
-                background: "#2C3E73",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <i className="fa-solid fa-location-dot" style={{ color: "#D4BA46", fontSize: "0.9rem" }} />
+    <div className="showcase-grid-bg min-h-dvh h-dvh w-full flex items-center justify-center p-0 md:p-6 overflow-hidden">
+      {/* Desktop side panel */}
+      <div className="hidden lg:flex flex-col justify-center max-w-sm mr-12 text-white space-y-6 select-none animate-in fade-in slide-in-from-left duration-700">
+        <div className="space-y-2">
+          <span className="px-3.5 py-1 text-[10px] font-extrabold tracking-widest text-[#fee269] bg-[#2C3E73] rounded-full border border-[#fee269]/30 uppercase">
+            Expo Kinal 2026
+          </span>
+          <h1 className="text-4xl font-extrabold tracking-tight text-white">Mapa</h1>
+          <p className="text-sm text-gray-400 leading-relaxed">
+            Plano interactivo del campus con rutas y puntos de interés. Seleccioná un salón para trazar tu ruta.
+          </p>
+        </div>
+        <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-3">
+          <h3 className="text-xs font-bold text-[#fee269] uppercase tracking-wider flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[16px]">map</span> Navegación
+          </h3>
+          <ul className="text-xs text-gray-300 space-y-2.5">
+            <li className="flex items-start gap-2">
+              <span className="text-[#fee269] font-bold">•</span>
+              <span>Elegí un edificio y nivel para ver los salones disponibles.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#fee269] font-bold">•</span>
+              <span>Usá <strong>Cómo llegar</strong> para trazar rutas entre edificios.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#fee269] font-bold">•</span>
+              <span>Los puntos naranja son checkpoints del álbum.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Phone Simulator Frame */}
+      <div className="w-full h-full md:max-w-[412px] md:h-[844px] md:smartphone-simulator flex flex-col bg-background relative animate-in zoom-in-95 duration-500">
+        <div className="hidden md:flex smartphone-camera-notch">
+          <div className="smartphone-speaker"></div>
+        </div>
+
+        <div className="flex flex-col w-full h-full overflow-hidden pt-0 md:pt-4">
+          {/* Header */}
+          <header className="flex-shrink-0 bg-white/70 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm z-10">
+            <div className="flex items-center justify-between px-container-margin h-14 w-full max-w-md mx-auto">
+              <Link href="/" className="text-primary hover:underline cursor-pointer">
+                <span className="material-symbols-outlined text-xl">arrow_back</span>
+              </Link>
+              <h1 className="font-extrabold text-sm text-primary tracking-tight">Mapa Kinal</h1>
+              <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
+                <span className="material-symbols-outlined text-sm text-secondary">location_on</span>
+              </div>
             </div>
           </header>
 
-          <div style={{ padding: "10px 20px" }}>
-            <div
-              style={{
-                background: "#eeeff1",
-                padding: "12px 15px",
-                borderRadius: 12,
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                color: "#757575",
+          {/* Main content */}
+          <main className="flex-1 relative overflow-hidden" style={{ background: '#dcdde1' }}>
+            <FloorPlanMap
+              unlockedCheckpoints={unlockedCheckpoints}
+              selectedPOI={selectedPOI}
+              onSelectPOI={(poi) => {
+                setSelectedPOI(poi)
+                if (poi && activeRoute) handleClearRoute()
               }}
-            >
-              <i className="fa-solid fa-magnifying-glass" />
-              <input
-                type="text"
-                placeholder="Buscar aulas, talleres..."
-                style={{
-                  border: "none",
-                  background: "transparent",
-                  outline: "none",
-                  width: "100%",
-                  fontSize: "0.9rem",
-                }}
-              />
+              route={activeRoute}
+            />
+
+            {/* Campus tooltip */}
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-[0.78rem] font-semibold text-primary whitespace-nowrap z-[1000]">
+              <span className="material-symbols-outlined text-sm text-tertiary">location_on</span>
+              Campus Kinal
             </div>
-          </div>
-        </div>
 
-        <div
-          style={{
-            flexGrow: 1,
-            backgroundColor: "#dcdde1",
-            position: "relative",
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <FloorPlanMap
-            unlockedCheckpoints={unlockedCheckpoints}
-            selectedPOI={selectedPOI}
-            onSelectPOI={(poi) => {
-              setSelectedPOI(poi)
-              if (poi && activeRoute) handleClearRoute()
-            }}
-            route={activeRoute}
-          />
-
-          {/* Info tooltip */}
-          <div
-            style={{
-              position: "absolute",
-              top: 16,
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "#ffffff",
-              padding: "8px 16px",
-              borderRadius: 20,
-              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              fontSize: "0.78rem",
-              fontWeight: 600,
-              color: "#2C3E73",
-              whiteSpace: "nowrap",
-              zIndex: 1000,
-            }}
-          >
-            <i className="fa-solid fa-location-dot" style={{ color: "#F7931E" }} />
-            Campus Kinal
-          </div>
-
-          {/* Route selector panel */}
-          {showRouteSelector && selectedPOI && (
-            <div
-              style={{
-                position: "absolute",
-                bottom: 20,
-                left: 15,
-                right: 15,
-                padding: "16px",
-                borderRadius: "16px",
-                background: "#ffffff",
-                boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
-                border: "1px solid rgba(0,0,0,0.07)",
-                zIndex: 1000,
-              }}
-            >
-              <p style={{ fontWeight: 800, fontSize: "0.85rem", color: "#1a2340", marginBottom: 12 }}>
-                Trazar ruta
-              </p>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ fontSize: "0.65rem", fontWeight: 700, color: "#999", textTransform: "uppercase", display: "block", marginBottom: 4 }}>
-                  Desde
-                </label>
-                <select
-                  value={routeFrom?.id || ""}
-                  onChange={(e) => {
-                    const poi = allPOIs.find(p => p.id === e.target.value)
-                    setRouteFrom(poi || null)
-                  }}
-                  style={{
-                    width: "100%",
-                    padding: "10px 12px",
-                    borderRadius: 10,
-                    border: "1px solid #e0e0e0",
-                    fontSize: "0.8rem",
-                    fontWeight: 600,
-                    color: "#1a2340",
-                    background: "#f8f8f8",
-                    outline: "none",
-                  }}
-                >
-                  {allPOIs.filter(p => p.id !== selectedPOI.id).map(poi => (
-                    <option key={poi.id} value={poi.id}>{poi.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ fontSize: "0.65rem", fontWeight: 700, color: "#999", textTransform: "uppercase", display: "block", marginBottom: 4 }}>
-                  Hasta
-                </label>
-                <div style={{
-                  width: "100%",
-                  padding: "10px 12px",
-                  borderRadius: 10,
-                  border: "1px solid #e0e0e0",
-                  fontSize: "0.8rem",
-                  fontWeight: 600,
-                  color: "#1a2340",
-                  background: "#f0f2f8",
-                }}>
-                  {selectedPOI.label}
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: 10 }}>
-                <button
-                  onClick={handleTrazarRuta}
-                  disabled={!routeFrom}
-                  style={{
-                    flex: 1,
-                    padding: "12px",
-                    borderRadius: 10,
-                    border: "none",
-                    background: routeFrom ? "#2C3E73" : "#ccc",
-                    color: "#fff",
-                    fontWeight: 700,
-                    fontSize: "0.8rem",
-                    cursor: routeFrom ? "pointer" : "not-allowed",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 6,
-                  }}
-                >
-                  <i className="fa-solid fa-route"></i>
-                  Trazar ruta
-                </button>
-                <button
-                  onClick={() => setShowRouteSelector(false)}
-                  style={{
-                    padding: "12px 16px",
-                    borderRadius: 10,
-                    border: "1px solid #e0e0e0",
-                    background: "#fff",
-                    color: "#666",
-                    fontWeight: 600,
-                    fontSize: "0.8rem",
-                    cursor: "pointer",
-                  }}
-                >
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Route steps panel */}
-          {routeSteps.length > 0 && !showRouteSelector && (
-            <div
-              style={{
-                position: "absolute",
-                bottom: 20,
-                left: 15,
-                right: 15,
-                padding: "14px",
-                borderRadius: "16px",
-                background: "#ffffff",
-                boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
-                border: "1px solid rgba(0,0,0,0.07)",
-                zIndex: 1000,
-                maxHeight: 200,
-                overflowY: "auto",
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                <span style={{ fontWeight: 800, fontSize: "0.8rem", color: "#F7931E", display: "flex", alignItems: "center", gap: 6 }}>
-                  <i className="fa-solid fa-route"></i>
-                  Ruta activa
-                </span>
-                <button
-                  onClick={handleClearRoute}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "#999",
-                    cursor: "pointer",
-                    fontSize: "0.8rem",
-                    fontWeight: 600,
-                  }}
-                >
-                  Limpiar
-                </button>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                {routeSteps.map((step, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: "0.72rem" }}>
-                    <div style={{
-                      width: 8, height: 8, borderRadius: "50%", marginTop: 3, flexShrink: 0,
-                      background: step.type === "stairs" ? "#9CA3AF" : step.type === "arrival" ? "#22C55E" : "#2C3E73",
-                    }} />
-                    <span style={{ color: "#555", lineHeight: 1.3 }}>
-                      {step.label || floorNames[step.levelId] || step.levelId}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* POI detail popup */}
-          {selectedPOI && !showRouteSelector && routeSteps.length === 0 && (
-            <div
-              style={{
-                position: "absolute",
-                bottom: 20,
-                left: 15,
-                right: 15,
-                padding: "16px",
-                borderRadius: "16px",
-                background: "#ffffff",
-                boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
-                border: "1px solid rgba(0,0,0,0.07)",
-                zIndex: 1000,
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <div
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "12px",
-                      background: "#2C3E73",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "1rem",
-                      color: "#fff",
+            {/* Route selector panel */}
+            {showRouteSelector && selectedPOI && (
+              <div className="absolute bottom-5 left-4 right-4 p-4 rounded-2xl bg-white shadow-xl border border-outline-variant/10 z-[1000]">
+                <p className="font-extrabold text-sm text-[#1a2340] mb-3">Trazar ruta</p>
+                <div className="mb-3">
+                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Desde</label>
+                  <select
+                    value={routeFrom?.id || ""}
+                    onChange={(e) => {
+                      const poi = allPOIs.find(p => p.id === e.target.value)
+                      setRouteFrom(poi || null)
                     }}
+                    className="w-full px-3 py-2.5 rounded-xl border border-outline-variant/30 text-xs font-bold text-[#1a2340] bg-gray-50 outline-none"
                   >
-                    {selectedPOI.type === "entrance" ? "🚪" : selectedPOI.type === "stairs" ? "⬆" : "⚡"}
-                  </div>
-                  <div>
-                    <p style={{ margin: 0, fontWeight: "bold", fontSize: "0.9rem", color: "#1a2340" }}>{selectedPOI.label}</p>
-                    <p style={{ margin: 0, fontSize: "0.75rem", color: "#666" }}>{selectedPOI.description}</p>
+                    {allPOIs.filter(p => p.id !== selectedPOI.id).map(poi => (
+                      <option key={poi.id} value={poi.id}>{poi.label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Hasta</label>
+                  <div className="w-full px-3 py-2.5 rounded-xl border border-outline-variant/30 text-xs font-bold text-[#1a2340] bg-gray-100">
+                    {selectedPOI.label}
                   </div>
                 </div>
-                <button
-                  onClick={() => setSelectedPOI(null)}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    fontSize: "1rem",
-                    color: "#999",
-                  }}
-                >
-                  ✕
-                </button>
+                <div className="flex gap-2.5">
+                  <button
+                    onClick={handleTrazarRuta}
+                    disabled={!routeFrom}
+                    className={`flex-1 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all ${
+                      routeFrom ? 'bg-primary text-white cursor-pointer' : 'bg-gray-300 text-white cursor-not-allowed'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-sm">route</span>
+                    Trazar ruta
+                  </button>
+                  <button
+                    onClick={() => setShowRouteSelector(false)}
+                    className="px-4 py-3 rounded-xl border border-outline-variant/30 bg-white text-gray-500 font-bold text-xs cursor-pointer"
+                  >
+                    Cancelar
+                  </button>
+                </div>
               </div>
-              <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
-                <button
-                  onClick={handleComoLlegar}
-                  style={{
-                    flex: 1,
-                    padding: "10px",
-                    borderRadius: 10,
-                    border: "none",
-                    background: "#2C3E73",
-                    color: "#fff",
-                    fontWeight: 700,
-                    fontSize: "0.78rem",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 6,
-                  }}
-                >
-                  <i className="fa-solid fa-location-arrow"></i>
-                  Cómo llegar
-                </button>
+            )}
+
+            {/* Route steps panel */}
+            {routeSteps.length > 0 && !showRouteSelector && (
+              <div className="absolute bottom-5 left-4 right-4 p-3.5 rounded-2xl bg-white shadow-xl border border-outline-variant/10 z-[1000] max-h-[200px] overflow-y-auto">
+                <div className="flex justify-between items-center mb-2.5">
+                  <span className="font-extrabold text-xs text-tertiary flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-sm">route</span>
+                    Ruta activa
+                  </span>
+                  <button
+                    onClick={handleClearRoute}
+                    className="text-[10px] font-bold text-gray-400 hover:text-gray-600 cursor-pointer bg-none border-none"
+                  >
+                    Limpiar
+                  </button>
+                </div>
+                <div className="flex flex-col gap-1">
+                  {routeSteps.map((step, i) => (
+                    <div key={i} className="flex items-start gap-2 text-[11px]">
+                      <div
+                        className="w-2 h-2 rounded-full mt-1 flex-shrink-0"
+                        style={{
+                          background: step.type === "stairs" ? "#9CA3AF" : step.type === "arrival" ? "#22C55E" : "#2C3E73",
+                        }}
+                      />
+                      <span className="text-gray-600 leading-tight">
+                        {step.label || floorNames[step.levelId] || step.levelId}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+
+            {/* POI detail popup */}
+            {selectedPOI && !showRouteSelector && routeSteps.length === 0 && (
+              <div className="absolute bottom-5 left-4 right-4 p-4 rounded-2xl bg-white shadow-xl border border-outline-variant/10 z-[1000]">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-base text-white flex-shrink-0">
+                      {selectedPOI.type === "entrance" ? (
+                        <span className="material-symbols-outlined text-lg">door_front</span>
+                      ) : selectedPOI.type === "stairs" ? (
+                        <span className="material-symbols-outlined text-lg">stairs</span>
+                      ) : (
+                        <span className="material-symbols-outlined text-lg">bolt</span>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm text-[#1a2340]">{selectedPOI.label}</p>
+                      <p className="text-xs text-gray-500">{selectedPOI.description}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSelectedPOI(null)}
+                    className="text-gray-400 hover:text-gray-600 cursor-pointer bg-none border-none text-lg"
+                  >
+                    <span className="material-symbols-outlined text-lg">close</span>
+                  </button>
+                </div>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={handleComoLlegar}
+                    className="flex-1 py-2.5 rounded-xl bg-primary text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer border-none"
+                  >
+                    <span className="material-symbols-outlined text-sm">near_me</span>
+                    Cómo llegar
+                  </button>
+                </div>
+              </div>
+            )}
+          </main>
         </div>
-      </MobileFrame>
-    </main>
+      </div>
+    </div>
   )
 }

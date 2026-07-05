@@ -1,5 +1,6 @@
+'use client'
+
 import Link from "next/link"
-import MobileFrame from "@/components/kinal/MobileFrame"
 
 interface PostData {
   id: number
@@ -36,7 +37,7 @@ const POSTS: PostData[] = [
     location: "Kinal · Hace 10 min",
     avatarAccent: "yellow",
     bgColor: "#1a2340",
-    iconType: "fa-solid fa-building",
+    iconType: "business",
     placeIconColor: "#D4BA46",
     placeIconBorder: "rgba(212,186,70,0.3)",
     timestamp: "Hoy · Hace 10 min",
@@ -56,7 +57,7 @@ const POSTS: PostData[] = [
     location: "Kinal · 10:45 AM",
     avatarAccent: "orange",
     bgColor: "#18202e",
-    iconType: "fa-solid fa-utensils",
+    iconType: "restaurant",
     placeIconColor: "#F7931E",
     placeIconBorder: "rgba(247,147,30,0.3)",
     timestamp: "Hoy · 10:45 AM",
@@ -76,7 +77,7 @@ const POSTS: PostData[] = [
     location: "Kinal · Ayer 02:15 PM",
     avatarOpacity: 0.6,
     bgColor: "#152030",
-    iconType: "fa-solid fa-flask",
+    iconType: "science",
     placeIconColor: "rgba(212,186,70,0.5)",
     placeIconBorder: "rgba(212,186,70,0.15)",
     timestamp: "Ayer · 02:15 PM",
@@ -96,7 +97,7 @@ const POSTS: PostData[] = [
     location: "Kinal · Ayer 09:00 AM",
     avatarOpacity: 0.6,
     bgColor: "#152030",
-    iconType: "fa-solid fa-graduation-cap",
+    iconType: "school",
     placeIconColor: "rgba(212,186,70,0.5)",
     placeIconBorder: "rgba(212,186,70,0.15)",
     timestamp: "Ayer · 09:00 AM",
@@ -116,7 +117,7 @@ const POSTS: PostData[] = [
     location: "Kinal · Ayer",
     avatarOpacity: 0.6,
     bgColor: "#152030",
-    iconType: "fa-solid fa-computer",
+    iconType: "desktop_windows",
     placeIconColor: "rgba(212,186,70,0.5)",
     placeIconBorder: "rgba(212,186,70,0.15)",
     timestamp: "Ayer",
@@ -134,67 +135,37 @@ const POSTS: PostData[] = [
 
 function Post({ post, isLast }: { post: PostData; isLast: boolean }) {
   return (
-    <div
-      style={{
-        background: "#ffffff",
-        borderBottom: isLast ? "none" : "8px solid #F8F9FB",
-      }}
-    >
+    <div className={isLast ? "" : "border-b-8 border-[#F8F9FB]"}>
       {/* Post Header */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          padding: "12px 14px",
-          borderBottom: "0.5px solid #eeeeee",
-        }}
-      >
+      <div className="flex items-center gap-2.5 px-3.5 py-3 border-b-[0.5px] border-gray-200">
         <div
+          className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-sm"
           style={{
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
             background: "#2C3E73",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
             color: post.avatarAccent === "orange" ? "#F7931E" : "#D4BA46",
-            fontSize: 15,
-            flexShrink: 0,
             opacity: post.avatarOpacity ?? 1,
           }}
         >
-          <i className="fa-solid fa-map-pin" />
+          <span className="material-symbols-outlined text-sm text-white">location_on</span>
         </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#2C3E73" }}>kinalmap.gt</div>
-          <div style={{ fontSize: 11, color: "#757575" }}>{post.location}</div>
+        <div className="flex-1 min-w-0">
+          <div className="text-[13px] font-bold text-primary">kinalmap.gt</div>
+          <div className="text-[11px] text-gray-500">{post.location}</div>
         </div>
-        <i className="fa-solid fa-ellipsis" style={{ color: "#757575" }} />
+        <span className="material-symbols-outlined text-[#757575] text-lg">more_horiz</span>
       </div>
 
       {/* Post Image */}
       <div
-        style={{
-          width: "100%",
-          aspectRatio: "1/1",
-          background: post.bgColor,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          padding: 24,
-          position: "relative",
-          overflow: "hidden",
-        }}
+        className="w-full aspect-square flex flex-col justify-end p-6 relative overflow-hidden"
+        style={{ background: post.bgColor }}
       >
         {/* Deco circles */}
         {post.decoCircles.map((c, i) => (
           <div
             key={i}
+            className="absolute rounded-full"
             style={{
-              position: "absolute",
-              borderRadius: "50%",
               width: c.width,
               height: c.height,
               background: c.bg,
@@ -208,71 +179,43 @@ function Post({ post, isLast }: { post: PostData; isLast: boolean }) {
 
         {/* Place icon circle */}
         <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[72px] h-[72px] rounded-full flex items-center justify-center text-[28px]"
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
             transform: "translate(-50%, -68%)",
-            width: 72,
-            height: 72,
-            borderRadius: "50%",
             background: "rgba(255,255,255,0.06)",
             border: `1.5px solid ${post.placeIconBorder}`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
             color: post.placeIconColor,
-            fontSize: 28,
           }}
         >
-          <i className={post.iconType} />
+          <span className="material-symbols-outlined text-[28px]">{post.iconType}</span>
         </div>
 
         {/* Text */}
-        <div style={{ position: "relative", zIndex: 1 }}>
+        <div className="relative z-10">
           <div
-            style={{
-              fontSize: 10,
-              letterSpacing: 2,
-              textTransform: "uppercase",
-              color: post.timestampColor,
-              fontWeight: 600,
-              marginBottom: 6,
-            }}
+            className="text-[10px] font-semibold tracking-wider uppercase mb-1.5"
+            style={{ color: post.timestampColor }}
           >
             {post.timestamp}
           </div>
           <h2
-            style={{
-              fontSize: 20,
-              fontWeight: 700,
-              color: post.titleOpacity ? `rgba(255,255,255,${post.titleOpacity})` : "#ffffff",
-              lineHeight: 1.25,
-              marginBottom: 5,
-            }}
+            className="text-xl font-bold leading-tight mb-1"
+            style={{ color: post.titleOpacity ? `rgba(255,255,255,${post.titleOpacity})` : "#ffffff" }}
           >
             {post.title}
           </h2>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>
+          <div className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
             {post.sublocation}
           </div>
         </div>
       </div>
 
       {/* Caption */}
-      <div style={{ padding: "12px 14px 14px" }}>
-        <div style={{ fontSize: 13, color: "#333", lineHeight: 1.5 }}>
-          <strong style={{ color: "#2C3E73" }}>kinalmap.gt</strong> {post.caption}
+      <div className="px-3.5 py-3">
+        <div className="text-[13px] text-gray-700 leading-relaxed">
+          <strong className="text-primary">kinalmap.gt</strong> {post.caption}
         </div>
-        <div
-          style={{
-            fontSize: 10,
-            color: "#757575",
-            textTransform: "uppercase",
-            letterSpacing: 0.5,
-            marginTop: 6,
-          }}
-        >
+        <div className="text-[10px] text-gray-500 uppercase tracking-wide mt-1.5">
           {post.captionTime}
         </div>
       </div>
@@ -282,50 +225,61 @@ function Post({ post, isLast }: { post: PostData; isLast: boolean }) {
 
 export default function HistoriaPage() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#e0e0e0",
-        padding: "20px 0",
-      }}
-    >
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
-      <MobileFrame>
-        {/* Header */}
-        <header
-          style={{
-            background: "#ffffff",
-            padding: 20,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
-            zIndex: 10,
-            flexShrink: 0,
-          }}
-        >
-          <Link href="/" style={{ color: "#2C3E73", textDecoration: "none" }}>
-            <i className="fa-solid fa-chevron-left" style={{ fontSize: "1.2rem" }} />
-          </Link>
-          <span style={{ color: "#2C3E73", fontWeight: 800, fontSize: "1.1rem" }}>
-            Historia Kinal
+    <div className="showcase-grid-bg min-h-dvh h-dvh w-full flex items-center justify-center p-0 md:p-6 overflow-hidden">
+      {/* Desktop side panel */}
+      <div className="hidden lg:flex flex-col justify-center max-w-sm mr-12 text-white space-y-6 select-none animate-in fade-in slide-in-from-left duration-700">
+        <div className="space-y-2">
+          <span className="px-3.5 py-1 text-[10px] font-extrabold tracking-widest text-[#fee269] bg-[#2C3E73] rounded-full border border-[#fee269]/30 uppercase">
+            Expo Kinal 2026
           </span>
-          <div style={{ width: 24 }} />
-        </header>
-
-        {/* Feed */}
-        <div className="hide-scrollbar" style={{ flexGrow: 1, overflowY: "auto" }}>
-          {POSTS.map((post, i) => (
-            <Post key={post.id} post={post} isLast={i === POSTS.length - 1} />
-          ))}
+          <h1 className="text-4xl font-extrabold tracking-tight text-white">Historia</h1>
+          <p className="text-sm text-gray-400 leading-relaxed">
+            Tu recorrido por el campus en formato de historias. Cada visita registrada aparece como un recuerdo.
+          </p>
         </div>
-      </MobileFrame>
-    </main>
+        <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-3">
+          <h3 className="text-xs font-bold text-[#fee269] uppercase tracking-wider flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[16px]">info</span> Tu actividad
+          </h3>
+          <ul className="text-xs text-gray-300 space-y-2.5">
+            <li className="flex items-start gap-2">
+              <span className="text-[#fee269] font-bold">•</span>
+              <span>Cada QR que escaneas genera una historia nueva.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#fee269] font-bold">•</span>
+              <span>Las historias más recientes aparecen primero.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Phone Simulator Frame */}
+      <div className="w-full h-full md:max-w-[412px] md:h-[844px] md:smartphone-simulator flex flex-col bg-background relative animate-in zoom-in-95 duration-500">
+        <div className="hidden md:flex smartphone-camera-notch">
+          <div className="smartphone-speaker"></div>
+        </div>
+
+        <div className="flex flex-col w-full h-full overflow-hidden pt-0 md:pt-4">
+          {/* Header */}
+          <header className="flex-shrink-0 bg-white/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm z-10">
+            <div className="flex items-center justify-between px-container-margin h-14 w-full max-w-md mx-auto">
+              <Link href="/" className="text-primary hover:underline cursor-pointer">
+                <span className="material-symbols-outlined text-xl">arrow_back</span>
+              </Link>
+              <h1 className="font-extrabold text-sm text-primary tracking-tight">Historia Kinal</h1>
+              <div className="w-6" />
+            </div>
+          </header>
+
+          {/* Feed */}
+          <main className="flex-1 overflow-y-auto hide-scrollbar" style={{ background: '#f5f6fa' }}>
+            {POSTS.map((post, i) => (
+              <Post key={post.id} post={post} isLast={i === POSTS.length - 1} />
+            ))}
+          </main>
+        </div>
+      </div>
+    </div>
   )
 }
