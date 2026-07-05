@@ -71,7 +71,6 @@ export default function KinalMapApp() {
                 unlockedStickers={unlockedStickers}
                 totalStickers={totalStickers}
                 onNavigate={setView}
-                onReset={resetAlbum}
               />
             )}
             {view === 'map' && (
