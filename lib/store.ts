@@ -2,8 +2,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { albumSections, type AlbumSection } from './kinal-data'
 
-const STORAGE_KEY = 'kinalmap-album-v1'
-const CHECKPOINTS_STORAGE_KEY = 'kinalmap-checkpoints-v1'
+const STORAGE_KEY = 'kinalmap-album-v2'
+const CHECKPOINTS_STORAGE_KEY = 'kinalmap-checkpoints-v2'
 
 export type View = 'home' | 'map' | 'scanner' | 'album' | 'historia'
 
