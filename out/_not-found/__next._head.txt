@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[69621,["/_next/static/chunks/14g90dy_zqj-9.js","/_next/static/chunks/00-s5_r5-tmyi.js"],"ViewportBoundary"]
+3:I[69621,["/_next/static/chunks/14g90dy_zqj-9.js","/_next/static/chunks/00-s5_r5-tmyi.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1, user-scalable=no"}],["$","meta","2",{"name":"theme-color","content":"#2C3E73"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"KinalMapp — Campus Kinal"}],["$","meta","1",{"name":"description","content":"Guía interactiva del campus Kinal: mapa 2D, checkpoints, álbum de estampas e historia institucional en su Expo Anual."}]]}]}]}],null]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"kw-E__GlGAWdIwVxidL8J"}
