@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from "react"
 import { MapContainer, ImageOverlay, Polyline, CircleMarker, useMap, ZoomControl, type PaneProps } from "react-leaflet"
 import L from "leaflet"
-import { floorPlans, type FloorPlan, type FloorPlanPOI } from "@/lib/kinal-data"
+import { floorPlans, getBuildingFromId, type FloorPlan, type FloorPlanPOI } from "@/lib/kinal-data"
 import { type RouteStep } from "@/lib/routing"
 import "leaflet/dist/leaflet.css"
 
@@ -82,6 +82,70 @@ function RoomOverlay({ floor }: { floor: FloorPlan }) {
   )
 }
 
+// ─── Building Labels Overlay ──────────────────────────────────────────────
+
+const BUILDING_LABELS: Record<string, { label: string; x: number; y: number }[]> = {
+  pb: [
+    { label: "Edificio C", x: 2130, y: 280 },
+    { label: "Edificio G", x: 1480, y: 350 },
+    { label: "Edificio H", x: 1280, y: 350 },
+    { label: "Edificio I", x: 2300, y: 220 },
+    { label: "Entrada", x: 1625, y: 624 },
+  ],
+  p2: [
+    { label: "Edificio C", x: 2200, y: 600 },
+    { label: "Edificio G", x: 800, y: 600 },
+    { label: "Edificio H", x: 500, y: 600 },
+    { label: "Edificio I", x: 2700, y: 600 },
+  ],
+  p3: [
+    { label: "Edificio C", x: 2000, y: 400 },
+    { label: "Edificio G", x: 640, y: 550 },
+    { label: "Edificio H", x: 250, y: 700 },
+  ],
+}
+
+function BuildingLabels({ floorId, floor }: { floorId: string; floor: FloorPlan }) {
+  const map = useMap()
+  const svgRef = useRef<SVGSVGElement>(null)
+
+  useEffect(() => {
+    const svg = svgRef.current
+    if (!svg) return
+    svg.style.position = "absolute"
+    svg.style.top = "0"
+    svg.style.left = "0"
+    svg.style.pointerEvents = "none"
+    const overlayPane = map.getPanes().overlayPane
+    overlayPane.appendChild(svg)
+    return () => { if (svg.parentNode) svg.parentNode.removeChild(svg) }
+  }, [map, floor])
+
+  const labels = BUILDING_LABELS[floorId] || []
+
+  return (
+    <svg ref={svgRef} width={floor.width} height={floor.height} viewBox={`0 0 ${floor.width} ${floor.height}`}>
+      {labels.map((l) => (
+        <text
+          key={l.label}
+          x={l.x}
+          y={l.y}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="#2C3E73"
+          fillOpacity={0.12}
+          fontSize={Math.min(floor.width, floor.height) * 0.07}
+          fontWeight={900}
+          fontFamily="system-ui, sans-serif"
+          letterSpacing="0.1em"
+        >
+          {l.label}
+        </text>
+      ))}
+    </svg>
+  )
+}
+
 // ─── Map Bounds Controller ───────────────────────────────────────────────
 
 function MapBoundsController({ floor }: { floor: FloorPlan }) {
@@ -102,8 +166,6 @@ function getPOIIcon(
   color: string,
   isSelected: boolean,
   isUnlocked: boolean,
-  imgWidth: number,
-  imgHeight: number
 ): L.DivIcon {
   const dotColor = type === "entrance" ? "#9CA3AF"
     : type === "stairs" ? "#6B7280"
@@ -115,11 +177,12 @@ function getPOIIcon(
     : ""
 
   const selectedClass = isSelected ? "selected" : ""
+  const building = getBuildingFromId(id)
 
   return new L.DivIcon({
     html: `
       <div class="poi-marker ${selectedClass}" style="--dot-color: ${dotColor}">
-        <div class="poi-badge">${id}</div>
+        <div class="poi-badge"><span class="poi-badge-building">${building.charAt(0)}</span> ${id}</div>
         ${pulseHtml}
         <div class="poi-dot" style="background: ${dotColor};"></div>
         <div class="poi-label">${label}</div>
@@ -177,7 +240,7 @@ function FloorMarkers({
   return (
     <>
       {markers.map((m) => {
-        const icon = getPOIIcon(m.id, m.label, m.type, m.color, m.isSelected, m.isUnlocked, floor.width, floor.height)
+        const icon = getPOIIcon(m.id, m.label, m.type, m.color, m.isSelected, m.isUnlocked)
         return (
           <Marker key={m.id} position={m.pos} icon={icon} eventHandlers={{ click: () => handleClick(m.id) }} />
         )
@@ -504,6 +567,7 @@ export default function FloorPlanMap({
         />
 
         <RoomOverlay floor={activeFloor} />
+        <BuildingLabels floorId={resolvedFloorId} floor={activeFloor} />
         <MapBoundsController floor={activeFloor} />
 
         <FloorMarkers

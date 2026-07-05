@@ -1,7 +1,7 @@
 "use client"
 
 import { type RouteStep } from "@/lib/routing"
-import { type FloorPlanPOI } from "@/lib/kinal-data"
+import { type FloorPlanPOI, getBuildingFromId } from "@/lib/kinal-data"
 
 interface NavigationGuideProps {
   steps: RouteStep[]
@@ -27,10 +27,19 @@ function getStepIcon(type: string) {
   }
 }
 
-function getStepLabel(step: RouteStep, index: number, total: number): string {
-  if (index === 0) return `Salir de ${step.label || "inicio"}`
-  if (index === total - 1) return `Llegar a ${step.label || "destino"}`
-  if (step.type === "stairs") return step.label || "Subir escaleras"
+function getStepLabel(step: RouteStep, index: number, total: number, fromPOI?: FloorPlanPOI, toPOI?: FloorPlanPOI): string {
+  if (index === 0) {
+    const b = fromPOI ? getBuildingFromId(fromPOI.id) : ""
+    return `Salir de ${step.label || "inicio"}${b ? ` (${b})` : ""}`
+  }
+  if (index === total - 1) {
+    const b = toPOI ? getBuildingFromId(toPOI.id) : ""
+    return `Llegar a ${step.label || "destino"}${b ? ` (${b})` : ""}`
+  }
+  if (step.type === "stairs") {
+    const label = step.label || "Subir escaleras"
+    return `${label}`
+  }
   if (step.label) return `Seguir hacia ${step.label}`
   return "Continuar"
 }
@@ -128,12 +137,13 @@ export default function NavigationGuide({
                             : "text-gray-700"
                         }`}
                       >
-                        {getStepLabel(step, i, steps.length)}
+                        {getStepLabel(step, i, steps.length, from, to)}
                       </span>
                     </div>
                     {step.type !== "arrival" && (
                       <span className="text-[8px] text-gray-400 font-medium ml-4">
                         {floorNames[step.floorPlanId] || step.floorPlanId}
+                        {step.label && getBuildingFromId(step.label) !== "Edificio" ? ` · ${getBuildingFromId(step.label)}` : ""}
                         {i < steps.length - 1 && steps[i + 1]?.floorPlanId !== step.floorPlanId && (
                           <span className="text-[#6B7280] ml-1">
                             → {floorNames[steps[i + 1]?.floorPlanId] || steps[i + 1]?.floorPlanId}

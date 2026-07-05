@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo, useCallback, useRef } from "react"
-import { getAllFloorPOIs, floorPlans, type FloorPlanPOI } from "@/lib/kinal-data"
+import { getAllFloorPOIs, floorPlans, getBuildingFromId, type FloorPlanPOI } from "@/lib/kinal-data"
 import { calculateRoute, type RouteStep } from "@/lib/routing"
 import dynamic from "next/dynamic"
 import NavigationGuide from "./NavigationGuide"
@@ -241,7 +241,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
               <div className="w-12 h-1.5 rounded-full bg-gray-300" />
             </div>
 
-            <div className="px-6 pb-8 text-on-surface select-none">
+            <div className="px-6 pb-8 text-on-surface select-none max-h-[60vh] overflow-y-auto">
               {routeMode === "selecting" ? (
                 <>
                   <h3 className="font-extrabold text-sm text-primary mb-4">
@@ -259,10 +259,23 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                           setRouteFrom(poi || null)
                         }}
                         className="w-full p-3 rounded-xl bg-gray-50 border border-outline-variant/15 text-xs font-bold text-primary outline-none"
+                        size={6}
                       >
-                        {allPOIs.filter((p) => p.id !== selectedPOI.id).map((poi) => (
-                          <option key={poi.id} value={poi.id}>{poi.label} – {poi.id}</option>
-                        ))}
+                        {(() => {
+                          const grouped: Record<string, FloorPlanPOI[]> = {}
+                          for (const p of allPOIs) {
+                            if (p.id === selectedPOI.id) continue
+                            const b = getBuildingFromId(p.id)
+                            ;(grouped[b] ??= []).push(p)
+                          }
+                          return Object.entries(grouped).map(([building, pois]) => (
+                            <optgroup key={building} label={building}>
+                              {pois.map(poi => (
+                                <option key={poi.id} value={poi.id}>{poi.label} – {poi.id}</option>
+                              ))}
+                            </optgroup>
+                          ))
+                        })()}
                       </select>
                     </div>
                     <div>
@@ -270,8 +283,8 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                         Hasta
                       </label>
                       <div className="w-full p-3 rounded-xl bg-[#2C3E73]/5 border border-outline-variant/15 text-xs font-bold text-primary">
-                          {selectedPOI.label} – {selectedPOI.id}
-                        </div>
+                        {selectedPOI.label} – {selectedPOI.id}
+                      </div>
                     </div>
                   </div>
 
@@ -306,7 +319,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                         {selectedPOI.label}
                       </h2>
                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">
-                        {selectedPOI.id}
+                        {selectedPOI.id} · {getBuildingFromId(selectedPOI.id)}
                       </p>
                     </div>
 

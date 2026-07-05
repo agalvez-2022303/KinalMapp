@@ -654,6 +654,9 @@
   box-shadow: 0 0 0 3px rgba(255,255,255,0.8), 0 2px 12px rgba(0,0,0,0.3);
 }
 .poi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   font-size: 8px;
   font-weight: 800;
   color: #fff;
@@ -663,6 +666,19 @@
   white-space: nowrap;
   backdrop-filter: blur(4px);
   letter-spacing: 0.02em;
+}
+.poi-badge-building {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: #2C3E73;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
 }
 .poi-label {
   font-size: 7px;

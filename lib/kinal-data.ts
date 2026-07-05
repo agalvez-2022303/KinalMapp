@@ -8,6 +8,22 @@ export interface FloorPlanPOI {
   type: 'checkpoint' | 'entrance' | 'stairs'
   description: string
   checkpointId?: string
+  building?: string
+}
+
+const BUILDING_NAMES: Record<string, string> = {
+  C: "Edificio C",
+  G: "Edificio G",
+  H: "Edificio H",
+  I: "Edificio I",
+  F: "Edificio F",
+  B: "Servicios",
+}
+
+export function getBuildingFromId(id: string): string {
+  if (id.startsWith("entrance")) return "Entrada Principal"
+  const prefix = id.charAt(0)
+  return BUILDING_NAMES[prefix] || "Edificio"
 }
 
 export interface RouteNode {
