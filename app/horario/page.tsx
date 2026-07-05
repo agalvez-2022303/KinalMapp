@@ -15,43 +15,18 @@ function getEventTimeValue(time: string): number {
   return h * 60 + (m || 0)
 }
 
-function getGtHourMinute(): { h: number; m: number } {
-  const f = new Intl.DateTimeFormat('en', {
+function getGtNow(): { h: number; m: number; label: string } {
+  const parts = new Intl.DateTimeFormat('en', {
     timeZone: 'America/Guatemala',
     hour: '2-digit', minute: '2-digit', hour12: false,
-  })
-  const parts = f.formatToParts(new Date())
-  return {
-    h: parseInt(parts.find(p => p.type === 'hour')!.value, 10),
-    m: parseInt(parts.find(p => p.type === 'minute')!.value, 10),
-  }
-}
-
-function getGtDateLabel(): string {
-  const f = new Intl.DateTimeFormat('es-GT', {
+  }).formatToParts(new Date())
+  const h = parseInt(parts.find(p => p.type === 'hour')!.value, 10)
+  const m = parseInt(parts.find(p => p.type === 'minute')!.value, 10)
+  const label = new Intl.DateTimeFormat('es-GT', {
     timeZone: 'America/Guatemala',
     weekday: 'long', day: 'numeric', month: 'long',
-  })
-  return f.format(new Date())
-}
-
-function isEventPast(time: string): boolean {
-  const now = getGtHourMinute()
-  const [h, m] = time.split(':').map(Number)
-  const endH = h + 1
-  const endM = m || 0
-  return now.h > endH || (now.h === endH && now.m >= endM)
-}
-
-function isEventActive(time: string): boolean {
-  const now = getGtHourMinute()
-  const [h, m] = time.split(':').map(Number)
-  const startM = m || 0
-  const started = now.h > h || (now.h === h && now.m >= startM)
-  if (!started) return false
-  const endH = h + 1
-  const endM = startM
-  return now.h < endH || (now.h === endH && now.m < endM)
+  }).format(new Date())
+  return { h, m, label }
 }
 
 export default function HorarioPage() {
@@ -62,9 +37,28 @@ export default function HorarioPage() {
     return () => clearInterval(timer)
   }, [])
 
+  const gtNow = getGtNow()
+
+  function isPast(time: string): boolean {
+    const [h, m] = time.split(':').map(Number)
+    const endH = h + 1
+    const endM = m || 0
+    return gtNow.h > endH || (gtNow.h === endH && gtNow.m >= endM)
+  }
+
+  function isActive(time: string): boolean {
+    const [h, m] = time.split(':').map(Number)
+    const startM = m || 0
+    const started = gtNow.h > h || (gtNow.h === h && gtNow.m >= startM)
+    if (!started) return false
+    const endH = h + 1
+    const endM = startM
+    return gtNow.h < endH || (gtNow.h === endH && gtNow.m < endM)
+  }
+
   const sorted = [...todayEvents].sort((a, b) => {
-    const aPast = isEventPast(a.time)
-    const bPast = isEventPast(b.time)
+    const aPast = isPast(a.time)
+    const bPast = isPast(b.time)
     if (aPast !== bPast) return aPast ? 1 : -1
     return getEventTimeValue(a.time) - getEventTimeValue(b.time)
   })
@@ -126,12 +120,12 @@ export default function HorarioPage() {
           <main className="flex-1 overflow-y-auto" style={{ background: '#f5f6fa' }}>
             <div className="px-container-margin py-5 space-y-3 pb-24 max-w-md mx-auto">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">
-                {getGtDateLabel()}
+                {gtNow.label}
               </p>
 
               {sorted.map((ev, i) => {
-                const past = isEventPast(ev.time)
-                const active = isEventActive(ev.time)
+                const past = isPast(ev.time)
+                const active = isActive(ev.time)
                 const accent = past ? '#EF4444' : (colorMap[ev.color] || '#2c3e73')
 
                 return (
