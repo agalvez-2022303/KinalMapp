@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from "react"
 import { MapContainer, ImageOverlay, Polyline, CircleMarker, useMap, ZoomControl } from "react-leaflet"
 import L from "leaflet"
-import { buildings, getAllBuildings, getAllLevels, getLevelById, getBuildingById, searchRoom, type BuildingLevel, type FloorPlanPOI, type Building } from "@/lib/kinal-data"
+import { buildings, getAllBuildings, getAllLevels, getLevelById, getBuildingById, searchRoom, BUILDING_BOUNDS, type BuildingLevel, type FloorPlanPOI, type Building } from "@/lib/kinal-data"
 import { type RouteStep } from "@/lib/routing"
 import "leaflet/dist/leaflet.css"
 
@@ -98,12 +98,21 @@ function RoomOverlay({ level }: { level: BuildingLevel }) {
 
 // ─── Map Bounds Controller ───────────────────────────────────────────────
 
-function MapBoundsController({ level }: { level: BuildingLevel }) {
+function MapBoundsController({ levelId, level }: { levelId: string; level: BuildingLevel }) {
   const map = useMap()
   useEffect(() => {
-    const bounds = L.latLngBounds([0, 0], [level.height, level.width])
-    map.fitBounds(bounds, { padding: [10, 10], animate: true })
-  }, [level, map])
+    const boundsRecord = BUILDING_BOUNDS[levelId]
+    if (boundsRecord) {
+      const bounds = L.latLngBounds(
+        [boundsRecord.y, boundsRecord.x],
+        [boundsRecord.y + boundsRecord.height, boundsRecord.x + boundsRecord.width]
+      )
+      map.fitBounds(bounds, { padding: [20, 20], animate: true })
+    } else {
+      const bounds = L.latLngBounds([0, 0], [level.height, level.width])
+      map.fitBounds(bounds, { padding: [10, 10], animate: true })
+    }
+  }, [levelId, level, map])
   return null
 }
 
@@ -573,7 +582,7 @@ export default function FloorPlanMap({
           bounds={[[0, 0], [activeLevel.height, activeLevel.width]]}
         />
         <RoomOverlay level={activeLevel} />
-        <MapBoundsController level={activeLevel} />
+        <MapBoundsController levelId={resolvedLevelId} level={activeLevel} />
         <FloorMarkers
           pois={levelPOIs}
           selectedPOI={selectedPOI}
