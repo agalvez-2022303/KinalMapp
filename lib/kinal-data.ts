@@ -584,10 +584,25 @@ export function getAllCheckpoints(): { id: string; label: string; description: s
 // ─── Events ─────────────────────────────────────────────────────────────────
 
 export const todayEvents = [
-  { time: '9:00', title: 'Metodologías para la enseñanza del idioma inglés', location: 'Auditorium Diversificado', color: 'gold' },
-  { time: '10:00', title: 'Plataforma de velocidad y comprensión lectora', location: 'Auditorium Diversificado', color: 'orange' },
-  { time: '11:00', title: 'Proyectos científicos', location: 'Auditorium Diversificado', color: 'navy' },
-  { time: '12:00', title: 'Proyecto Fundación Amivalle-Kinal', location: 'Auditorium Diversificado', color: 'gold' },
+  { time: 'Todo el día', title: 'Proyectos de Motores', location: 'I-12', color: 'gold' },
+  { time: 'Todo el día', title: 'Proyectos de Dibujo Técnico', location: 'C-12', color: 'gold' },
+  { time: 'Todo el día', title: 'Proyectos de sistemas básicos del vehículo', location: 'C-11', color: 'orange' },
+  { time: 'Todo el día', title: 'Proyectos de sistemas básicos del vehículo', location: 'C-13', color: 'orange' },
+  { time: 'Todo el día', title: 'Proyectos de sistemas eléctricos', location: 'C-14', color: 'orange' },
+  { time: 'Todo el día', title: 'Proyectos de sistemas auxiliares del motor', location: 'C-15', color: 'orange' },
+  { time: 'Todo el día', title: 'Proyectos de Electricidad', location: 'C-31', color: 'navy' },
+  { time: 'Todo el día', title: 'Proyectos de Electricidad', location: 'C-32', color: 'navy' },
+  { time: 'Todo el día', title: 'Proyectos de Electricidad', location: 'C-33', color: 'navy' },
+  { time: 'Todo el día', title: 'Proyectos de Electrónica', location: 'C-36', color: 'navy' },
+  { time: 'Todo el día', title: 'Proyectos de Electrónica', location: 'C-37', color: 'navy' },
+  { time: 'Todo el día', title: 'Proyectos de Electrónica', location: 'C-38', color: 'navy' },
+  { time: 'Todo el día', title: 'Proyectos de informática', location: 'G-35', color: 'gold' },
+  { time: 'Todo el día', title: 'Proyectos de informática', location: 'G-36', color: 'gold' },
+  { time: 'Todo el día', title: 'Proyectos de informática', location: 'H-32', color: 'gold' },
+  { time: 'Todo el día', title: 'Proyectos de informática', location: 'H-33', color: 'gold' },
+  { time: 'Todo el día', title: 'Proyectos de informática', location: 'H-34', color: 'gold' },
+  { time: 'Todo el día', title: 'Proyectos de ciencias exactas', location: 'C-20', color: 'orange' },
+  { time: 'Todo el día', title: 'Proyectos de ciencias naturales', location: 'G-21', color: 'orange' },
 ]
 
 // ─── Timeline ───────────────────────────────────────────────────────────────
