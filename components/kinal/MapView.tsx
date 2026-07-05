@@ -244,10 +244,18 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
             <div className="px-6 pb-8 text-on-surface select-none max-h-[60vh] overflow-y-auto">
               {routeMode === "selecting" ? (
                 <>
-                  <h3 className="font-extrabold text-sm text-primary mb-4">
-                    Trazar ruta
-                  </h3>
-                  <div className="space-y-3 mb-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-extrabold text-sm text-primary">
+                      Trazar ruta
+                    </h3>
+                    <button
+                      onClick={() => { setSelectedPOI(null); setRouteMode("idle"); setRouteFrom(null) }}
+                      className="w-8 h-8 flex items-center justify-center border border-outline-variant/20 text-[#2C3E73] hover:bg-gray-50 rounded-lg active:scale-95 transition-all cursor-pointer bg-transparent shrink-0"
+                    >
+                      <span className="material-symbols-outlined text-lg">close</span>
+                    </button>
+                  </div>
+                  <div className="space-y-2 mb-4">
                     <div>
                       <label className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
                         Desde
@@ -258,8 +266,8 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                           const poi = allPOIs.find((p) => p.id === e.target.value)
                           setRouteFrom(poi || null)
                         }}
-                        className="w-full p-3 rounded-xl bg-gray-50 border border-outline-variant/15 text-xs font-bold text-primary outline-none"
-                        size={6}
+                        className="w-full p-2.5 rounded-xl bg-gray-50 border border-outline-variant/15 text-xs font-bold text-primary outline-none"
+                        size={4}
                       >
                         {(() => {
                           const grouped: Record<string, FloorPlanPOI[]> = {}
@@ -298,7 +306,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                       Trazar ruta
                     </button>
                     <button
-                      onClick={() => { setRouteMode("idle"); setRouteFrom(null) }}
+                      onClick={() => { setSelectedPOI(null); setRouteMode("idle"); setRouteFrom(null) }}
                       className="px-5 py-3 rounded-xl border border-outline-variant/20 text-xs font-bold text-gray-500 hover:bg-gray-50 active:scale-95 transition-all cursor-pointer bg-transparent"
                     >
                       Cancelar
