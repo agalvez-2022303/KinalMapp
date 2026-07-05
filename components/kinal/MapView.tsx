@@ -193,7 +193,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                   Ruta lista
                 </div>
                 <span className="text-[8px] font-bold text-gray-400">
-                  {routeFrom?.label} → {selectedPOI?.label}
+                  {routeFrom?.label} – {routeFrom?.id} → {selectedPOI?.label} – {selectedPOI?.id}
                 </span>
               </div>
               <div className="space-y-1.5 max-h-[80px] overflow-y-auto hide-scrollbar">
@@ -261,7 +261,7 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                         className="w-full p-3 rounded-xl bg-gray-50 border border-outline-variant/15 text-xs font-bold text-primary outline-none"
                       >
                         {allPOIs.filter((p) => p.id !== selectedPOI.id).map((poi) => (
-                          <option key={poi.id} value={poi.id}>{poi.label}</option>
+                          <option key={poi.id} value={poi.id}>{poi.label} – {poi.id}</option>
                         ))}
                       </select>
                     </div>
@@ -270,8 +270,8 @@ export default function MapView({ unlockedCheckpoints }: MapViewProps) {
                         Hasta
                       </label>
                       <div className="w-full p-3 rounded-xl bg-[#2C3E73]/5 border border-outline-variant/15 text-xs font-bold text-primary">
-                        {selectedPOI.label}
-                      </div>
+                          {selectedPOI.label} – {selectedPOI.id}
+                        </div>
                     </div>
                   </div>
 
