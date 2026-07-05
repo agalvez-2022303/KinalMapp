@@ -544,7 +544,7 @@ export default function FloorPlanMap({
 
       <MapContainer
         center={[activeFloor.height / 2, activeFloor.width / 2]}
-        zoom={-1}
+        zoom={1}
         zoomControl={false}
         attributionControl={false}
         crs={L.CRS.Simple}
