@@ -584,11 +584,10 @@ export function getAllCheckpoints(): { id: string; label: string; description: s
 // ─── Events ─────────────────────────────────────────────────────────────────
 
 export const todayEvents = [
-  { time: '08:30', title: 'Inauguración Expo Anual', location: 'Aula Magna', color: 'gold' },
-  { time: '09:00', title: 'Feria de Computación', location: 'Lab. Informática', color: 'orange' },
-  { time: '10:30', title: 'Muestra de Diseño Gráfico', location: 'Pasillo C', color: 'navy' },
-  { time: '13:00', title: 'Presentación Banda Escolar', location: 'Cancha Principal', color: 'gold' },
-  { time: '15:00', title: 'Premiación de Checkpoints', location: 'Aula Magna', color: 'orange' },
+  { time: '9:00', title: 'Metodologías para la enseñanza del idioma inglés', location: 'Auditorium Diversificado', color: 'gold' },
+  { time: '10:00', title: 'Plataforma de velocidad y comprensión lectora', location: 'Auditorium Diversificado', color: 'orange' },
+  { time: '11:00', title: 'Proyectos científicos', location: 'Auditorium Diversificado', color: 'navy' },
+  { time: '12:00', title: 'Proyecto Fundación Amivalle-Kinal', location: 'Auditorium Diversificado', color: 'gold' },
 ]
 
 // ─── Timeline ───────────────────────────────────────────────────────────────
